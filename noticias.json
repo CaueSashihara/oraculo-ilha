@@ -1,0 +1,9 @@
+{
+  "updated": "2026-09-02",
+  "fonte": "seed",
+  "itens": [
+    "Bem-vindo a Ilha da Mente, Caue",
+    "O aviaozinho traz as noticias do dia a partir das 5h20",
+    "Ative o ASANA_TOKEN nos Secrets para o agente atualizar sozinho"
+  ]
+}

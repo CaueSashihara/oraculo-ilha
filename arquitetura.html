@@ -1,0 +1,62 @@
+<!doctype html><html lang="pt-BR"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🛰️ Arquitetura — Oráculo</title>
+<style>
+ *{margin:0;box-sizing:border-box}
+ body{background:#0c141f;color:#f2ecdd;font-family:'Trebuchet MS',system-ui,sans-serif;padding:18px;min-height:100vh}
+ .wrap{max-width:1000px;margin:0 auto}
+ h1{font-size:1.25rem;color:#f8ecca}
+ .sub{font-size:.8rem;color:#a29d8c;margin:.25rem 0 1rem;line-height:1.5}
+ .diagram{background:linear-gradient(160deg,#0e1626,#0b1119);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:8px;overflow-x:auto}
+ svg{width:100%;height:auto;min-width:600px;display:block}
+ .flow{stroke:#39506b;stroke-width:2;fill:none;stroke-dasharray:6 8;animation:march 1.1s linear infinite}
+ @keyframes march{to{stroke-dashoffset:-14}}
+ .nt{fill:#f2ecdd;font-size:13px;font-weight:700}.ne{font-size:18px}.nl{fill:#9fb2c6;font-size:10px}
+ .elabel{fill:#8496ab;font-size:10px;font-family:monospace}
+ .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:.7rem;margin-top:1.1rem}
+ .card{background:#14151a;border:1px solid rgba(255,255,255,.09);border-left:3px solid #e6c667;border-radius:10px;padding:.7rem .85rem}
+ .card h3{font-size:.8rem;color:#f2ecdd;margin-bottom:.25rem}
+ .card p{font-size:.74rem;color:#a9a390;line-height:1.5}
+ .card.g{border-left-color:#3ecf8e}.card.b{border-left-color:#2fd4d4}
+ .foot{font-size:.7rem;color:#6f7a8a;margin-top:1rem;text-align:center}
+</style></head><body><div class="wrap">
+<h1>🛰️ Oráculo — Arquitetura</h1>
+<div class="sub">Como os dados conversam: Asana e notícias alimentam a Ilha (pública); as finanças vivem num banco privado atrás de login — nunca no site público.</div>
+<div class="diagram">
+<svg viewBox="0 0 900 530">
+ <path id="p1" class="flow" d="M180,97 C 220,97 220,162 250,162"/>
+ <path id="p2" class="flow" d="M180,227 C 220,227 220,162 250,162"/>
+ <path id="p3" class="flow" d="M400,162 L450,162"/>
+ <path id="p4" class="flow" d="M600,162 L660,162"/>
+ <path id="p5" class="flow" d="M735,189 L735,340"/>
+ <path id="p6" class="flow" d="M660,367 L600,367"/>
+ <path id="p7" class="flow" d="M735,450 L735,394"/>
+ <circle r="3.6" fill="#e6c667"><animateMotion dur="2.3s" repeatCount="indefinite"><mpath href="#p1"/></animateMotion></circle>
+ <circle r="3.6" fill="#e6c667"><animateMotion dur="2.6s" repeatCount="indefinite"><mpath href="#p2"/></animateMotion></circle>
+ <circle r="3.6" fill="#e6c667"><animateMotion dur="1.4s" repeatCount="indefinite"><mpath href="#p3"/></animateMotion></circle>
+ <circle r="3.6" fill="#e6c667"><animateMotion dur="1.5s" repeatCount="indefinite"><mpath href="#p4"/></animateMotion></circle>
+ <circle r="3.6" fill="#2fd4d4"><animateMotion dur="2.2s" repeatCount="indefinite"><mpath href="#p5"/></animateMotion></circle>
+ <circle r="3.6" fill="#3ecf8e"><animateMotion dur="1.6s" repeatCount="indefinite"><mpath href="#p6"/></animateMotion></circle>
+ <circle r="3.6" fill="#e6c667"><animateMotion dur="1.8s" repeatCount="indefinite"><mpath href="#p7"/></animateMotion></circle>
+ <text class="elabel" x="196" y="118">5h20/dia</text>
+ <text class="elabel" x="742" y="270">login</text>
+ <text class="elabel" x="628" y="358" text-anchor="middle">auth + RLS</text>
+ <text class="elabel" x="744" y="426">constrói</text>
+ <g><rect x="30" y="70" width="150" height="54" rx="12" fill="#141a24" stroke="rgba(230,198,103,.4)" stroke-width="1.5"/><text class="ne" x="16" y="104">📋</text><text class="nt" x="46" y="94">Asana</text><text class="nl" x="46" y="110">projetos</text></g>
+ <g><rect x="30" y="200" width="150" height="54" rx="12" fill="#141a24" stroke="rgba(230,198,103,.4)" stroke-width="1.5"/><text class="ne" x="16" y="234">📰</text><text class="nt" x="46" y="224">Notícias</text><text class="nl" x="46" y="240">RSS diário</text></g>
+ <g><rect x="250" y="135" width="150" height="54" rx="12" fill="#141a24" stroke="rgba(230,198,103,.4)" stroke-width="1.5"/><text class="ne" x="266" y="169">⚙️</text><text class="nt" x="296" y="159">GitHub Actions</text><text class="nl" x="296" y="175">robô diário</text></g>
+ <g><rect x="450" y="135" width="150" height="54" rx="12" fill="#141a24" stroke="rgba(230,198,103,.4)" stroke-width="1.5"/><text class="ne" x="466" y="169">🗂️</text><text class="nt" x="496" y="159">Dados (JSON)</text><text class="nl" x="496" y="175">projetos·notícias</text></g>
+ <g><rect x="660" y="135" width="150" height="54" rx="12" fill="#12302f" stroke="#2fd4d4" stroke-width="2"/><text class="ne" x="676" y="169">🗾</text><text class="nt" x="706" y="159">Ilha da Mente</text><text class="nl" x="706" y="175">site público</text></g>
+ <g><rect x="450" y="340" width="150" height="54" rx="12" fill="#0f2a1e" stroke="#3ecf8e" stroke-width="2"/><text class="ne" x="466" y="374">🗄️</text><text class="nt" x="496" y="364">Supabase</text><text class="nl" x="496" y="380">banco privado 🔒</text></g>
+ <g><rect x="660" y="340" width="150" height="54" rx="12" fill="#2a2410" stroke="#e6c667" stroke-width="2"/><text class="ne" x="676" y="374">💰</text><text class="nt" x="706" y="364">Finanças</text><text class="nl" x="706" y="380">só com login</text></g>
+ <g><rect x="660" y="450" width="150" height="54" rx="12" fill="#141a24" stroke="rgba(230,198,103,.4)" stroke-width="1.5"/><text class="ne" x="676" y="484">🧩</text><text class="nt" x="706" y="474">Lovable</text><text class="nl" x="706" y="490">hospeda o app</text></g>
+</svg>
+</div>
+<div class="cards">
+ <div class="card"><h3>📋 Asana → 🗂️ Dados</h3><p>Todo dia às 5h20, um robô (GitHub Actions) lê seus projetos no Asana e as notícias do dia e grava em arquivos JSON.</p></div>
+ <div class="card b"><h3>🗂️ Dados → 🗾 Ilha</h3><p>A Ilha (site público) lê esses JSON: o bonequinho-agente mostra o status dos projetos e o aviãozinho passa com as notícias.</p></div>
+ <div class="card"><h3>🗾 Ilha → 💰 Finanças</h3><p>O botão de Finanças leva ao painel — que só abre com o seu login. Nenhum número financeiro fica no site público.</p></div>
+ <div class="card g"><h3>💰 Finanças ↔ 🗄️ Supabase</h3><p>Os números vivem num banco privado (Supabase) com RLS: a política <code>auth.uid() = user_id</code> garante que só você, logado, lê seus dados.</p></div>
+</div>
+<div class="foot">🗾 Ilha da Mente · arquitetura viva — os pontos que correm são os dados fluindo em tempo real entre os serviços.</div>
+</div></body></html>
