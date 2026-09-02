@@ -1,9 +1,13 @@
 {
   "updated": "2026-09-02",
-  "fonte": "seed",
+  "fonte": "Google News BR",
   "itens": [
-    "Bem-vindo a Ilha da Mente, Caue",
-    "O aviaozinho traz as noticias do dia a partir das 5h20",
-    "Ative o ASANA_TOKEN nos Secrets para o agente atualizar sozinho"
+    "PGR pede o arquivamento de denúncia de Vorcaro sobre supostas ameaças que diz ter sofrido quando preso - G1",
+    "Lula se reúne com ministros do STF em meio à tensão entre Mendonça e PF - CartaCapital",
+    "Fim da escala 6x1 passa na CCJ e vai a Plenário - Senado Federal",
+    "Senado aprova PL dos minerais críticos, projeto aguarda sanção de Lula - UOL Economia",
+    "Lula tem 42% ante 41% de Flávio Bolsonaro no 2º turno, diz Quaest - Poder360",
+    "PEC da Segurança avança em comissão do Senado, em vitória para o governo Lula; veja pontos do texto - O GLOBO",
+    "Ex-dono da Reag fecha acordo de delação com PGR sobre caso Master - Jovem Pan"
   ]
 }
