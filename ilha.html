@@ -58,6 +58,23 @@
  
  
  #ofr{width:min(1200px,92vw);height:86vh;border:1px solid rgba(255,255,255,.18);border-radius:14px;background:#0c0d10;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+#jornal{position:fixed;right:14px;bottom:14px;z-index:7;width:300px;max-width:calc(100vw - 28px);background:#f0e6cc;color:#241a0d;background-image:linear-gradient(rgba(120,90,40,.06),rgba(120,90,40,.06)),radial-gradient(circle at 28% 16%,rgba(0,0,0,.05),transparent 62%),radial-gradient(circle at 82% 88%,rgba(90,60,20,.09),transparent 60%);font-family:Georgia,'Times New Roman',serif;border:1px solid #8a744a;border-radius:2px;padding:11px 14px 9px;box-shadow:0 12px 34px rgba(0,0,0,.5),inset 0 0 46px rgba(150,110,50,.14);transform:rotate(-1.5deg);transition:transform .25s,opacity .25s;cursor:pointer}
+ #jornal:hover{transform:rotate(0deg)}
+ #jornal .jmast{text-align:center;font-weight:700;letter-spacing:.06em;font-size:1.02rem;text-transform:uppercase;border-top:3px double #3a2c14;border-bottom:3px double #3a2c14;padding:3px 0 4px;line-height:1.05}
+ #jornal .jline{display:flex;justify-content:space-between;font-size:.56rem;letter-spacing:.04em;text-transform:uppercase;color:#5c4a28;margin:4px 0 7px;font-family:Georgia,serif}
+ #jornal .jart{border-top:1px solid #b9a878;padding:6px 0 5px}
+ #jornal .jart:first-of-type{border-top:none}
+ #jornal .jkick{font-size:.56rem;letter-spacing:.09em;text-transform:uppercase;color:#8a3520;font-weight:700}
+ #jornal .jh{font-size:.82rem;font-weight:700;line-height:1.22;margin-top:1px;font-family:'Times New Roman',Georgia,serif}
+ #jornal .jart.lead .jh{font-size:.98rem}
+ #jornal .jnota{margin-top:7px;border-top:1px solid #b9a878;padding-top:6px;font-style:italic;font-size:.76rem;line-height:1.34;color:#2c2110;text-align:center}
+ #jornal .jnota b{display:block;font-style:normal;font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;color:#8a744a;margin-bottom:3px}
+ #jornal .jfoot{margin-top:8px;border-top:3px double #3a2c14;padding-top:4px;text-align:center;font-size:.54rem;letter-spacing:.05em;text-transform:uppercase;color:#5c4a28}
+ #jornal.fold .jbody,#jornal.fold .jfoot{display:none}
+ #jornal.fold{transform:rotate(-1.5deg)}
+ #jornal .jtap{display:none;font-size:.54rem;text-align:center;color:#5c4a28;margin-top:3px;text-transform:uppercase;letter-spacing:.08em}
+ #jornal.fold .jtap{display:block}
+ @media(max-width:640px){#jornal{width:200px;font-size:.9em;transform:rotate(-1.5deg)}#hint{display:none}}
  #load{position:fixed;inset:0;z-index:30;background:#0c141f;display:flex;align-items:center;justify-content:center;color:#e6c667;font-family:'JetBrains Mono',monospace;font-size:.9rem;transition:opacity .8s}
 </style></head>
 <body>
@@ -71,6 +88,12 @@
 <button id="treebtn" onclick="window.openTree()">🗂️ Projetos</button>
 <button id="arqbtn" onclick="window.openArq()">🛰️ Arquitetura</button>
 <div id="tovl"><div id="tbox"></div></div>
+<div id="jornal" class="jbody-wrap" title="clique para recolher/abrir">
+ <div class="jmast">O Or&aacute;culo Di&aacute;rio</div>
+ <div class="jline"><span>Edi&ccedil;&atilde;o da manh&atilde;</span><span id="jdate">&mdash;</span><span>N&ordm; I</span></div>
+ <div class="jbody" id="jbody"><div class="jart lead"><div class="jh">sincronizando manchetes&hellip;</div></div></div>
+ <div class="jtap">▼ toque para abrir</div>
+</div>
 <div id="damage"></div>
 <div id="monster" class="sleep"><div class="bub"></div><div class="emo">😴</div></div>
 <div id="monheal"></div>
@@ -269,32 +292,7 @@ updateMonster();
  window.openAgente=function(){document.getElementById('tovl').classList.add('on');render(FB);fetch('agente.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){render(d);}).catch(function(){});};
 })();
 
- // ===== AVIAOZINHO COM FAIXA DE NOTICIAS =====
-(function(){
- var NEWS=['Oraculo \u00b7 noticias sincronizadas todo dia as 5h20'];
- var plane=new THREE.Group();
- var body=new THREE.Mesh(new THREE.CylinderGeometry(.5,.5,4.4,10),M(0xdedcd0));body.rotation.z=Math.PI/2;plane.add(body);
- var nose=new THREE.Mesh(new THREE.ConeGeometry(.5,1.1,10),M(0xc94c4c));nose.rotation.z=-Math.PI/2;nose.position.x=2.6;plane.add(nose);
- var wing=new THREE.Mesh(new THREE.BoxGeometry(1.1,.14,5.4),M(0xbfc2cc));wing.position.y=.12;plane.add(wing);
- var tailw=new THREE.Mesh(new THREE.BoxGeometry(.9,.1,2),M(0xbfc2cc));tailw.position.set(-2,.12,0);plane.add(tailw);
- var fin=new THREE.Mesh(new THREE.BoxGeometry(.9,1,.12),M(0xc94c4c));fin.position.set(-2,.6,0);plane.add(fin);
- plane.traverse(function(o){o.castShadow=true;});scene.add(plane);
- var bcv=document.createElement('canvas');bcv.width=1024;bcv.height=128;var bctx=bcv.getContext('2d');
- var btex=new THREE.CanvasTexture(bcv);btex.anisotropy=4;
- function rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath();}
- function draw(txt){if(txt.length>52)txt=txt.slice(0,50)+'\u2026';bctx.clearRect(0,0,1024,128);bctx.fillStyle='rgba(12,18,28,.85)';rr(bctx,4,12,1016,104,16);bctx.fill();bctx.strokeStyle='#e6c667';bctx.lineWidth=4;rr(bctx,4,12,1016,104,16);bctx.stroke();bctx.fillStyle='#f8ecca';bctx.font='bold 46px Trebuchet MS, sans-serif';bctx.textBaseline='middle';bctx.fillText('\uD83D\uDCF0 '+txt,32,66);btex.needsUpdate=true;}
- var bmesh=new THREE.Sprite(new THREE.SpriteMaterial({map:btex,transparent:true,depthWrite:false}));bmesh.scale.set(24,3,1);scene.add(bmesh);
- var ni=0;draw(NEWS[0]);
- setInterval(function(){if(NEWS.length){ni=(ni+1)%NEWS.length;draw(NEWS[ni]);}},5000);
- fetch('noticias.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){if(d&&d.itens&&d.itens.length){NEWS=d.itens;ni=0;draw(NEWS[0]);}}).catch(function(){});
- var ang=0,R=54,Y=19;
- (function fly(){requestAnimationFrame(fly);ang+=0.0016;
-  var y=Y+Math.sin(ang*3)*1.5;
-  plane.position.set(Math.cos(ang)*R,y,Math.sin(ang)*R);plane.rotation.y=-ang-Math.PI/2;
-  var ba=ang-0.16;bmesh.position.set(Math.cos(ba)*R,y-1.3,Math.sin(ba)*R);
- })();
-})();
-
+ // ===== (aviao removido — noticias agora no jornal vintage do canto) =====
  // ===== NUVENS (mais vida) =====
 (function(){var cvs=document.createElement('canvas');cvs.width=cvs.height=128;var cc=cvs.getContext('2d');var gr=cc.createRadialGradient(64,64,8,64,64,64);gr.addColorStop(0,'rgba(255,255,255,.85)');gr.addColorStop(1,'rgba(255,255,255,0)');cc.fillStyle=gr;cc.fillRect(0,0,128,128);var ctex=new THREE.CanvasTexture(cvs);var cl=[];for(var i=0;i<8;i++){var sp=new THREE.Sprite(new THREE.SpriteMaterial({map:ctex,transparent:true,opacity:.45,depthWrite:false,fog:false}));sp.scale.set(38+Math.random()*34,17+Math.random()*10,1);sp.position.set((Math.random()-.5)*180,52+Math.random()*34,(Math.random()-.5)*180);sp.userData.sp=.015+Math.random()*.03;scene.add(sp);cl.push(sp);}(function anim(){requestAnimationFrame(anim);for(var i=0;i<cl.length;i++){cl[i].position.x+=cl[i].userData.sp;if(cl[i].position.x>120)cl[i].position.x=-120;}})();})();
  var tgt=new THREE.Vector3(0,4,0),dTheta=0.7,dPhi=1.0,dRad=115;var theta=0.7,phi=1.0,rad=260;
@@ -343,4 +341,31 @@ function loop(){requestAnimationFrame(loop);var t=(Date.now()-t0)*0.001;
 updCam();loop();
 var ld=document.getElementById('load');ld.style.opacity=0;setTimeout(function(){ld.style.display='none';},900);
 })();
-</script></body></html>
+</script>
+<script>
+(function(){
+ var el=document.getElementById('jornal'),body=document.getElementById('jbody');if(!el)return;
+ function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML;}
+ var MM=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+ function fmtDate(iso){try{var p=String(iso||'').split('-');if(p.length===3)return p[2]+' de '+MM[(+p[1])-1]+'. de '+p[0];}catch(e){}var n=new Date();return n.getDate()+' de '+MM[n.getMonth()]+'. de '+n.getFullYear();}
+ function stripEmoji(it){var sp=it.indexOf(' ');if(sp<0)return it;var first=it.slice(0,sp);return /[A-Za-zÀ-ɏ0-9]/.test(first)?it:it.slice(sp+1);}
+ function render(d){
+  document.getElementById('jdate').innerHTML=esc(fmtDate(d&&d.updated));
+  var itens=(d&&d.itens)||[];var html='';var lead=true;
+  for(var i=0;i<itens.length;i++){
+   var it=String(itens[i]).trim();var nota=it.indexOf('🧘')>-1; // nota do dia
+   var rest=stripEmoji(it);var parts=rest.split(/\s+[—–-]\s+/);
+   if(nota){var author=parts.length>1?parts.pop():'';var quote=parts.join(' — ');
+    html+='<div class="jnota"><b>Pensamento do dia</b>“'+esc(quote)+'”'+(author?'<br>— '+esc(author):'')+'</div>';
+   }else{var kick=parts.shift();var head=parts.join(' — ');if(!head){head=kick;kick='';}
+    html+='<div class="jart'+(lead?' lead':'')+'">'+(kick?'<div class="jkick">'+esc(kick)+'</div>':'')+'<div class="jh">'+esc(head)+'</div></div>';lead=false;}
+  }
+  html+='<div class="jfoot">☉ atualizado todo dia às 5h20</div>';
+  body.innerHTML=html||'<div class="jart lead"><div class="jh">sem manchetes hoje</div></div>';
+ }
+ fetch('noticias.json',{cache:'no-store'}).then(function(r){return r.json();}).then(render).catch(function(){});
+ el.addEventListener('click',function(){el.classList.toggle('fold');});
+ if(window.innerWidth<640)el.classList.add('fold');
+})();
+</script>
+</body></html>
