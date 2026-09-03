@@ -38,6 +38,22 @@
  .tt{display:flex;align-items:center;gap:9px;padding:6px 2px 6px 24px;font-size:.82rem;color:#cfc9ba}
  .tt input{width:15px;height:15px;accent-color:#d4b45f;cursor:pointer}
  .tt.done{color:#7f8a72;text-decoration:line-through}
+ #damage{position:fixed;inset:0;z-index:16;pointer-events:none;opacity:0;transition:opacity 1.2s;background:radial-gradient(ellipse at center,rgba(120,0,0,0) 42%,rgba(130,10,10,.5) 100%)}
+ #damage.on{opacity:1}
+ #monster{position:fixed;left:50%;bottom:78px;transform:translateX(-50%);z-index:17;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;text-align:center;pointer-events:auto;transition:transform .3s}
+ #monster .bub{max-width:290px;background:rgba(12,18,28,.85);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:.42rem .72rem;font-size:.72rem;line-height:1.4;color:#f2ecdd;backdrop-filter:blur(6px)}
+ #monster .bub b{color:#e6c667}
+ #monster .emo{font-size:2.4rem;filter:drop-shadow(0 4px 10px rgba(0,0,0,.6));transition:font-size .3s,transform .3s}
+ #monster.sleep .emo{font-size:2rem;opacity:.85}
+ #monster.angry .bub{border-color:#e5a04d}
+ #monster.attack .emo{font-size:3.5rem;animation:monbob .6s infinite}
+ #monster.attack .bub{border-color:#e5484d;background:rgba(40,10,10,.86)}
+ @keyframes monbob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-6px) rotate(3deg)}}
+ @keyframes quake{0%,100%{transform:translate(0,0)}20%{transform:translate(-4px,3px)}40%{transform:translate(5px,-2px)}60%{transform:translate(-3px,-4px)}80%{transform:translate(4px,2px)}}
+ body.quake #c{animation:quake .35s infinite}
+ #monheal{position:fixed;inset:0;z-index:23;pointer-events:none;opacity:0;background:radial-gradient(circle,rgba(120,220,150,.55),transparent 62%)}
+ #monheal.go{animation:healf 1.3s ease-out}
+ @keyframes healf{0%{opacity:.9}100%{opacity:0}}
  #oclose{position:fixed;top:10px;right:12px;z-index:25;background:rgba(20,24,31,.92);color:#e8e5d8;border:1px solid rgba(255,255,255,.22);border-radius:50%;width:36px;height:36px;font-size:1.05rem;line-height:1;cursor:pointer}#oclose:hover{background:#2a2f3a}
  
  
@@ -55,6 +71,9 @@
 <button id="treebtn" onclick="window.openTree()">🗂️ Projetos</button>
 <button id="arqbtn" onclick="window.openArq()">🛰️ Arquitetura</button>
 <div id="tovl"><div id="tbox"></div></div>
+<div id="damage"></div>
+<div id="monster" class="sleep"><div class="bub"></div><div class="emo">😴</div></div>
+<div id="monheal"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 window.openOra=function(tab){var fr=document.getElementById('ofr');fr.src='painel.html'+(tab?('#'+tab):'');document.getElementById('ovl').classList.add('on');};
@@ -203,7 +222,7 @@ function renderTree(){var a=avgAll();
   p.t.forEach(function(x){var d0=dn(x[0],x[2]);h+='<label class="tt'+(d0?' done':'')+'"><input type="checkbox" data-k="'+x[0]+'"'+(d0?' checked':'')+'>'+x[1]+'</label>';});
   h+='</details>';});
  var box=document.getElementById('tbox');box.innerHTML=h;
- box.querySelectorAll('input[type=checkbox]').forEach(function(cb){cb.addEventListener('change',function(){pj[cb.getAttribute('data-k')]=cb.checked;savePj();renderTree();refreshBadges();});});
+ box.querySelectorAll('input[type=checkbox]').forEach(function(cb){cb.addEventListener('change',function(){pj[cb.getAttribute('data-k')]=cb.checked;savePj();renderTree();refreshBadges();feedMonster();});});
  box.querySelectorAll('.topen').forEach(function(el){el.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();window.openTree&&document.getElementById('tovl').classList.remove('on');window.openOra(el.getAttribute('data-tab'));});});
 }
 function refreshBadges(){PLACES.forEach(function(o){var np=null;if(o.tab==='vagas')np=pctIQ()+'%';if(o.tab==='mexico')np=pctMX()+'%';if(np!=null){o.pc=np;var s=o.el.querySelector('.pc');if(s)s.textContent=np;}});
@@ -212,6 +231,21 @@ window.openTree=function(){renderTree();document.getElementById('tovl').classLis
 window.closeTree=function(){document.getElementById('tovl').classList.remove('on');};
 document.getElementById('tovl').addEventListener('click',function(e){if(e.target.id==='tovl')window.closeTree();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape')window.closeTree();});
+// ===== GUARDIÃO DA ILHA (gamificação — só de brincadeira) =====
+function _hoje(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
+function diasSem(){var lc=localStorage.getItem('oraculo_lastcheck');if(!lc){localStorage.setItem('oraculo_lastcheck',_hoje());return 0;}var a=new Date(lc+'T00:00:00'),b=new Date(_hoje()+'T00:00:00');return Math.max(0,Math.round((b-a)/86400000));}
+var GUARD={
+ 0:{c:'sleep',e:'😴',t:'O Guardião dorme. Você cuidou de um projeto hoje. <b>Bom trabalho.</b>'},
+ 1:{c:'watch',e:'👁️',t:'O Guardião acordou… <b>atualize um projeto</b> pra ele voltar a dormir.'},
+ 2:{c:'angry',e:'😾',t:'2 dias sem cuidar da ilha. O Guardião está <b>irritado</b>… alimente-o com um projeto!'},
+ 3:{c:'attack',e:'👹',t:'🔥 A ILHA ESTÁ SOB ATAQUE! <b>Atualize um projeto</b> pra expulsar o monstro.'}
+};
+function updateMonster(){var d=diasSem();var s=GUARD[Math.min(d,3)];var m=document.getElementById('monster');if(!m)return;m.className=s.c;m.querySelector('.emo').innerHTML=s.e;m.querySelector('.bub').innerHTML=s.t;
+ document.getElementById('damage').classList.toggle('on',d>=2);
+ document.body.classList.toggle('quake',d>=3);}
+function feedMonster(){localStorage.setItem('oraculo_lastcheck',_hoje());document.body.classList.remove('quake');document.getElementById('damage').classList.remove('on');var hh=document.getElementById('monheal');hh.classList.remove('go');void hh.offsetWidth;hh.classList.add('go');updateMonster();}
+document.getElementById('monster').addEventListener('click',function(){if(diasSem()>0){window.openTree&&window.openTree();}});
+updateMonster();
 
 // CÂMERA com inércia + auto-rotate + intro
 // ===== BONEQUINHO-AGENTE (status dos projetos - sync Asana) =====
