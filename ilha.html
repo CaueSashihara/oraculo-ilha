@@ -40,7 +40,7 @@
  .tt.done{color:#7f8a72;text-decoration:line-through}
  #damage{position:fixed;inset:0;z-index:16;pointer-events:none;opacity:0;transition:opacity 1.2s;background:radial-gradient(ellipse at center,rgba(120,0,0,0) 42%,rgba(130,10,10,.5) 100%)}
  #damage.on{opacity:1}
- #monster{position:fixed;left:50%;bottom:78px;transform:translateX(-50%);z-index:17;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;text-align:center;pointer-events:auto;transition:transform .3s}
+ #monster{position:fixed;left:16px;bottom:150px;z-index:17;display:flex;flex-direction:column;align-items:flex-start;gap:6px;cursor:pointer;text-align:left;pointer-events:auto;transition:transform .3s}
  #monster .bub{max-width:290px;background:rgba(12,18,28,.85);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:.42rem .72rem;font-size:.72rem;line-height:1.4;color:#f2ecdd;backdrop-filter:blur(6px)}
  #monster .bub b{color:#e6c667}
  #monster .emo{font-size:2.4rem;filter:drop-shadow(0 4px 10px rgba(0,0,0,.6));transition:font-size .3s,transform .3s}
@@ -60,7 +60,13 @@
  #ofr{width:min(1200px,92vw);height:86vh;border:1px solid rgba(255,255,255,.18);border-radius:14px;background:#0c0d10;box-shadow:0 30px 80px rgba(0,0,0,.6)}
 #jornal{position:fixed;right:14px;bottom:14px;z-index:7;width:300px;max-width:calc(100vw - 28px);background:#f0e6cc;color:#241a0d;background-image:linear-gradient(rgba(120,90,40,.06),rgba(120,90,40,.06)),radial-gradient(circle at 28% 16%,rgba(0,0,0,.05),transparent 62%),radial-gradient(circle at 82% 88%,rgba(90,60,20,.09),transparent 60%);font-family:Georgia,'Times New Roman',serif;border:1px solid #8a744a;border-radius:2px;padding:11px 14px 9px;box-shadow:0 12px 34px rgba(0,0,0,.5),inset 0 0 46px rgba(150,110,50,.14);transform:rotate(-1.5deg);transition:transform .25s,opacity .25s;cursor:pointer}
  #jornal:hover{transform:rotate(0deg)}
- #jornal .jmast{text-align:center;font-weight:700;letter-spacing:.06em;font-size:1.02rem;text-transform:uppercase;border-top:3px double #3a2c14;border-bottom:3px double #3a2c14;padding:3px 0 4px;line-height:1.05}
+ #jornal .jframe{position:relative;border:2px solid #3a2c14;padding:7px 9px;margin-bottom:6px;background:repeating-linear-gradient(90deg,rgba(58,44,20,.035) 0 2px,transparent 2px 7px)}
+ #jornal .jframe:before{content:"";position:absolute;inset:3px;border:1px solid #8a744a;pointer-events:none}
+ #jornal .jmast{display:flex;align-items:center;justify-content:center;gap:7px}
+ #jornal .jk{font-family:'Yu Mincho','Hiragino Mincho ProN','MS Mincho',serif;color:#8a3520;font-size:.82rem;font-weight:700;line-height:1}
+ #jornal .jt{font-weight:700;letter-spacing:.03em;font-size:.86rem;text-transform:uppercase;font-family:Georgia,'Times New Roman',serif;color:#241a0d;white-space:nowrap}
+ #jornal .jc{position:absolute;color:#3a2c14;font-size:.56rem;line-height:1}
+ #jornal .jc1{top:0;left:2px}#jornal .jc2{top:0;right:2px}#jornal .jc3{bottom:0;left:2px}#jornal .jc4{bottom:0;right:2px}
  #jornal .jline{display:flex;justify-content:space-between;font-size:.56rem;letter-spacing:.04em;text-transform:uppercase;color:#5c4a28;margin:4px 0 7px;font-family:Georgia,serif}
  #jornal .jart{border-top:1px solid #b9a878;padding:6px 0 5px}
  #jornal .jart:first-of-type{border-top:none}
@@ -75,6 +81,18 @@
  #jornal .jtap{display:none;font-size:.54rem;text-align:center;color:#5c4a28;margin-top:3px;text-transform:uppercase;letter-spacing:.08em}
  #jornal.fold .jtap{display:block}
  @media(max-width:640px){#jornal{width:200px;font-size:.9em;transform:rotate(-1.5deg)}#hint{display:none}}
+ #guiabtn{position:fixed;left:14px;top:70px;z-index:6;background:#f0e6cc;color:#3a2c14;font-family:Georgia,serif;border:1px solid #8a744a;border-radius:2px;padding:.3rem .7rem;font-size:.72rem;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.35);transform:rotate(-1.5deg)}
+ #guiabtn:hover{transform:rotate(0)}
+ #govl{position:fixed;inset:0;z-index:26;background:rgba(6,10,16,.6);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center}
+ #govl.on{display:flex}
+ #gbox{position:relative;width:min(440px,92vw);max-height:86vh;overflow:auto;background:#f0e6cc;color:#241a0d;font-family:Georgia,'Times New Roman',serif;border:2px solid #8a744a;border-radius:2px;padding:18px 20px 20px;box-shadow:0 24px 70px rgba(0,0,0,.6),inset 0 0 46px rgba(150,110,50,.14);background-image:linear-gradient(rgba(120,90,40,.05),rgba(120,90,40,.05))}
+ #gbox .gmast{display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:1.06rem;border-top:3px double #3a2c14;border-bottom:3px double #3a2c14;padding:5px 0}
+ #gbox .gmast .jk{font-family:'Yu Mincho','MS Mincho',serif;color:#8a3520;font-size:.82rem}
+ #gbox .gsub{text-align:center;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:#5c4a28;margin:5px 0 8px}
+ #gbox .git{border-top:1px solid #b9a878;padding:8px 0}
+ #gbox .gk{font-size:.6rem;letter-spacing:.07em;text-transform:uppercase;color:#8a3520;font-weight:700}
+ #gbox .gt{font-size:.82rem;line-height:1.4;margin-top:2px;color:#2c2110}
+ #gbox .gclose{position:absolute;top:8px;right:12px;background:none;border:1px solid #8a744a;color:#3a2c14;border-radius:50%;width:26px;height:26px;cursor:pointer;font-size:.8rem}
  #load{position:fixed;inset:0;z-index:30;background:#0c141f;display:flex;align-items:center;justify-content:center;color:#e6c667;font-family:'JetBrains Mono',monospace;font-size:.9rem;transition:opacity .8s}
 </style></head>
 <body>
@@ -89,11 +107,23 @@
 <button id="arqbtn" onclick="window.openArq()">🛰️ Arquitetura</button>
 <div id="tovl"><div id="tbox"></div></div>
 <div id="jornal" class="jbody-wrap" title="clique para recolher/abrir">
- <div class="jmast">O Or&aacute;culo Di&aacute;rio</div>
+ <div class="jframe"><span class="jc jc1">❖</span><span class="jc jc2">❖</span><span class="jc jc3">❖</span><span class="jc jc4">❖</span><div class="jmast"><span class="jk">心島</span><span class="jt">O Or&aacute;culo Di&aacute;rio</span><span class="jk">新聞</span></div></div>
  <div class="jline"><span>Edi&ccedil;&atilde;o da manh&atilde;</span><span id="jdate">&mdash;</span><span>N&ordm; I</span></div>
  <div class="jbody" id="jbody"><div class="jart lead"><div class="jh">sincronizando manchetes&hellip;</div></div></div>
  <div class="jtap">▼ toque para abrir</div>
 </div>
+<button id="guiabtn" onclick="window.openGuia()">📜 Guia da Ilha</button>
+<div id="govl"><div id="gbox">
+ <button class="gclose" onclick="window.closeGuia()">✕</button>
+ <div class="gmast"><span class="jk">心島</span>Guia da Ilha<span class="jk">案内</span></div>
+ <div class="gsub">o que é cada pedaço · uma linha para cada</div>
+ <div class="git"><div class="gk">🗺️ Os lugares</div><div class="gt">Clique em cada ponto da ilha para abrir o painel daquela área da sua vida.</div></div>
+ <div class="git"><div class="gk">🗂️ Botão Projetos</div><div class="gt">Abre o quadro de projetos com o progresso sincronizado do Asana.</div></div>
+ <div class="git"><div class="gk">🛰️ Botão Arquitetura</div><div class="gt">Mostra como os sistemas conversam e como os dados se movem entre eles.</div></div>
+ <div class="git"><div class="gk">📰 Jornal (à direita)</div><div class="gt">As 3 notícias curadas — IQVIA, IA e projetos — mais o pensamento do dia, às 5h20.</div></div>
+ <div class="git"><div class="gk">🛡️ Guardião (à esquerda)</div><div class="gt">Reflete seus dias longe dos projetos: cuide da ilha e ele volta a dormir tranquilo.</div></div>
+ <div class="git"><div class="gk">🌾 Finanças</div><div class="gt">Ficam num cofre à parte, protegidas por senha — nunca aparecem aqui na ilha.</div></div>
+</div></div>
 <div id="damage"></div>
 <div id="monster" class="sleep"><div class="bub"></div><div class="emo">😴</div></div>
 <div id="monheal"></div>
@@ -101,6 +131,10 @@
 <script>
 window.openOra=function(tab){var fr=document.getElementById('ofr');fr.src='painel.html'+(tab?('#'+tab):'');document.getElementById('ovl').classList.add('on');};
 window.openArq=function(){var fr=document.getElementById('ofr');fr.src='arquitetura.html';document.getElementById('ovl').classList.add('on');};
+window.openGuia=function(){document.getElementById('govl').classList.add('on');};
+window.closeGuia=function(){document.getElementById('govl').classList.remove('on');};
+document.getElementById('govl').addEventListener('click',function(e){if(e.target.id==='govl')window.closeGuia();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')window.closeGuia();});
 window.closeOra=function(){document.getElementById('ovl').classList.remove('on');document.getElementById('ofr').src='about:blank';};
 document.getElementById('ovl').addEventListener('click',function(e){if(e.target.id==='ovl')closeOra();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeOra();});
