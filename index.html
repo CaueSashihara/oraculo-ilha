@@ -54,6 +54,18 @@
  #monheal{position:fixed;inset:0;z-index:23;pointer-events:none;opacity:0;background:radial-gradient(circle,rgba(120,220,150,.55),transparent 62%)}
  #monheal.go{animation:healf 1.3s ease-out}
  @keyframes healf{0%{opacity:.9}100%{opacity:0}}
+ #meLbl{background:rgba(80,30,28,.72);border-color:#e6c667}
+ #story{position:fixed;inset:0;z-index:26;background:rgba(6,10,16,.62);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center}
+ #story.on{display:flex}
+ #storybox{position:relative;width:min(760px,94vw);max-height:88vh;overflow:auto;background:#12141a;border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:30px 34px 34px;color:#e8e5d8;font-family:'Trebuchet MS',system-ui,sans-serif;line-height:1.6}
+ #sclose{position:absolute;top:12px;right:14px;background:rgba(20,24,31,.9);color:#e8e5d8;border:1px solid rgba(255,255,255,.2);border-radius:50%;width:32px;height:32px;font-size:1rem;cursor:pointer;z-index:2}
+ #storybox h1{font-size:1.45rem;color:#f8ecca;margin-bottom:.15rem;font-family:Georgia,serif;letter-spacing:.01em}
+ #storybox .ssub{color:#a29d8c;font-style:italic;margin-bottom:1rem;font-size:.9rem}
+ #storybox h2{font-size:1.02rem;color:#e6c667;margin:1.5rem 0 .5rem;border-top:1px solid rgba(255,255,255,.08);padding-top:1rem}
+ #storybox p{font-size:.9rem;margin:.45rem 0;color:#cfc9ba}
+ #storybox li{font-size:.88rem;margin:.32rem 0 .32rem 1.1rem;color:#cfc9ba}
+ #storybox b{color:#efe4b0;font-weight:700}
+ #storybox .fam{margin-top:1.2rem;padding:.8rem 1rem;border:1px solid rgba(230,198,103,.3);border-radius:12px;background:rgba(230,198,103,.06);font-size:.9rem;color:#efe4b0}
  #oclose{position:fixed;top:10px;right:12px;z-index:25;background:rgba(20,24,31,.92);color:#e8e5d8;border:1px solid rgba(255,255,255,.22);border-radius:50%;width:36px;height:36px;font-size:1.05rem;line-height:1;cursor:pointer}#oclose:hover{background:#2a2f3a}
  
  
@@ -127,6 +139,42 @@
 <div id="damage"></div>
 <div id="monster" class="sleep"><div class="bub"></div><div class="emo">😴</div></div>
 <div id="monheal"></div>
+<div id="meLbl" class="lbl" onclick="window.openOra('historia')">🙋 eu · minha história <span class="go">↗</span></div>
+<div id="story"><div id="storybox"><button id="sclose" onclick="window.closeStory()" title="fechar (Esc)">✕</button>
+<h1>🥋 O Caminho do Samurai Digital</h1>
+<div class="ssub">Trajetória de Caue Sashihara — propósito, disciplina e dados, com a família como alicerce.</div>
+<p>Mais de uma década de evolução: das fundações em finanças e operações, à liderança de transformação digital em gigantes da saúde, até o domínio da IA aplicada a negócios — sem nunca perder de vista a família.</p>
+
+<h2>1 · As Fundações (2010–2016)</h2>
+<p><b>07/07/2010</b> — o marco zero pessoal: o dia em que conheceu a esposa, o pilar emocional de tudo que veio depois.</p>
+<ul>
+<li><b>FECAP (2011–2014)</b> — Graduação em Administração.</li>
+<li><b>FIA (2015–2016)</b> — Pós em Finanças Corporativas e Investment Banking.</li>
+<li><b>Lepok</b> (2011–12) estágio em Suprimentos · <b>HSBC</b> (2012–13) analytics de performance (CMB) · <b>UniQue</b> (2013–14) consultoria de Continuidade de Negócios (BIA) no Itaú BBA · <b>ZOOM education</b> (2015–16) projetos especiais / key accounts.</li>
+</ul>
+
+<h2>2 · GE HealthCare (2016–2022)</h2>
+<p>Quase 7 anos de ascensão em operações e canais, subindo de analista a líder:</p>
+<ul>
+<li>Channel Operations Analyst → Channel Excellence Specialist → Sales Enablement &amp; Ops Coordinator → <b>Business Analytics &amp; Sales Operations Leader</b> (LATAM, BI/BA, ágil).</li>
+<li>Ferramentas: Salesforce, Einstein Analytics, DocuSign, Alteryx, SFDC.</li>
+<li>Prêmios: <b>Coach Award Americas</b> (2021), <b>Lead with Transparency</b> (reestruturação da ITO na pandemia), <b>Teamwork makes the Dream Work</b> (~300 contratos de comodato, 40–50% das vendas LATAM).</li>
+<li>MBA em Novas Tecnologias &amp; Transformação Digital (FIA, 2021–22) · Lean Practitioner.</li>
+</ul>
+<p><b>16/06/2018</b> — o casamento oficializa a união de 2010. <b>2021</b> — chega <b>Maria Clara</b> (1ª cadela, em casa 11/04/2021).</p>
+
+<h2>3 · Inovação &amp; IA (2022–2026)</h2>
+<ul>
+<li><b>J&amp;J Innovative Medicine</b> (2022–2025) — Business Partner IT Lead / TPO liderando transformação digital na LATAM. Zendesk com <b>CSAT 100%</b>; aprendizagem digital (Axonify, Adobe Captivate) e automação com <b>+85% de eficiência</b>. Prêmios Our Credo, Cheer, Shout-Out.</li>
+<li><b>Boston Scientific</b> (2025–2026) — <b>Principal Business Strategy</b>: canal indireto (&gt;50% da receita no Brasil), 50+ distribuidores, governança RACI/OKRs, e <b>"AI Champion"</b> com agente GPT para propostas e business cases.</li>
+</ul>
+<p><b>2025</b> — chega <b>Maria Teodora</b> (2ª cadela, adotada em ago/2025), completando o clã.</p>
+
+<h2>4 · O Estado da Arte: IQVIA (set/2026 →)</h2>
+<p>Rigor em operações + metodologias ágeis + IA convergem em <b>Operations &amp; Analytics Manager na IQVIA</b>, ancorado no <b>MBA em AI Business Leadership (FIAP, 2024–2025, Top 30)</b>. Não só implementa tecnologia: é um estrategista que usa dados e IA para soluções robustas na vanguarda da saúde.</p>
+
+<div class="fam">❤️ O alicerce: a esposa, a Maria Clara e a Maria Teodora — a serenidade fora do corporativo. <i>A próxima faixa ainda não foi conquistada.</i></div>
+</div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 window.openOra=function(tab){var fr=document.getElementById('ofr');fr.src='painel.html'+(tab?('#'+tab):'');document.getElementById('ovl').classList.add('on');};
@@ -288,6 +336,10 @@ window.openTree=function(){renderTree();document.getElementById('tovl').classLis
 window.closeTree=function(){document.getElementById('tovl').classList.remove('on');};
 document.getElementById('tovl').addEventListener('click',function(e){if(e.target.id==='tovl')window.closeTree();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape')window.closeTree();});
+window.openStory=function(){document.getElementById('story').classList.add('on');};
+window.closeStory=function(){document.getElementById('story').classList.remove('on');};
+document.getElementById('story').addEventListener('click',function(e){if(e.target.id==='story')window.closeStory();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')window.closeStory();});
 // ===== GUARDIÃO DA ILHA (gamificação — só de brincadeira) =====
 function _hoje(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
 function diasSem(){var lc=localStorage.getItem('oraculo_lastcheck');if(!lc){localStorage.setItem('oraculo_lastcheck',_hoje());return 0;}var a=new Date(lc+'T00:00:00'),b=new Date(_hoje()+'T00:00:00');return Math.max(0,Math.round((b-a)/86400000));}
@@ -354,7 +406,7 @@ function hoverCheck(){ray.setFromCamera(mouse,camera);var hits=ray.intersectObje
  PLACES.forEach(function(o){o.ring.material.opacity+=((o===hovered?.9:0)-o.ring.material.opacity)*.2;o.ring.scale.setScalar(o===hovered?1+Math.sin(Date.now()*.006)*.06:1);});}
 
 var v=new THREE.Vector3();
-function labels(){PLACES.forEach(function(o){v.copy(o.a).project(camera);var vis=v.z<1;o.el.style.opacity=vis?(o.dim?.55:1):0;o.el.style.left=((v.x*.5+.5)*innerWidth)+'px';o.el.style.top=((-v.y*.5+.5)*innerHeight)+'px';});}
+function labels(){PLACES.forEach(function(o){v.copy(o.a).project(camera);var vis=v.z<1;o.el.style.opacity=vis?(o.dim?.55:1):0;o.el.style.left=((v.x*.5+.5)*innerWidth)+'px';o.el.style.top=((-v.y*.5+.5)*innerHeight)+'px';});var me=document.getElementById('meLbl');if(me){var hv=new THREE.Vector3(hero.position.x,hero.position.y+3.6,hero.position.z).project(camera);me.style.opacity=hv.z<1?1:0;me.style.left=((hv.x*.5+.5)*innerWidth)+'px';me.style.top=((-hv.y*.5+.5)*innerHeight)+'px';}}
 addEventListener('resize',function(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
 
 var t0=Date.now();
