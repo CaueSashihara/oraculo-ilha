@@ -1,13 +1,10 @@
 {
-  "updated": "2026-09-02",
-  "fonte": "Google News BR",
+  "updated": "2026-09-03",
+  "fonte": "curado (IQVIA/IA/projetos + nota do dia)",
   "itens": [
-    "PGR pede o arquivamento de denúncia de Vorcaro sobre supostas ameaças que diz ter sofrido quando preso - G1",
-    "Lula se reúne com ministros do STF em meio à tensão entre Mendonça e PF - CartaCapital",
-    "Fim da escala 6x1 passa na CCJ e vai a Plenário - Senado Federal",
-    "Senado aprova PL dos minerais críticos, projeto aguarda sanção de Lula - UOL Economia",
-    "Lula tem 42% ante 41% de Flávio Bolsonaro no 2º turno, diz Quaest - Poder360",
-    "PEC da Segurança avança em comissão do Senado, em vitória para o governo Lula; veja pontos do texto - O GLOBO",
-    "Ex-dono da Reag fecha acordo de delação com PGR sobre caso Master - Jovem Pan"
+    "🩺 IQVIA / medtech — manchete do dia (atualiza às 5h20)",
+    "🤖 IA — manchete do dia (atualiza às 5h20)",
+    "📊 Gestão de projetos — manchete do dia (atualiza às 5h20)",
+    "🧘 Você tem poder sobre sua mente, não sobre os eventos externos. — Marco Aurélio"
   ]
 }
