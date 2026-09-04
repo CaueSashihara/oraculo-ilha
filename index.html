@@ -121,7 +121,7 @@
 <div id="jornal" class="jbody-wrap" title="clique para recolher/abrir">
  <div class="jframe"><span class="jc jc1">❖</span><span class="jc jc2">❖</span><span class="jc jc3">❖</span><span class="jc jc4">❖</span><div class="jmast"><span class="jk">心島</span><span class="jt">O Or&aacute;culo Di&aacute;rio</span><span class="jk">新聞</span></div></div>
  <div class="jline"><span>Edi&ccedil;&atilde;o da manh&atilde;</span><span id="jdate">&mdash;</span><span>N&ordm; I</span></div>
- <div class="jbody" id="jbody"><div class="jart lead"><div class="jh">sincronizando manchetes&hellip;</div></div></div>
+ <div class="jbody" id="jbody"><div class="jart lead"><div class="jh">buscando manchetes&hellip;</div></div></div>
  <div class="jtap">▼ toque para abrir</div>
 </div>
 <button id="guiabtn" onclick="window.openGuia()">📜 Guia da Ilha</button>
@@ -132,8 +132,8 @@
  <div class="git"><div class="gk">🗺️ Os lugares</div><div class="gt">Clique em cada ponto da ilha para abrir o painel daquela área da sua vida.</div></div>
  <div class="git"><div class="gk">🗂️ Botão Projetos</div><div class="gt">Abre o quadro de projetos com o progresso sincronizado do Asana.</div></div>
  <div class="git"><div class="gk">🛰️ Botão Arquitetura</div><div class="gt">Mostra como os sistemas conversam e como os dados se movem entre eles.</div></div>
- <div class="git"><div class="gk">📰 Jornal (à direita)</div><div class="gt">As 3 notícias curadas — IQVIA, IA e projetos — mais o pensamento do dia, às 5h20.</div></div>
  <div class="git"><div class="gk">🛡️ Guardião (à esquerda)</div><div class="gt">Reflete seus dias longe dos projetos: cuide da ilha e ele volta a dormir tranquilo.</div></div>
+ <div class="git"><div class="gk">📰 Jornal (à direita)</div><div class="gt">Notícias de IQVIA e IA via Google News — sem G1.</div></div>
  <div class="git"><div class="gk">🌾 Finanças</div><div class="gt">Ficam num cofre à parte, protegidas por senha — nunca aparecem aqui na ilha.</div></div>
 </div></div>
 <div id="damage"></div>
@@ -428,28 +428,27 @@ updCam();loop();
 var ld=document.getElementById('load');ld.style.opacity=0;setTimeout(function(){ld.style.display='none';},900);
 })();
 </script>
+
 <script>
 (function(){
  var el=document.getElementById('jornal'),body=document.getElementById('jbody');if(!el)return;
  function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML;}
- var MM=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
- function fmtDate(iso){try{var p=String(iso||'').split('-');if(p.length===3)return p[2]+' de '+MM[(+p[1])-1]+'. de '+p[0];}catch(e){}var n=new Date();return n.getDate()+' de '+MM[n.getMonth()]+'. de '+n.getFullYear();}
- function stripEmoji(it){var sp=it.indexOf(' ');if(sp<0)return it;var first=it.slice(0,sp);return /[A-Za-zÀ-ɏ0-9]/.test(first)?it:it.slice(sp+1);}
- function render(d){
-  document.getElementById('jdate').innerHTML=esc(fmtDate(d&&d.updated));
-  var itens=(d&&d.itens)||[];var html='';var lead=true;
-  for(var i=0;i<itens.length;i++){
-   var it=String(itens[i]).trim();var nota=it.indexOf('🧘')>-1; // nota do dia
-   var rest=stripEmoji(it);var parts=rest.split(/\s+[—–-]\s+/);
-   if(nota){var author=parts.length>1?parts.pop():'';var quote=parts.join(' — ');
-    html+='<div class="jnota"><b>Pensamento do dia</b>“'+esc(quote)+'”'+(author?'<br>— '+esc(author):'')+'</div>';
-   }else{var kick=parts.shift();var head=parts.join(' — ');if(!head){head=kick;kick='';}
-    html+='<div class="jart'+(lead?' lead':'')+'">'+(kick?'<div class="jkick">'+esc(kick)+'</div>':'')+'<div class="jh">'+esc(head)+'</div></div>';lead=false;}
-  }
-  html+='<div class="jfoot">☉ atualizado todo dia às 5h20</div>';
-  body.innerHTML=html||'<div class="jart lead"><div class="jh">sem manchetes hoje</div></div>';
- }
- fetch('noticias.json',{cache:'no-store'}).then(function(r){return r.json();}).then(render).catch(function(){});
+ var BAN=/globo|\bg1\b/i;
+ var PROX=['https://api.allorigins.win/raw?url=','https://corsproxy.io/?url='];function getFeed(u,i){i=i||0;if(i>=PROX.length)return Promise.reject();return fetch(PROX[i]+encodeURIComponent(u)).then(function(r){if(!r.ok)throw 0;return r.text();}).catch(function(){return getFeed(u,i+1);});}
+ var FEEDS=[
+  {kick:'🩺 IQVIA / MedTech',url:'https://news.google.com/rss/search?q=IQVIA%20when%3A30d&hl=pt-BR&gl=BR&ceid=BR:pt-419',n:2},
+  {kick:'🤖 Inteligência Artificial',url:'https://news.google.com/rss/search?q=(%22intelig%C3%AAncia%20artificial%22%20OR%20%22artificial%20intelligence%22)%20when%3A3d&hl=pt-BR&gl=BR&ceid=BR:pt-419',n:2}
+ ];
+ var FALL=[['🩺 IQVIA / MedTech','IQVIA Institute projeta uso global de medicamentos até 2026'],['🤖 Inteligência Artificial','Avanços de IA generativa seguem acelerando em 2026']];
+ function items(xml,n){try{var d=new DOMParser().parseFromString(xml,'text/xml');var it=[].slice.call(d.getElementsByTagName('item'));var out=[];for(var i=0;i<it.length&&out.length<n;i++){var t=(it[i].getElementsByTagName('title')[0]||{}).textContent||'';var src=(it[i].getElementsByTagName('source')[0]||{}).textContent||'';var lnk=(it[i].getElementsByTagName('link')[0]||{}).textContent||'';if(BAN.test(src)||BAN.test(t)||BAN.test(lnk))continue;t=t.replace(/\s+-\s+[^-]*$/,'');if(t)out.push(t);}return out;}catch(e){return [];}}
+ function render(groups){var html='',lead=true;groups.forEach(function(g){g.list.forEach(function(hd){html+='<div class="jart'+(lead?' lead':'')+'"><div class="jkick">'+esc(g.kick)+'</div><div class="jh">'+esc(hd)+'</div></div>';lead=false;});});
+  html+='<div class="jnota"><b>Pensamento do dia</b>“Você tem poder sobre sua mente, não sobre os eventos externos.”<br>— Marco Aurélio</div>';
+  html+='<div class="jfoot">☉ Google News · IQVIA + IA · sem G1</div>';body.innerHTML=html;}
+ var jd=document.getElementById('jdate');if(jd){var n=new Date();jd.textContent=n.getDate()+'/'+(n.getMonth()+1);}
+ Promise.all(FEEDS.map(function(fd){return getFeed(fd.url).then(function(x){return {kick:fd.kick,list:items(x,fd.n)};}).catch(function(){return {kick:fd.kick,list:[]};});})).then(function(groups){
+  groups.forEach(function(g,i){if(!g.list.length){g.list=[FALL[i][1]];}});
+  render(groups);
+ }).catch(function(){render([{kick:FALL[0][0],list:[FALL[0][1]]},{kick:FALL[1][0],list:[FALL[1][1]]}]);});
  el.addEventListener('click',function(){el.classList.toggle('fold');});
  if(window.innerWidth<640)el.classList.add('fold');
 })();
