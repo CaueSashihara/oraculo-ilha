@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>O Oráculo — Dashboard Pessoal</title>
-<script src="notes.js"></script>
+<title>El Oráculo — Panel Personal</title>
+<script src="../notes.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -370,15 +370,16 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
 
 <!-- NAV -->
 <nav>
-  <div class="logo">柔術 ORÁCULO</div>
-  <div class="tab active" data-tab="vida-semanas"><span class="tab-icon">🗓️</span> Vida em Semanas</div>
-  <div class="tab" data-tab="historia"><span class="tab-icon">🥷</span> História</div>
-  <div class="tab" data-tab="projetos"><span class="tab-icon">📊</span> Projetos</div>
+  <div class="logo">柔術 ORÁCULO <span style="font-size:.6rem;color:#c9a84c;border:1px solid #c9a84c;border-radius:6px;padding:1px 5px;vertical-align:middle;margin-left:4px">ES</span></div>
+  <a href="../" style="color:#8fa3c8;text-decoration:none;font-size:.8rem;padding:.2rem .6rem;border:1px solid rgba(255,255,255,.14);border-radius:16px;margin-right:.4rem" title="PT">🇧🇷 PT</a>
+  <div class="tab active" data-tab="vida-semanas"><span class="tab-icon">🗓️</span> Vida en Semanas</div>
+  <div class="tab" data-tab="historia"><span class="tab-icon">🥷</span> Historia</div>
+  <div class="tab" data-tab="projetos"><span class="tab-icon">📊</span> Proyectos</div>
   <div class="tab" data-tab="notas"><span class="tab-icon">📝</span> Notas</div>
   <div class="tab" data-tab="brain"><span class="tab-icon">🧠</span> Brain</div>
-  <div class="tab" data-tab="vagas"><span class="tab-icon">💼</span> Carreira 🔒</div>
+  <div class="tab" data-tab="vagas"><span class="tab-icon">💼</span> Carrera 🔒</div>
   <div class="tab" data-tab="gastos"><span class="tab-icon">🔒</span> Gastos</div>
-  <div class="tab" data-tab="mexico"><span class="tab-icon">✈️</span> Viagem México</div>
+  <div class="tab" data-tab="mexico"><span class="tab-icon">✈️</span> Viaje México</div>
   <div id="fs-status" onclick="fsTap()" title="Armazenamento de dados">
     <div id="fs-dot"></div>
     <span id="fs-label">local</span>
@@ -3064,7 +3065,7 @@ function oraOpen(id){document.querySelectorAll('.page').forEach(p => p.classList
 document.querySelectorAll('.tab').forEach(t => {
   t.addEventListener('click', () => {
     if((t.dataset.tab==='gastos'||t.dataset.tab==='vagas') && sessionStorage.getItem('priv_ok')!=='1'){
-      var pw=prompt('Área privada (Carreira e Finanças) — salário e reuniões. Senha:');
+      var pw=prompt('Área privada (Carrera y Finanzas) — salario y reuniones. Contraseña:');
       if(pw!=='160618C@s'){ if(pw!==null) alert('Senha incorreta.'); return; }
       sessionStorage.setItem('priv_ok','1');
     }
