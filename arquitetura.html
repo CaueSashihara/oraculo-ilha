@@ -31,7 +31,7 @@
  .st img{width:18px;height:18px}
 </style></head><body><div class="wrap">
 <h1>🛰️ Oráculo — Arquitetura de Sistema</h1>
-<div class="sub">Diagrama técnico do fluxo de dados e da separação público × privado. Os pontos em movimento são os dados fluindo entre os serviços; as cores indicam o <b>tipo de fluxo</b> (push manual, agente, dispatch, API, cron).</div>
+<div class="sub">Diagrama técnico do fluxo de dados e da separação público × privado. Os pontos em movimento são os dados fluindo entre os serviços; as cores indicam o <b>tipo de fluxo</b> (push manual, agente, dispatch, API, cron). <b>Atualizado (14/09/2026):</b> painel enxuto com as abas <b>História · Projetos · Notas · Brain</b>; a ilha sem jornal e sem avião; navegação de volta pelo botão <b>“← Voltar para a ilha”</b>.</div>
 
 <div class="panel">
 <svg viewBox="0 0 980 560" role="img" aria-label="Arquitetura do Oraculo">
@@ -69,7 +69,7 @@
  <text class="el" x="322" y="120" fill="#e6c667">push manual</text>
  <text class="el" x="322" y="250" fill="#6b8fe0">agente commita</text>
  <text class="el" x="150" y="360" fill="#b06be0">dispatch</text>
- <text class="el" x="356" y="250" fill="#3ecf8e">API / RSS</text>
+ <text class="el" x="356" y="250" fill="#3ecf8e">seed do vault</text>
  <text class="el" x="470" y="292" fill="#2fd4d4">commit 5h20</text>
  <text class="el" x="868" y="342" fill="#e6c667">login</text>
  <text class="el" x="712" y="452" fill="#3ecf8e" text-anchor="end">auth+RLS</text>
@@ -78,7 +78,7 @@
  <g><rect x="30" y="40" width="160" height="62" rx="12" fill="#141a24" stroke="#e6c667" stroke-width="1.4"/><text x="48" y="80" font-size="22">👤</text><text class="nt" x="80" y="68">Você</text><text class="nr" x="80" y="85">push manual + comandos</text></g>
  <g><rect x="30" y="250" width="160" height="62" rx="12" fill="#141a24" stroke="#d97757" stroke-width="1.6"/><image href="https://cdn.simpleicons.org/anthropic/D97757" x="46" y="270" width="24" height="24"/><text class="nt" x="82" y="278">Claude · Cowork</text><text class="nr" x="82" y="295">agente / dispatch</text></g>
  <g><rect x="270" y="30" width="160" height="62" rx="12" fill="#141a24" stroke="rgba(240,106,106,.55)" stroke-width="1.4"/><image href="https://cdn.simpleicons.org/asana/F06A6A" x="286" y="50" width="24" height="24"/><text class="nt" x="322" y="58">Asana</text><text class="nr" x="322" y="75">API · projetos</text></g>
- <g><rect x="270" y="130" width="160" height="62" rx="12" fill="#141a24" stroke="rgba(242,101,34,.55)" stroke-width="1.4"/><image href="https://cdn.simpleicons.org/rss/F26522" x="286" y="150" width="24" height="24"/><text class="nt" x="322" y="158">Google News</text><text class="nr" x="322" y="175">RSS · por tema</text></g>
+ <g><rect x="270" y="130" width="160" height="62" rx="12" fill="#141a24" stroke="rgba(124,58,237,.6)" stroke-width="1.4"/><image href="https://cdn.simpleicons.org/obsidian/7C3AED" x="286" y="150" width="24" height="24"/><text class="nt" x="322" y="158">Obsidian Vault</text><text class="nr" x="322" y="175">afj/** · seed → Brain 3D</text></g>
  <g><rect x="270" y="300" width="160" height="62" rx="12" fill="#141a24" stroke="rgba(32,136,255,.55)" stroke-width="1.4"/><image href="https://cdn.simpleicons.org/githubactions/2088FF" x="286" y="320" width="24" height="24"/><text class="nt" x="322" y="328">GitHub Actions</text><text class="nr" x="322" y="345">cron · 5h20 · Node 20</text></g>
  <g><rect x="540" y="180" width="160" height="62" rx="12" fill="#141a24" stroke="rgba(230,230,230,.45)" stroke-width="1.4"/><image href="https://cdn.simpleicons.org/github/E6E6E6" x="556" y="200" width="24" height="24"/><text class="nt" x="592" y="208">GitHub (repo)</text><text class="nr" x="592" y="225">código + JSON</text></g>
  <g><rect x="540" y="430" width="160" height="62" rx="12" fill="#101f19" stroke="#3ecf8e" stroke-width="1.7"/><image href="https://cdn.simpleicons.org/supabase/3ECF8E" x="556" y="450" width="24" height="24"/><text class="nt" x="592" y="458">Supabase</text><text class="nr" x="592" y="475">Postgres + Auth · 🔒</text></g>
@@ -92,8 +92,18 @@
  <span><i class="ln" style="border-color:#e6c667"></i>Push manual (você → GitHub)</span>
  <span><i class="ln" style="border-color:#6b8fe0"></i>Agente Claude (edita/commita código + seed do banco)</span>
  <span><i class="ln" style="border-color:#b06be0"></i>Claude dispatch (dispara o workflow)</span>
- <span><i class="ln" style="border-color:#3ecf8e"></i>API / RSS ao vivo (Asana · Supabase · News)</span>
+ <span><i class="ln" style="border-color:#3ecf8e"></i>API ao vivo + seed do vault (Asana · Supabase · Obsidian → Brain)</span>
  <span><i class="ln" style="border-color:#2fd4d4"></i>Cron agendado (5h20/dia)</span>
+</div>
+
+<h2>Estrutura da Ilha (abas do painel)</h2>
+<div class="grid">
+ <div class="card"><h3>🥷 História</h3><p>A jornada de carreira <code>FECAP → MCRA/IQVIA</code> (2011→2026): linha do tempo sinuosa e interativa, com marcos, formações e prêmios. Substituiu a antiga aba Carreira.</p></div>
+ <div class="card"><h3>📊 Projetos</h3><p>Gestor de projetos com Gantt e progresso ao vivo. A viagem ao México agora é um <code>link direto para o Asana</code> (abre em nova aba), não um card interno.</p></div>
+ <div class="card"><h3>📝 Notas</h3><p>Notas pessoais no estilo Obsidian — carreira, terapia e propósito. Mantida intacta.</p></div>
+ <div class="card"><h3>🧠 Brain</h3><p>Espelho do vault Obsidian (<code>afj/**</code>) embutido no HTML: árvore de pastas, leitor de markdown, wikilinks e backlinks clicáveis, busca e um <b>grafo 3D</b> (3d-force-graph) das notas conectadas. Funciona offline exceto pela lib de CDN.</p></div>
+ <div class="card"><h3>← Voltar para a ilha</h3><p>Dentro do painel, o antigo indicador de nuvem virou um botão que fecha o painel e volta para a ilha (via <code>postMessage</code> ao pai).</p></div>
+ <div class="card"><h3>🗾 Ilha</h3><p>A cena 3D (Three.js) sem o jornal de notícias e sem o avião. Os pontos da ilha e a lista de tarefas apontam para as abas atuais.</p></div>
 </div>
 
 <h2>Camada de segurança</h2>
@@ -110,7 +120,8 @@
  <div class="st"><img src="https://cdn.simpleicons.org/githubactions/2088FF" alt=""/>GitHub Actions — cron</div>
  <div class="st"><img src="https://cdn.simpleicons.org/nodedotjs/5FA04E" alt=""/>Node 20 — sync.js</div>
  <div class="st"><img src="https://cdn.simpleicons.org/asana/F06A6A" alt=""/>Asana — API projetos</div>
- <div class="st"><img src="https://cdn.simpleicons.org/rss/F26522" alt=""/>Google News — RSS</div>
+ <div class="st"><img src="https://cdn.simpleicons.org/obsidian/7C3AED" alt=""/>Obsidian — vault → Brain 3D</div>
+ <div class="st"><img src="https://cdn.simpleicons.org/threedotjs/FFFFFF" alt=""/>3d-force-graph — grafo do Brain</div>
  <div class="st"><img src="https://cdn.simpleicons.org/supabase/3ECF8E" alt=""/>Supabase — DB + Auth</div>
  <div class="st"><img src="https://cdn.simpleicons.org/anthropic/D97757" alt=""/>Claude · Cowork — agente</div>
  <div class="st"><img src="https://cdn.simpleicons.org/threedotjs/FFFFFF" alt=""/>Three.js — ilha 3D</div>
