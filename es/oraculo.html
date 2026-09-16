@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>As Entrevistas com o Futuro — O Oráculo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── RESET ────────────────────────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --bg:      #070707;
+  --stone:   #12110e;
+  --gold:    #c9a84c;
+  --cream:   #e2d098;
+  --fg:      #d9d3be;
+  --muted:   #6b6455;
+  --border:  rgba(201,168,76,0.14);
+  --serif:   'Cormorant Garamond', Georgia, serif;
+  --sans:    'Space Grotesk', sans-serif;
+  --mono:    'JetBrains Mono', monospace;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--sans);
+  overflow-x: hidden;
+}
+
+/* ── HERO ─────────────────────────────────────────────── */
+#hero {
+  position: relative;
+  height: 100vh; min-height: 600px;
+  display: flex; align-items: flex-end; justify-content: center;
+  overflow: hidden;
+}
+#hero-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center top;
+  z-index: 0;
+}
+#hero::after {
+  content: '';
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    transparent 40%,
+    rgba(7,7,7,0.6) 72%,
+    rgba(7,7,7,0.98) 100%
+  );
+}
+.hero-scroll {
+  position: relative; z-index: 2;
+  margin-bottom: 2.5rem;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  animation: bob 2s ease-in-out infinite;
+}
+.hero-scroll span {
+  font-family: var(--mono); font-size: .55rem;
+  letter-spacing: .25em; text-transform: uppercase; color: var(--gold);
+}
+.hero-scroll svg { width: 14px; color: var(--gold); }
+@keyframes bob {
+  0%,100%{ transform:translateY(0); }
+  50%     { transform:translateY(5px); }
+}
+
+/* ── SHARED SECTION ───────────────────────────────────── */
+section {
+  padding: clamp(4rem,9vh,7rem) clamp(1.5rem,6vw,5rem);
+  position: relative; z-index: 2;
+}
+.section-label {
+  font-family: var(--mono); font-size: .58rem;
+  letter-spacing: .25em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: .75rem;
+}
+.section-label::before { content:''; flex: 0 0 1.5rem; height:1px; background: var(--gold); }
+.reveal { opacity:0; transform:translateY(28px); }
+
+/* ── INTRO STATEMENT ──────────────────────────────────── */
+#intro {
+  max-width: 900px; margin: 0 auto; text-align: center;
+  padding-top: 5rem;
+}
+#intro blockquote {
+  font-family: var(--serif); font-size: clamp(1.5rem, 3.5vw, 2.8rem);
+  font-weight: 300; line-height: 1.4; color: var(--cream);
+  font-style: italic; margin-bottom: 1.5rem;
+}
+#intro p {
+  font-size: clamp(.88rem, 1.5vw, 1rem);
+  color: var(--muted); line-height: 1.8; max-width: 580px; margin: 0 auto;
+}
+.enso-divider {
+  width: 56px; height: 56px; margin: 2.5rem auto;
+}
+.enso-divider circle {
+  fill:none; stroke: var(--gold); stroke-width: 1.5;
+  stroke-dasharray: 176; stroke-dashoffset: 176;
+  stroke-linecap: round; opacity: .6;
+}
+
+/* ── AS VERSÕES (7 idades) ────────────────────────────── */
+#versoes { max-width: 1140px; margin: 0 auto; }
+.versoes-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px; overflow: hidden;
+  border: 1px solid var(--border); border-radius: 12px;
+}
+.versao {
+  background: var(--stone);
+  padding: 2rem 1.25rem 1.75rem;
+  border-right: 1px solid var(--border);
+  position: relative;
+  transition: background .3s;
+}
+.versao:last-child { border-right: none; }
+.versao:hover { background: #1b1a15; }
+.versao.agora { background: rgba(201,168,76,0.06); }
+.versao.agora::before {
+  content: 'agora';
+  position: absolute; top: .75rem; right: .75rem;
+  font-family: var(--mono); font-size: .5rem;
+  letter-spacing: .15em; text-transform: uppercase;
+  color: var(--gold); border: 1px solid rgba(201,168,76,0.3);
+  padding: .2rem .45rem; border-radius: 2rem;
+}
+.versao-age {
+  font-family: var(--serif); font-size: 2.4rem; font-weight: 600;
+  color: var(--gold); line-height: 1; margin-bottom: .3rem;
+}
+.versao-title {
+  font-family: var(--mono); font-size: .55rem;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 1rem;
+}
+.versao p {
+  font-size: .78rem; color: #5a5448; line-height: 1.65;
+}
+.versao:hover p { color: #857d6e; }
+
+/* ── A TRÍADE ─────────────────────────────────────────── */
+#triade { max-width: 1000px; margin: 0 auto; }
+.triade-row {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px; margin-bottom: 3rem;
+}
+.triade-cell {
+  background: var(--stone); padding: 2.5rem 2rem;
+  border: 1px solid var(--border); border-radius: 12px;
+}
+.triade-jp {
+  display: block; font-family: 'Shippori Mincho B1', var(--serif);
+  font-size: 1.8rem; color: rgba(201,168,76,.35);
+  margin-bottom: .75rem; letter-spacing: .05em;
+}
+.triade-cell h3 {
+  font-family: var(--serif); font-size: 1.5rem; font-weight: 600;
+  color: var(--cream); margin-bottom: .5rem;
+}
+.triade-cell p { font-size: .85rem; color: var(--muted); line-height: 1.75; }
+.amor-fati-quote {
+  border-left: 2px solid var(--gold);
+  padding: 1.25rem 1.75rem;
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(1rem, 1.8vw, 1.25rem); color: #a89b7a;
+  line-height: 1.7;
+}
+.amor-fati-quote strong { color: var(--cream); font-style: normal; font-weight: 600; }
+
+/* ── IKIGAI / MANIFESTO ───────────────────────────────── */
+#ikigai { max-width: 1000px; margin: 0 auto; }
+.manifesto {
+  font-family: var(--serif); font-size: clamp(1.3rem, 3vw, 2.2rem);
+  font-weight: 300; line-height: 1.45; color: var(--cream);
+  margin-bottom: 3rem; font-style: italic;
+}
+.manifesto strong { font-weight: 700; font-style: normal; color: var(--gold); }
+.ik-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; }
+.ik-card {
+  background: var(--stone); border: 1px solid var(--border);
+  border-radius: 12px; padding: 2rem 1.75rem; position: relative; overflow: hidden;
+}
+.ik-num {
+  position: absolute; right: 1.25rem; top: 1rem;
+  font-family: 'Shippori Mincho B1', serif; font-size: 4rem;
+  color: rgba(201,168,76,0.07); line-height: 1; user-select: none;
+}
+.ik-card h3 {
+  font-family: var(--serif); font-size: 1.1rem; font-weight: 600;
+  color: var(--cream); margin-bottom: .6rem;
+}
+.ik-card p { font-size: .84rem; color: var(--muted); line-height: 1.75; }
+
+/* ── KATA ─────────────────────────────────────────────── */
+#kata { max-width: 1100px; margin: 0 auto; }
+.kata-title {
+  font-family: var(--serif); font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 600; line-height: 1; color: var(--cream);
+  margin-bottom: .75rem;
+}
+.kata-title span { color: var(--gold); }
+.kata-sub {
+  font-size: .88rem; color: var(--muted); margin-bottom: 3rem;
+}
+.kata-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+}
+.kata-move {
+  background: var(--stone); padding: 2rem 1.75rem;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.kata-move:nth-child(3n)   { border-right: none; }
+.kata-move:nth-last-child(-n+3) { border-bottom: none; }
+.kata-move:nth-last-child(1),
+.kata-move:nth-last-child(2) { border-bottom: none; }
+.kata-num {
+  font-family: 'Shippori Mincho B1', serif; font-size: 2.5rem;
+  color: rgba(201,168,76,0.3); line-height: 1; margin-bottom: .6rem;
+}
+.kata-move h3 {
+  font-family: var(--serif); font-size: 1.1rem; font-weight: 600;
+  color: var(--cream); margin-bottom: .4rem;
+}
+.kata-move p { font-size: .82rem; color: var(--muted); line-height: 1.65; }
+.kata-metrics {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-top: 2rem;
+}
+.metric {
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 1.25rem 1rem; text-align: center;
+  background: var(--stone);
+}
+.metric-val {
+  font-family: var(--mono); font-size: 1.35rem; color: var(--gold);
+  display: block; margin-bottom: .25rem;
+}
+.metric-label { font-size: .68rem; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
+
+/* ── FILOSOFIA ────────────────────────────────────────── */
+#filosofia { max-width: 1000px; margin: 0 auto; }
+.filo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.filo-card {
+  background: var(--stone); border: 1px solid var(--border);
+  border-radius: 12px; padding: 2.5rem 2.25rem; position: relative; overflow: hidden;
+}
+.filo-kanji {
+  position: absolute; right: 1.5rem; bottom: 1rem;
+  font-family: 'Shippori Mincho B1', serif; font-size: 5.5rem;
+  color: rgba(201,168,76,0.05); line-height: 1; user-select: none;
+}
+.filo-card h3 {
+  font-family: var(--serif); font-size: 1.5rem; font-weight: 600;
+  color: var(--cream); margin-bottom: .3rem;
+}
+.filo-sub { font-family: var(--mono); font-size: .62rem; letter-spacing: .15em; color: var(--gold); margin-bottom: 1rem; }
+.filo-card p { font-size: .86rem; color: var(--muted); line-height: 1.8; }
+.mantra {
+  margin-top: 1.25rem; padding: 1rem 1.25rem;
+  border: 1px solid rgba(201,168,76,0.2); border-radius: 8px;
+  background: rgba(201,168,76,0.04);
+  font-family: 'Shippori Mincho B1', serif; font-size: .95rem;
+  color: rgba(201,168,76,0.7); line-height: 1.8;
+}
+.mantra cite {
+  display: block; margin-top: .4rem;
+  font-family: var(--mono); font-size: .58rem;
+  color: var(--muted); font-style: normal; letter-spacing: .1em;
+}
+.filo-full { grid-column: 1 / -1; }
+
+/* ── A CARTA ──────────────────────────────────────────── */
+#carta {
+  max-width: 760px; margin: 0 auto; text-align: center;
+}
+.carta-date {
+  font-family: var(--mono); font-size: .62rem; letter-spacing: .2em;
+  color: var(--gold); margin-bottom: 2rem;
+}
+.carta-body {
+  font-family: var(--serif); font-size: clamp(1rem, 1.8vw, 1.25rem);
+  line-height: 1.85; color: #8a826e; font-style: italic;
+}
+.carta-body strong { color: var(--cream); font-style: normal; }
+.carta-pillars {
+  display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; margin-top: 2.5rem; text-align: left;
+}
+.carta-pillar {
+  border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem;
+  background: var(--stone);
+}
+.carta-pillar h4 {
+  font-family: var(--mono); font-size: .6rem; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: .6rem;
+}
+.carta-pillar p { font-size: .82rem; color: var(--muted); line-height: 1.65; }
+
+/* ── PEREGRINAÇÃO (integração México) ─────────────────── */
+#peregrinacao { max-width: 1000px; margin: 0 auto; }
+.pereg-intro {
+  font-family: var(--serif); font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  font-weight: 300; line-height: 1.5; color: var(--cream);
+  font-style: italic; margin-bottom: 2.5rem;
+}
+.pereg-intro strong { font-style: normal; color: var(--gold); font-weight: 700; }
+.pereg-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 2rem;
+}
+.pereg-card {
+  background: var(--stone); border: 1px solid var(--border);
+  border-radius: 12px; padding: 2rem 1.75rem; position: relative; overflow: hidden;
+}
+.pereg-card-bg {
+  position: absolute; right: 1rem; bottom: .5rem;
+  font-size: 5rem; opacity: .06; line-height: 1; user-select: none;
+}
+.pereg-card h3 {
+  font-family: var(--serif); font-size: 1.2rem; font-weight: 600;
+  color: var(--cream); margin-bottom: .3rem;
+}
+.pereg-card-sub {
+  font-family: var(--mono); font-size: .58rem; letter-spacing: .15em;
+  color: var(--gold); margin-bottom: .9rem; text-transform: uppercase;
+}
+.pereg-card p { font-size: .83rem; color: var(--muted); line-height: 1.75; }
+.pereg-versoes-link {
+  display: flex; gap: .4rem; flex-wrap: wrap; margin-top: 1rem;
+}
+.pv-pill {
+  font-family: var(--mono); font-size: .6rem;
+  padding: .2rem .55rem; border-radius: 20px;
+  border: 1px solid rgba(201,168,76,0.2); color: rgba(201,168,76,0.6);
+}
+.pv-pill.now { background: rgba(201,168,76,0.1); color: var(--gold); border-color: rgba(201,168,76,0.4); }
+
+.pereg-quote {
+  border-left: 2px solid var(--gold);
+  padding: 1.25rem 1.75rem; margin-bottom: 2rem;
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(1rem, 1.8vw, 1.2rem); color: #a89b7a;
+  line-height: 1.7;
+}
+.pereg-quote strong { color: var(--cream); font-style: normal; }
+
+/* México link card */
+.mx-link-card {
+  display: flex; align-items: center; gap: 1.5rem;
+  background: linear-gradient(135deg, rgba(200,75,49,.08), rgba(123,45,139,.06));
+  border: 1px solid rgba(200,75,49,0.25);
+  border-radius: 14px; padding: 1.5rem 2rem;
+  text-decoration: none; color: inherit;
+  transition: border-color .3s, background .3s;
+  cursor: pointer;
+}
+.mx-link-card:hover {
+  border-color: rgba(245,166,35,.5);
+  background: linear-gradient(135deg, rgba(200,75,49,.12), rgba(123,45,139,.10));
+}
+.mx-flag { font-size: 2.5rem; flex-shrink: 0; }
+.mx-card-info { flex: 1; }
+.mx-card-title {
+  font-family: var(--serif); font-size: 1.2rem; font-weight: 600;
+  color: var(--cream); margin-bottom: .25rem;
+}
+.mx-card-sub {
+  font-family: var(--mono); font-size: .62rem; letter-spacing: .12em;
+  color: rgba(201,168,76,.7); text-transform: uppercase; margin-bottom: .5rem;
+}
+.mx-card-desc { font-size: .82rem; color: var(--muted); line-height: 1.6; }
+.mx-card-arrow {
+  font-size: 1.5rem; color: rgba(201,168,76,.4);
+  transition: transform .2s, color .2s; flex-shrink: 0;
+}
+.mx-link-card:hover .mx-card-arrow { transform: translateX(4px); color: var(--gold); }
+
+/* floating México pill */
+.mx-float {
+  position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 999;
+  display: flex; align-items: center; gap: .5rem;
+  background: rgba(12,6,2,0.92); border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 30px; padding: .55rem 1rem .55rem .75rem;
+  font-family: var(--mono); font-size: .65rem; letter-spacing: .1em;
+  color: var(--gold); text-decoration: none; text-transform: uppercase;
+  backdrop-filter: blur(12px);
+  transition: border-color .2s, background .2s;
+  box-shadow: 0 4px 24px rgba(0,0,0,.5);
+}
+.mx-float:hover { border-color: var(--gold); background: rgba(25,12,4,0.96); }
+.mx-float-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #f5a623; animation: pulse-mx 2s infinite;
+}
+@keyframes pulse-mx {
+  0%,100%{ opacity:1; transform:scale(1); }
+  50%{ opacity:.5; transform:scale(.8); }
+}
+
+/* ── OFERTA ───────────────────────────────────────────── */
+#oferta { max-width: 900px; margin: 0 auto; text-align: center; }
+.oferta-title {
+  font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 3.2rem);
+  font-weight: 300; color: var(--cream); margin-bottom: .75rem; line-height: 1.2;
+}
+.oferta-sub { font-size: .9rem; color: var(--muted); margin-bottom: 3rem; }
+.steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; position: relative; }
+.steps::before {
+  content: '';
+  position: absolute; top: 2.25rem; left: calc(16.66% + 1rem); right: calc(16.66% + 1rem);
+  height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.step { padding: 0 1.5rem 2rem; }
+.step-n {
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid var(--border); background: var(--stone);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: .75rem; color: var(--gold);
+  margin: 0 auto 1.5rem;
+}
+.step h3 {
+  font-family: var(--serif); font-size: 1.2rem; font-weight: 600;
+  color: var(--cream); margin-bottom: .5rem;
+}
+.step p { font-size: .83rem; color: var(--muted); line-height: 1.65; }
+.cta-wrap { margin-top: 3rem; }
+.cta-btn {
+  display: inline-block;
+  font-family: var(--mono); font-size: .72rem;
+  letter-spacing: .15em; text-transform: uppercase;
+  color: var(--bg); background: var(--gold);
+  padding: .9rem 2.5rem; border-radius: 3px;
+  cursor: pointer; transition: background .2s, transform .2s;
+  text-decoration: none;
+}
+.cta-btn:hover { background: var(--cream); transform: translateY(-2px); }
+
+/* ── FOOTER ───────────────────────────────────────────── */
+footer {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 6rem 2rem 4rem; gap: 1.5rem;
+  border-top: 1px solid var(--border);
+  position: relative; z-index: 2;
+}
+#enso-footer { width: 120px; height: 120px; }
+#enso-footer circle {
+  fill:none; stroke: var(--gold); stroke-width: 1.5;
+  stroke-dasharray: 376; stroke-dashoffset: 376;
+  stroke-linecap: round; opacity: .5;
+}
+.hanko {
+  font-family: 'Shippori Mincho B1', serif; font-size: 1.8rem;
+  width: 52px; height: 52px; border: 1.5px solid rgba(193,18,31,0.6);
+  border-radius: 4px; color: rgba(193,18,31,0.7);
+  display: flex; align-items: center; justify-content: center;
+}
+footer p { font-family: var(--mono); font-size: .58rem; letter-spacing: .18em; color: var(--muted); }
+
+/* ── MOBILE ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .versoes-grid { grid-template-columns: repeat(2,1fr); }
+  .versao { border-bottom: 1px solid var(--border); }
+  .triade-row, .ik-grid, .kata-grid, .filo-grid, .steps, .pereg-grid { grid-template-columns: 1fr; }
+  .filo-full { grid-column: 1; }
+  .kata-metrics { grid-template-columns: repeat(2,1fr); }
+  .carta-pillars { grid-template-columns: 1fr; }
+  .kata-move:nth-child(3n) { border-right: 1px solid var(--border); }
+  .steps::before { display: none; }
+  .mx-link-card { flex-direction: column; text-align: center; }
+  .mx-float { bottom: 1rem; right: 1rem; font-size: .6rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ FLOATING MÉXICO PILL ═════════════════════════════════ -->
+<a class="mx-float" href="mexico-2026.html" id="mx-float-btn">
+  <div class="mx-float-dot"></div>
+  🇲🇽 México 2026
+</a>
+
+<!-- ══ HERO ═════════════════════════════════════════════════ -->
+<section id="hero">
+  <img id="hero-img" src="oraculo-bg.png" alt="As Entrevistas com o Futuro">
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ══ INTRO ════════════════════════════════════════════════ -->
+<section id="intro">
+  <div class="section-label reveal">O Oráculo</div>
+  <blockquote class="reveal">
+    "Cada decisão escreve uma linha do tempo.<br>
+    Qual versão de você está sendo construída?"
+  </blockquote>
+  <p class="reveal">
+    O futuro não prevê. Ele revela caminhos — mas apenas para quem já decidiu
+    qual versão quer encarnar. Esta é uma conversa com as versões que ainda não existem.
+    E com as que já estão se tornando reais.
+  </p>
+
+  <svg class="enso-divider reveal" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="30" cy="30" r="22"/>
+  </svg>
+</section>
+
+<!-- ══ AS VERSÕES ════════════════════════════════════════════ -->
+<section id="versoes">
+  <div class="section-label reveal">As Versões</div>
+  <div class="versoes-grid">
+    <div class="versao reveal">
+      <div class="versao-age">18</div>
+      <div class="versao-title">O Início</div>
+      <p>Base construída sem mapa. A vontade que nenhum sistema consegue criar — estava aqui.</p>
+    </div>
+    <div class="versao reveal">
+      <div class="versao-age">25</div>
+      <div class="versao-title">A Escolha</div>
+      <p>O mercado como sala de aula. Aprendeu que dados sem narrativa não vendem. E que obedecer sem questionar é rendição.</p>
+    </div>
+    <div class="versao reveal">
+      <div class="versao-age">30</div>
+      <div class="versao-title">A Disciplina</div>
+      <p>BJJ. Moto. O corpo como laboratório. Controle sob pressão — o mesmo músculo usado na carreira.</p>
+    </div>
+    <div class="versao agora reveal">
+      <div class="versao-age">36</div>
+      <div class="versao-title">O Construtor</div>
+      <p>KATA nasce aqui. 24→5 KPIs. 41 distribuidores via API. 400% ROI. Dá forma onde não havia.</p>
+    </div>
+    <div class="versao reveal">
+      <div class="versao-age">40</div>
+      <div class="versao-title">O Líder</div>
+      <p>Director/Senior Manager LATAM. Lidera sem pedir permissão para ser estratégico.</p>
+    </div>
+    <div class="versao reveal">
+      <div class="versao-age">50</div>
+      <div class="versao-title">O Mentor</div>
+      <p>Fractional CCO. Multiplica pela transferência. O líder que não forma sucessores é gargalo.</p>
+    </div>
+    <div class="versao reveal">
+      <div class="versao-age">80</div>
+      <div class="versao-title">O Legado</div>
+      <p>"Eu não gerencio canais. Eu dou forma ao que está sem forma — em pessoas, em dados, em mim mesmo."</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TRÍADE ════════════════════════════════════════════════ -->
+<section id="triade">
+  <div class="section-label reveal">Tríade de Identidade</div>
+  <div class="triade-row">
+    <div class="triade-cell reveal">
+      <span class="triade-jp">執拗</span>
+      <h3>Obstinado</h3>
+      <p>Não desiste. Dá forma onde não havia estrutura. O cansaço não é sinal de parar — é evidência de que o trabalho importa.</p>
+    </div>
+    <div class="triade-cell reveal">
+      <span class="triade-jp">平静</span>
+      <h3>Equânime</h3>
+      <p>Reconcilia o fato passado e libera energia para agir. Não é resignação — é aceitação que move. A diferença é sutil e muda tudo.</p>
+    </div>
+    <div class="triade-cell reveal">
+      <span class="triade-jp">禁欲</span>
+      <h3>Estoico</h3>
+      <p>Controla o que pode controlar. Solta o que está fora do raio de ação. Foco como arma, não como limite.</p>
+    </div>
+  </div>
+  <blockquote class="amor-fati-quote reveal">
+    <strong>Amor fati</strong> — não apenas aceitar o destino, mas amá-lo. O tom com que você conta a história da transição revela se há ressentimento ou amor fati operando. A entrevista começa antes da pergunta.
+  </blockquote>
+</section>
+
+<!-- ══ IKIGAI ════════════════════════════════════════════════ -->
+<section id="ikigai">
+  <div class="section-label reveal">Ikigai</div>
+  <p class="manifesto reveal">
+    Construir e liderar algo próprio que use <strong>disciplina, corpo e estratégia</strong>
+    para desenvolver pessoas — fora do eixo corporativo tradicional.
+  </p>
+  <div class="ik-grid">
+    <div class="ik-card reveal">
+      <div class="ik-num">一</div>
+      <h3>O que você já é</h3>
+      <p>Tradutor de caos: transforma canais quebrados, dados dispersos e times sem direção em estrutura. É como você processa o mundo — com ou sem salário para isso.</p>
+    </div>
+    <div class="ik-card reveal">
+      <div class="ik-num">二</div>
+      <h3>O que ainda está sem nome</h3>
+      <p>Corpo e carreira usam o mesmo músculo: controle sob pressão, leitura do oponente/mercado, converter desconforto em vantagem. O Fight Lab não é hobbie.</p>
+    </div>
+    <div class="ik-card reveal">
+      <div class="ik-num">三</div>
+      <h3>A pergunta que ninguém te fez</h3>
+      <p>Não é "consultoria ou CLT?". É quem você serve quando ninguém está pagando a fatura. O Fight Lab é essa resposta em miniatura.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ KATA ══════════════════════════════════════════════════ -->
+<section id="kata">
+  <div class="section-label reveal">Método</div>
+  <h2 class="kata-title reveal"><span>型</span> Método KATA</h2>
+  <p class="kata-sub reveal">6 movimentos. Resultado real. A forma que liberta.</p>
+  <div class="kata-grid">
+    <div class="kata-move reveal">
+      <div class="kata-num">一</div>
+      <h3>Visibilidade</h3>
+      <p>Aparecer antes de vender. Presença como estratégia, não como vaidade. O mercado compra de quem conhece primeiro.</p>
+    </div>
+    <div class="kata-move reveal">
+      <div class="kata-num">二</div>
+      <h3>Arquitetura</h3>
+      <p>24 KPIs viraram 5. Estrutura que gera resultado — o que não é medido não é gerenciado, mas o que é medido demais paralisa.</p>
+    </div>
+    <div class="kata-move reveal">
+      <div class="kata-num">三</div>
+      <h3>Incentivo</h3>
+      <p>Comportamento segue recompensa. Desenhar o sistema de incentivos é desenhar o resultado. Antes de culpar pessoas, reveja o design.</p>
+    </div>
+    <div class="kata-move reveal">
+      <div class="kata-num">四</div>
+      <h3>Automação</h3>
+      <p>41 distribuidores via API. O sistema trabalha quando você dorme. Automação de qualidade libera capacidade para o que só humanos fazem bem.</p>
+    </div>
+    <div class="kata-move reveal">
+      <div class="kata-num">五</div>
+      <h3>Ritual</h3>
+      <p>Consistência como vantagem competitiva. 600h/ano recuperadas. A repetição certa bate o talento irregular. Sempre.</p>
+    </div>
+    <div class="kata-move reveal">
+      <div class="kata-num">六</div>
+      <h3>Capacitação</h3>
+      <p>400% ROI. Multiplicar pela transferência. O líder que não forma sucessores é gargalo disfarçado de referência.</p>
+    </div>
+  </div>
+  <div class="kata-metrics">
+    <div class="metric reveal"><span class="metric-val">24→5</span><span class="metric-label">KPIs consolidados</span></div>
+    <div class="metric reveal"><span class="metric-val">41</span><span class="metric-label">Distribuidores via API</span></div>
+    <div class="metric reveal"><span class="metric-val">600h</span><span class="metric-label">Economizadas/ano</span></div>
+    <div class="metric reveal"><span class="metric-val">400%</span><span class="metric-label">ROI documentado</span></div>
+  </div>
+</section>
+
+<!-- ══ FILOSOFIA ═════════════════════════════════════════════ -->
+<section id="filosofia">
+  <div class="section-label reveal">Filosofia Operacional</div>
+  <div class="filo-grid">
+    <div class="filo-card filo-full reveal">
+      <div class="filo-kanji">無心</div>
+      <h3>Mushin</h3>
+      <p class="filo-sub">無心 · Mente sem mente</p>
+      <p>Produto da disciplina, não seu oposto. Takuan Sōhō: quando a forma é tão repetida que desaparece, nasce a liberdade. Histórias STAR treinadas até virarem reflexo — para ter <em>presença</em> na entrevista, não performance. <em>Too many mind</em> é o diagnóstico. Mushin é a cura. Kata é o caminho entre os dois.</p>
+    </div>
+    <div class="filo-card reveal">
+      <div class="filo-kanji">不動</div>
+      <h3>Fudō Myōō</h3>
+      <p class="filo-sub">不動明王 · O Inabalável</p>
+      <p>Espada corta ilusão. Corda laça paixões. Chamas queimam obstáculos. Rocha é a base imóvel. Personificação visual da tríade — fudōshin como aparência externa, mushin como mecanismo interno.</p>
+      <div class="mantra">
+        Nōmaku sanmanda bazaradan · kan
+        <cite>mantra curto · 7, 21 ou 108 repetições · ritual pré-entrevista</cite>
+      </div>
+    </div>
+    <div class="filo-card reveal">
+      <div class="filo-kanji">型</div>
+      <h3>Kata → Liberdade</h3>
+      <p class="filo-sub">A sequência que liberta</p>
+      <p>Kata é a forma. Mushin é o que surge quando a forma foi tão repetida que desaparece. Na arte marcial: primeiro os movimentos, depois a ausência deles. Na carreira: primeiro os frameworks, depois a intuição que os transcende. Você não improvisa no vazio — improvisa sobre estrutura.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ A CARTA ════════════════════════════════════════════════ -->
+<section id="carta">
+  <div class="section-label reveal">A Carta</div>
+  <p class="carta-date reveal">Para ser lida em Julho de 2027</p>
+  <p class="carta-body reveal">
+    Em julho de 2027, quando você ler isso, quero que reconheça
+    o <strong>Estrategista-Guerreiro</strong> que decidiu se tornar —
+    não o que o mercado forçou, mas o que a disciplina diária construiu.
+    Cada manhã de treino, cada semana de escrita pública, cada pausa antes de reagir
+    foi uma linha do código que te gerou.
+  </p>
+  <div class="carta-pillars">
+    <div class="carta-pillar reveal">
+      <h4>O que aprender</h4>
+      <p>Espanhol como ferramenta de acesso. Empacotamento executivo. Autopromoção sem autotraição — a diferença entre vender e ser verdadeiro.</p>
+    </div>
+    <div class="carta-pillar reveal">
+      <h4>Hábitos que constroem</h4>
+      <p>Treino consistente. Revisão financeira mensal. Escrita pública semanal. Pausar antes de resolver — o segundo antes de reagir que muda tudo.</p>
+    </div>
+    <div class="carta-pillar reveal">
+      <h4>O que deixar para trás</h4>
+      <p>Ressentimento. Pressa por fechar contrato em pânico. Anestesia fácil no lugar de sentir o desconforto que informa.</p>
+    </div>
+    <div class="carta-pillar reveal">
+      <h4>O que guardar</h4>
+      <p>A tríade. O amor fati. A certeza de que o futuro não acontece — ele é construído. Um dia de cada vez. Uma decisão de cada vez.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ A PEREGRINAÇÃO ════════════════════════════════════════ -->
+<section id="peregrinacao">
+  <div class="section-label reveal">A Peregrinação</div>
+
+  <p class="pereg-intro reveal">
+    O Oráculo fala de versões. O Día de Muertos é o único ritual humano
+    que <strong>convoca todas as versões ao mesmo tempo</strong> — os que foram,
+    os que são, os que serão — e as senta à mesma mesa.
+  </p>
+
+  <div class="pereg-grid">
+    <div class="pereg-card reveal">
+      <div class="pereg-card-bg">💀</div>
+      <h3>Día de Muertos como Kata</h3>
+      <p class="pereg-card-sub">Oaxaca · 25–29 out 2026</p>
+      <p>Kata é repetir a forma até ela desaparecer. O Día de Muertos é o kata de um povo inteiro — repetido há séculos, até virar instinto. Oaxaca não é destino turístico. É laboratório de presença radical. As famílias que passam a noite no cemitério não estão chorando. Estão conversando. Amor fati em carne e flor.</p>
+      <div class="pereg-versoes-link">
+        <span class="pv-pill">18</span>
+        <span class="pv-pill">25</span>
+        <span class="pv-pill">30</span>
+        <span class="pv-pill now">36 ← agora</span>
+        <span class="pv-pill">40</span>
+        <span class="pv-pill">50</span>
+        <span class="pv-pill">80</span>
+      </div>
+    </div>
+    <div class="pereg-card reveal">
+      <div class="pereg-card-bg">🌼</div>
+      <h3>O Caminho de Cempasúchil</h3>
+      <p class="pereg-card-sub">Ciudad de México · 29 out – 3 nov 2026</p>
+      <p>Pétalas laranja guiam os espíritos de volta ao mundo dos vivos. No Oráculo, o fio dourado entre versões serve o mesmo propósito — não deixar nenhuma versão anterior se perder no esquecimento. Cada versão do Oráculo (18, 25, 30...) é um altar. Cempasúchil é o que mantém o caminho aceso entre elas.</p>
+      <div class="pereg-versoes-link">
+        <span class="pv-pill">Museu Frida Kahlo</span>
+        <span class="pv-pill">Teotihuacán</span>
+        <span class="pv-pill">Mixquic</span>
+        <span class="pv-pill">Xochimilco</span>
+      </div>
+    </div>
+  </div>
+
+  <blockquote class="pereg-quote reveal">
+    Honrar os mortos não é olhar para trás — é lembrar que <strong>você também será honrado</strong>,
+    e que o que você constrói agora é o altar que a versão de 80 vai carregar.
+    O Día de Muertos não é sobre morte. É sobre <strong>qual vida vale a pena viver.</strong>
+  </blockquote>
+
+  <a class="mx-link-card reveal" href="mexico-2026.html">
+    <div class="mx-flag">🇲🇽</div>
+    <div class="mx-card-info">
+      <div class="mx-card-sub">Roteiro Completo · Dia a Dia</div>
+      <div class="mx-card-title">México 2026 — Dashboard da Viagem</div>
+      <div class="mx-card-desc">Oaxaca + Ciudad de México · 25 out – 4 nov · Día de Muertos · Roteiro, checklist, gastronomia, finanças e guia filosófico da celebração.</div>
+    </div>
+    <div class="mx-card-arrow">→</div>
+  </a>
+</section>
+
+<!-- ══ OFERTA ════════════════════════════════════════════════ -->
+<section id="oferta">
+  <div class="section-label reveal">Degraus de Oferta</div>
+  <h2 class="oferta-title reveal">O futuro não prevê.<br>Ele revela caminhos.</h2>
+  <p class="oferta-sub reveal">Três formas de começar a construção.</p>
+  <div class="steps">
+    <div class="step reveal">
+      <div class="step-n">01</div>
+      <h3>Diagnóstico</h3>
+      <p>2h de mapeamento. Onde está o atrito, onde está a alavanca. Resultado entregue em 48h.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-n">02</div>
+      <h3>Sprint 90 dias</h3>
+      <p>Implantação do Método KATA em uma frente: comercial, distribuição ou operações. KPIs acordados, revisão semanal.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-n">03</div>
+      <h3>Fractional CCO</h3>
+      <p>Liderança estratégica recorrente. C-level sem headcount fixo. Para quem precisa de resultado, não de cargo.</p>
+    </div>
+  </div>
+  <div class="cta-wrap reveal">
+    <a class="cta-btn" href="mailto:cauesashihara@gmail.com">Iniciar diagnóstico →</a>
+  </div>
+</section>
+
+<!-- ══ FOOTER ════════════════════════════════════════════════ -->
+<footer>
+  <svg id="enso-footer" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="60" cy="60" r="50"/>
+  </svg>
+  <div class="hanko">型</div>
+  <p>O futuro não acontece. Ele é construído. UM DIA DE CADA VEZ.</p>
+  <p>Caue Sashihara · O Oráculo · 2026</p>
+</footer>
+
+<!-- ══ Scripts ═══════════════════════════════════════════════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+'use strict';
+gsap.registerPlugin(ScrollTrigger);
+const pref = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+document.querySelectorAll('.reveal').forEach(el => {
+  if (pref) { gsap.set(el, { opacity:1, y:0 }); return; }
+  gsap.to(el, {
+    opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
+    scrollTrigger: { trigger: el, start: 'top 90%', toggleActions: 'play none none none' }
+  });
+});
+
+const ensoC = document.querySelector('#enso-footer circle');
+if (ensoC && !pref) {
+  gsap.to(ensoC, {
+    strokeDashoffset: 0, ease: 'none',
+    scrollTrigger: { trigger: 'footer', start: 'top 80%', end: 'bottom bottom', scrub: 1.5 }
+  });
+} else if (ensoC) { ensoC.style.strokeDashoffset = '0'; }
+
+const ensoD = document.querySelector('.enso-divider circle');
+if (ensoD && !pref) {
+  gsap.to(ensoD, {
+    strokeDashoffset: 0, ease: 'none',
+    scrollTrigger: { trigger: '.enso-divider', start: 'top 85%', end: 'top 40%', scrub: 1 }
+  });
+} else if (ensoD) { ensoD.style.strokeDashoffset = '0'; }
+
+if (!pref) {
+  gsap.to('#hero-img', {
+    yPercent: 18, ease: 'none',
+    scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 0 }
+  });
+}
+})();
+</script>
+<script>
+/* Jarvis integration — postMessage when inside iframe */
+(function(){
+  const btn = document.getElementById('mx-float-btn');
+  if (!btn) return;
+  btn.addEventListener('click', function(e) {
+    if (window.parent !== window) {
+      e.preventDefault();
+      window.parent.postMessage({ jarvis: 'mexico' }, '*');
+    }
+  });
+  /* hide float if in iframe without parent Jarvis */
+  if (window.self === window.top) return; /* standalone — keep */
+})();
+</script>
+</body>
+</html>
