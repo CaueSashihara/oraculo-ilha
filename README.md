@@ -2,7 +2,7 @@
 
 Um **sistema operacional pessoal** em forma de ilha japonesa 3D. Cada lugar da ilha é uma área da vida (carreira, jiu-jitsu, estudos, família, viagem, pessoal), um agente sincroniza o andamento dos projetos a partir do Asana, um jornal vintage traz as notícias curadas do dia, e as finanças ficam num cofre separado e protegido.
 
-**No ar:** `https://cauesashihara.github.io/oraculo-ilha/`
+**No ar:** https://cauesashihara.github.io/oraculo-ilha/
 
 ---
 
