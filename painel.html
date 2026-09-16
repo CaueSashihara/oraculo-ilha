@@ -374,6 +374,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
   <div class="tab" data-tab="projetos"><span class="tab-icon">📊</span> Projetos</div>
   <div class="tab" data-tab="notas"><span class="tab-icon">📝</span> Notas</div>
   <div class="tab" data-tab="brain"><span class="tab-icon">🧠</span> Brain</div>
+  <div class="tab" data-tab="irpf"><span class="tab-icon">🌾</span> IRPF</div>
   <button id="back-island" onclick="voltarIlha()" title="Voltar para a ilha">← Voltar para a ilha</button>
 </nav>
 
@@ -1287,6 +1288,85 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
   #projetos .obsi a{display:inline-flex;align-items:center;gap:.4rem;font-size:.8rem;color:#c9b6ff;text-decoration:none;background:rgba(139,108,255,.1);border:1px solid rgba(139,108,255,.3);border-radius:20px;padding:.35rem .7rem}
   #projetos .obsi a:hover{background:rgba(139,108,255,.2)}
   #projetos .obsi .ochg{font-size:.7rem;color:var(--muted);cursor:pointer;text-decoration:underline;margin-top:.55rem;display:inline-block}
+
+  /* ===== GANTT estilo MS Project ===== */
+  #projetos .gantt-wrap{background:var(--card);border:1px solid var(--border);border-radius:14px;margin:1.2rem 0;overflow:hidden}
+  #projetos .gantt-toolbar{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.7rem 1rem;border-bottom:1px solid var(--border);flex-wrap:wrap}
+  #projetos .gt-left b{color:var(--cream);font-size:.95rem}
+  #projetos .gt-hint{display:block;font-size:.7rem;color:var(--muted);margin-top:.15rem}
+  #projetos .gt-right{display:flex;gap:.4rem}
+  #projetos .gt-btn{background:rgba(255,255,255,.05);border:1px solid var(--border);color:#cfd6e4;border-radius:8px;padding:.35rem .7rem;font-size:.72rem;cursor:pointer;font-family:inherit}
+  #projetos .gt-btn:hover{border-color:var(--pcy);color:#eaf2ff}
+  #projetos .gt-btn.primary{background:var(--pcy);color:#04121a;border-color:var(--pcy);font-weight:700}
+  #projetos .gantt-scroll{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+  #projetos .gt-inner{position:relative;min-width:100%}
+  #projetos .gt-row{display:flex;align-items:stretch;border-top:1px solid rgba(255,255,255,.04)}
+  #projetos .gt-row.gt-months{border-top:none;position:sticky;top:0;z-index:5;background:#0f1520}
+  #projetos .gt-name{width:200px;flex:0 0 200px;padding:.34rem .6rem;display:flex;align-items:center;gap:.4rem;box-sizing:border-box;background:#0f1520;position:sticky;left:0;z-index:4;border-right:1px solid var(--border)}
+  #projetos .gt-corner{font-family:var(--mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);z-index:6}
+  #projetos .gt-timeline{position:relative;height:100%;min-height:26px}
+  #projetos .gt-months .gt-timeline{height:24px}
+  #projetos .gt-mo{position:absolute;top:0;height:24px;line-height:24px;font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.05em;color:var(--gold);border-left:1px solid rgba(255,255,255,.08);padding-left:5px;white-space:nowrap;overflow:hidden}
+  #projetos .gt-vline{position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.045)}
+  #projetos .gt-today{position:absolute;top:0;bottom:0;width:2px;background:#ff5c7a;box-shadow:0 0 6px #ff5c7a;z-index:3;opacity:.8}
+  #projetos .gt-proj .gt-name{background:#121a28}
+  #projetos .gt-proj .gt-timeline{min-height:22px}
+  #projetos .gt-pn{font-size:.78rem;font-weight:700;color:#e7edf7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+  #projetos .gt-ppct{font-family:var(--mono);font-size:.66rem;font-weight:700}
+  #projetos .gt-summary{position:absolute;top:8px;height:6px;border-radius:3px;opacity:.55}
+  #projetos .gt-summary:before,#projetos .gt-summary:after{content:"";position:absolute;top:0;width:6px;height:6px;background:inherit;transform:rotate(45deg)}
+  #projetos .gt-summary:before{left:-1px}#projetos .gt-summary:after{right:-1px}
+  #projetos .gt-tname{font-size:.76rem}
+  #projetos .gt-tname input{width:15px;height:15px;flex:0 0 auto;accent-color:var(--pcy);cursor:pointer}
+  #projetos .gt-tname .tn{color:#cbd3e2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #projetos .gt-task.done .tn{color:#6b7690;text-decoration:line-through}
+  #projetos .gt-bar{position:absolute;top:4px;height:16px;border-radius:5px;cursor:grab;display:flex;align-items:center;box-shadow:0 1px 4px rgba(0,0,0,.4);min-width:6px}
+  #projetos .gt-bar:active{cursor:grabbing}
+  #projetos .gt-bar.on{opacity:.5}
+  #projetos .gt-lbl{font-size:.58rem;color:rgba(0,0,0,.72);font-weight:700;padding:0 4px;white-space:nowrap;overflow:hidden;pointer-events:none;font-family:var(--mono)}
+  #projetos .gt-h{position:absolute;top:0;width:7px;height:100%;cursor:ew-resize}
+  #projetos .gt-h-l{left:-1px}#projetos .gt-h-r{right:-1px}
+  #projetos .gt-ms{position:absolute;top:2px;font-size:1rem;line-height:18px;transform:translateX(-50%);cursor:grab;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+  /* editor de datas */
+  .pj-editor{position:fixed;inset:0;z-index:1200;background:rgba(4,8,14,.6);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center}
+  .pj-editor.on{display:flex}
+  .pj-ed-card{background:#12141a;border:1px solid var(--border,#333);border-radius:14px;padding:1.1rem 1.2rem;width:min(320px,92vw);box-shadow:0 30px 80px rgba(0,0,0,.6)}
+  .pj-ed-h{font-size:.95rem;color:#eaf2ff;font-weight:700;margin-bottom:.8rem}
+  .pj-ed-card label{display:flex;justify-content:space-between;align-items:center;gap:.6rem;font-size:.8rem;color:#a9b3c4;margin-bottom:.6rem}
+  .pj-ed-card input[type=date]{background:#0c0f16;border:1px solid var(--border,#333);border-radius:8px;color:#eaf2ff;padding:.35rem .5rem;font-family:inherit}
+  .pj-ed-btns{display:flex;gap:.5rem;margin-top:.4rem}
+  .pj-ed-note{font-size:.66rem;color:var(--muted,#8a93a5);margin-top:.6rem}
+  /* ===== CALENDARIO ===== */
+  #projetos .cal-wrap{background:var(--card);border:1px solid var(--border);border-radius:14px;margin:1.2rem 0;padding:.9rem 1rem 1rem}
+  #projetos .cal-head{display:flex;align-items:center;gap:.6rem;margin-bottom:.7rem}
+  #projetos .cal-title{flex:1;text-align:center;font-size:1rem;font-weight:700;color:var(--cream);text-transform:capitalize}
+  #projetos .cal-nav{background:rgba(255,255,255,.05);border:1px solid var(--border);color:#cfd6e4;border-radius:8px;width:32px;height:32px;font-size:1.1rem;cursor:pointer;line-height:1}
+  #projetos .cal-nav:hover{border-color:var(--pcy);color:#fff}
+  #projetos .cal-today{background:rgba(255,255,255,.05);border:1px solid var(--border);color:#cfd6e4;border-radius:8px;padding:0 .7rem;height:32px;font-size:.72rem;cursor:pointer;font-family:inherit}
+  #projetos .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+  #projetos .cal-wd{text-align:center;font-family:var(--mono);font-size:.6rem;text-transform:uppercase;color:var(--muted);padding:.2rem 0}
+  #projetos .cal-cell{min-height:56px;border:1px solid rgba(255,255,255,.05);border-radius:8px;padding:.25rem;position:relative;background:rgba(255,255,255,.015)}
+  #projetos .cal-cell.empty{background:transparent;border:none}
+  #projetos .cal-cell.has{cursor:pointer}
+  #projetos .cal-cell.has:hover{border-color:var(--pcy)}
+  #projetos .cal-cell.today{border-color:#ff5c7a;box-shadow:inset 0 0 0 1px rgba(255,92,122,.4)}
+  #projetos .cal-dn{font-size:.72rem;color:#cbd3e2;font-weight:600}
+  #projetos .cal-cell.today .cal-dn{color:#ff8fa3}
+  #projetos .cal-dots{display:flex;flex-wrap:wrap;gap:2px;margin-top:3px;align-items:center}
+  #projetos .cal-dot{width:6px;height:6px;border-radius:50%;flex:0 0 auto}
+  #projetos .cal-more{font-size:.55rem;color:var(--muted);font-family:var(--mono)}
+  #projetos .cal-legend{display:flex;flex-wrap:wrap;gap:.9rem;margin-top:.7rem;font-size:.66rem;color:var(--muted)}
+  #projetos .cal-legend span{display:flex;align-items:center;gap:.35rem}
+  #projetos .cal-legend i{width:9px;height:9px;border-radius:50%;display:inline-block}
+  #projetos .cal-day-detail{margin-top:.7rem}
+  #projetos .cal-dd-h{font-family:var(--mono);font-size:.72rem;color:var(--gold);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem}
+  #projetos .cal-dd-empty{font-size:.78rem;color:var(--muted)}
+  #projetos .cal-dd-it{display:flex;align-items:center;gap:.45rem;font-size:.82rem;color:#d6ddec;padding:.28rem 0;border-top:1px solid rgba(255,255,255,.04);flex-wrap:wrap}
+  #projetos .cal-dd-it i{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+  #projetos .cal-dd-tag{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;color:var(--muted);border:1px solid var(--border);border-radius:10px;padding:.05rem .4rem}
+  #projetos .cal-dd-p{font-size:.66rem;color:var(--muted);margin-left:auto}
+  @media(max-width:640px){#projetos .cal-cell{min-height:46px}#projetos .gt-name,#projetos .gt-name.gt-corner{width:130px;flex-basis:130px}}
+
 </style>
 <div class="page-inner">
   <style>
@@ -1313,162 +1393,375 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
       <div class="ring" id="pjRing"><i id="pjPct">0%</i></div>
       <div>
         <h1>Programa da Vida</h1>
-        <p>Gestor de projetos do ORÁCULO · Gantt · progresso ao vivo</p>
-        <div class="big" id="pjSummary">—</div>
-        <div class="lbl">memória no brain: <b style="color:#8fb2ff">Programa da Vida (Projetos).md</b></div>
+        <p>Gestor de projetos do ORACULO &middot; Gantt editavel &middot; progresso ao vivo</p>
+        <div class="big" id="pjSummary">&mdash;</div>
+        <div class="lbl">memoria no brain: <b style="color:#8fb2ff">Programa da Vida (Projetos).md</b></div>
       </div>
     </div>
     <div class="gk" id="pjKpis"></div>
   </div>
-  <div id="pjList"></div>
+
+  <div class="gantt-wrap">
+    <div class="gantt-toolbar">
+      <div class="gt-left">
+        <b>Cronograma</b>
+        <span class="gt-hint">arraste as barras &middot; ou edite as datas &middot; tudo sincroniza</span>
+      </div>
+      <div class="gt-right">
+        <button class="gt-btn" id="gt-reset" title="Voltar as datas originais">restaurar datas</button>
+      </div>
+    </div>
+    <div class="gantt-scroll" id="pjGantt"></div>
+  </div>
+
+  <div class="cal-wrap">
+    <div class="cal-head">
+      <button class="cal-nav" id="calPrev" title="Mes anterior">&#8249;</button>
+      <div class="cal-title" id="calTitle">&mdash;</div>
+      <button class="cal-nav" id="calNext" title="Proximo mes">&#8250;</button>
+      <button class="cal-today" id="calToday">hoje</button>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+    <div class="cal-legend">
+      <span><i style="background:#22d3ee"></i> comeca tarefa</span>
+      <span><i style="background:#f472b6"></i> termina tarefa</span>
+      <span><i style="background:#e6c667"></i> marco / agenda</span>
+    </div>
+    <div class="cal-day-detail" id="calDetail"></div>
+  </div>
 
   <a class="pj-asana" href="https://app.asana.com/1/1203608578502603/project/1218019187684981" target="_blank" rel="noopener noreferrer">
-    <span class="pj-asana-ic">🇲🇽</span>
+    <span class="pj-asana-ic">&#127765;</span>
     <span class="pj-asana-tx">
-      <span class="pj-asana-t">Viagem México → abrir no Asana</span>
-      <span class="pj-asana-s">Roteiro, tarefas e orçamento da viagem vivem no Asana. Clique para abrir em nova aba.</span>
+      <span class="pj-asana-t">Viagem Mexico &rarr; abrir no Asana</span>
+      <span class="pj-asana-s">Roteiro, tarefas e orcamento da viagem vivem no Asana. Clique para abrir em nova aba.</span>
     </span>
-    <span class="pj-asana-arrow">↗</span>
+    <span class="pj-asana-arrow">&#8599;</span>
   </a>
 
   <div id="pjObsidian"></div>
-
-  <div class="lz">
-    <h3>🎉 Lazer &amp; Agenda — próximos 3 meses <span style="font-size:.7rem;color:var(--muted);font-weight:400">(Google Agenda · snapshot ago/2026)</span></h3>
-    <div id="pjEvents"></div>
-    <div class="note2">Fácil de atualizar: me peça "atualiza a agenda do ORÁCULO" que eu puxo os eventos novos do Google e regravo aqui.</div>
-  </div>
 </div>
+
 <script>
 (function(){
-  // ---- timeline (01/ago -> 30/nov 2026) ----
-  var T0=new Date(2026,7,1), T1=new Date(2026,11,31), SPAN=(T1-T0);
+  // ================= PROGRAMA DA VIDA — Gantt (MS Project style) + Calendario =================
   function d(s){var p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2]);}
-  function pos(a,b){var l=Math.max(0,(d(a)-T0)/SPAN*100);var w=Math.max(1.5,(d(b)-d(a))/SPAN*100);if(l+w>100)w=100-l;return [l,w];}
+  function iso(dt){return dt.getFullYear()+'-'+('0'+(dt.getMonth()+1)).slice(-2)+'-'+('0'+dt.getDate()).slice(-2);}
   function fmtD(s){var p=s.split('-');return p[2]+'/'+p[1];}
-  function daysTo(iso){return Math.ceil((d(iso)-new Date())/86400000);}
-  function daysSince(dt){return Math.floor((new Date()-dt)/86400000);}
+  function addDays(dt,n){var x=new Date(dt);x.setDate(x.getDate()+n);return x;}
+  function dayDiff(a,b){return Math.round((d(b)-d(a))/86400000);}
   function clampPct(v){return Math.max(0,Math.min(100,Math.round(v)));}
+  function daysSince(dt){return Math.floor((new Date()-dt)/86400000);}
+  function daysTo(isoS){return Math.ceil((d(isoS)-new Date())/86400000);}
   var COL={cy:'#22d3ee',mg:'#f472b6',pu:'#a78bfa',gr:'#4ade80'};
+
   var PROJ=[
-   {id:'iqvia',n:'🎯 Onboarding IQVIA',c:'cy',owner:'Caue',start:'2026-08-08',end:'2026-11-30',since:'2026-08-18',t:[
+   {id:'iqvia',n:'🎯 Onboarding IQVIA',c:'cy',owner:'Caue',since:'2026-08-18',t:[
      {k:'iq1',n:'Assinar carta-proposta',a:'2026-08-08',b:'2026-08-11',done:true},
      {k:'iq2',n:'Exame admissional',a:'2026-08-11',b:'2026-08-12'},
-     {k:'iq3',n:'Enviar documentos/admissão',a:'2026-08-12',b:'2026-08-18'},
-     {k:'iq4',n:'Início na IQVIA (remoto)',a:'2026-09-01',b:'2026-09-03'},
+     {k:'iq3',n:'Enviar documentos/admissao',a:'2026-08-12',b:'2026-08-18'},
+     {k:'iq4',n:'Inicio na IQVIA (remoto)',a:'2026-09-01',b:'2026-09-03',milestone:true},
      {k:'iq5',n:'Montar plano de 90 dias',a:'2026-09-01',b:'2026-11-30'}
    ]},
-   {id:'app',n:'🏥 App Saúde da Mãe (GEAP)',c:'gr',owner:'Caue',start:'2026-07-25',end:'2026-08-20',since:'2026-08-10',t:[
+   {id:'app',n:'🏥 App Saude da Mae (GEAP)',c:'gr',owner:'Caue',since:'2026-08-10',t:[
      {k:'ap1',n:'Pesquisa rede GEAP/Unimed',a:'2026-07-25',b:'2026-08-02',done:true},
      {k:'ap2',n:'Desenvolver app',a:'2026-08-02',b:'2026-08-08',done:true},
      {k:'ap3',n:'Publicar no GitHub Pages',a:'2026-08-08',b:'2026-08-10',done:true},
-     {k:'ap4',n:'Validar rede NA05 Básica',a:'2026-08-10',b:'2026-08-20'}
+     {k:'ap4',n:'Validar rede NA05 Basica',a:'2026-08-10',b:'2026-08-20'}
    ]},
-   {id:'powerbi',n:'📊 Power BI — Impacta',c:'cy',owner:'Caue',start:'2026-08-01',end:'2026-09-05',since:'2026-08-28',t:[
-     {k:'pb1',n:'Módulos do curso concluídos',a:'2026-08-01',b:'2026-08-28',done:true},
-     {k:'pb2',n:'Projeto prático / artefato',a:'2026-08-28',b:'2026-09-03'},
-     {k:'pb3',n:'Encerramento (quinta 03/09)',a:'2026-09-03',b:'2026-09-03'},
+   {id:'powerbi',n:'📊 Power BI — Impacta',c:'cy',owner:'Caue',since:'2026-08-28',t:[
+     {k:'pb1',n:'Modulos do curso concluidos',a:'2026-08-01',b:'2026-08-28',done:true},
+     {k:'pb2',n:'Projeto pratico / artefato',a:'2026-08-28',b:'2026-09-03'},
+     {k:'pb3',n:'Encerramento (quinta 03/09)',a:'2026-09-03',b:'2026-09-03',milestone:true},
      {k:'pb4',n:'Certificado emitido',a:'2026-09-03',b:'2026-09-05'}
    ]},
-   {id:'pmi',n:'🗻 PMP — Certificação',c:'gr',owner:'Caue',start:'2026-09-01',end:'2026-10-15',since:'2026-09-01',t:[
-     {k:'pm1',n:'Início do curso prep. (terça 01/09)',a:'2026-09-01',b:'2026-09-01'},
-     {k:'pm2',n:'Curso concluído (~01/10)',a:'2026-09-01',b:'2026-10-01'},
-     {k:'pm3',n:'35 horas de contato (certificado)',a:'2026-09-01',b:'2026-10-01'},
-     {k:'pm4',n:'Criar conta / associação PMI',a:'2026-09-01',b:'2026-09-07'},
-     {k:'pm5',n:'Documentar 36 meses liderando projetos',a:'2026-09-07',b:'2026-09-20'},
-     {k:'pm6',n:'Registrar projetos + horas (comprovação)',a:'2026-09-07',b:'2026-09-20'},
-     {k:'pm7',n:'Enviar aplicação + pagar taxa',a:'2026-09-20',b:'2026-09-25'},
-     {k:'pm8',n:'Aprovação (possível auditoria)',a:'2026-09-25',b:'2026-10-01'},
+   {id:'pmi',n:'🗻 PMP — Certificacao',c:'gr',owner:'Caue',since:'2026-09-01',t:[
+     {k:'pm1',n:'Inicio do curso prep. (01/09)',a:'2026-09-01',b:'2026-09-01',milestone:true},
+     {k:'pm2',n:'Curso concluido (~01/10)',a:'2026-09-01',b:'2026-10-01'},
+     {k:'pm3',n:'35 horas de contato',a:'2026-09-01',b:'2026-10-01'},
+     {k:'pm4',n:'Criar conta / associacao PMI',a:'2026-09-01',b:'2026-09-07'},
+     {k:'pm5',n:'Documentar 36 meses de projetos',a:'2026-09-07',b:'2026-09-20'},
+     {k:'pm6',n:'Registrar projetos + horas',a:'2026-09-07',b:'2026-09-20'},
+     {k:'pm7',n:'Enviar aplicacao + pagar taxa',a:'2026-09-20',b:'2026-09-25'},
+     {k:'pm8',n:'Aprovacao (possivel auditoria)',a:'2026-09-25',b:'2026-10-01'},
      {k:'pm9',n:'Agendar prova (Pearson VUE)',a:'2026-10-01',b:'2026-10-05'},
-     {k:'pm10',n:'Prova PMP aprovada',a:'2026-10-05',b:'2026-10-15'}
+     {k:'pm10',n:'Prova PMP aprovada',a:'2026-10-05',b:'2026-10-15',milestone:true}
    ]}
   ];
   var EVENTS=[
-    {m:'Agosto',i:[['30','🎂 Aniversário dos Mozis']]},
-    {m:'Setembro',i:[['01','💼 1º dia na IQVIA'],['01','🎂 Niver do Nobre'],['08','💻 1º dia da Cá na Zoom'],['13','✈️ Camilla no Peru (até 17)'],['18','🎂 Niver Gui Nobre']]},
-    {m:'Outubro',i:[['01','🎂 Niver Moral'],['08','🎂 Aniversário Ricardo'],['11','✈️ Camilla em Cartagena (até 17)'],['14','🎂 Niver da Mãe'],['25','🇲🇽 Férias — voo p/ México'],['29','🇲🇽 Voo p/ CDMX']]},
-    {m:'Novembro',i:[['02','🇲🇽 Volta · Dia dos Mortos'],['13','🎂 Aniversário Hassan'],['18','💉 Revacinar pets'],['20','🐶 Bravecto pets']]},
-    {m:'Dezembro',i:[['01','🎂 Aniversário Pipo'],['04','🍽️ Jantar (Unique Hotel)'],['07','👁️ Oftalmo (retina)'],['11','🎂 Niver Clau'],['12','🎉 Dominguinho']]}
+    {m:'Agosto',mm:8,i:[['30','🎂 Aniversario dos Mozis']]},
+    {m:'Setembro',mm:9,i:[['01','💼 1o dia na IQVIA'],['01','🎂 Niver do Nobre'],['08','💻 1o dia da Ca na Zoom'],['13','✈️ Camilla no Peru (ate 17)'],['18','🎂 Niver Gui Nobre']]},
+    {m:'Outubro',mm:10,i:[['01','🎂 Niver Moral'],['08','🎂 Aniversario Ricardo'],['11','✈️ Camilla em Cartagena (ate 17)'],['14','🎂 Niver da Mae'],['25','🇲🇽 Ferias — voo p/ Mexico'],['29','🇲🇽 Voo p/ CDMX']]},
+    {m:'Novembro',mm:11,i:[['02','🇲🇽 Volta · Dia dos Mortos'],['13','🎂 Aniversario Hassan'],['18','💉 Revacinar pets'],['20','🐶 Bravecto pets']]},
+    {m:'Dezembro',mm:12,i:[['01','🎂 Aniversario Pipo'],['04','🍽️ Jantar (Unique Hotel)'],['07','👁️ Oftalmo (retina)'],['11','🎂 Niver Clau'],['12','🎉 Dominguinho']]}
   ];
-  // ---- persistence ----
+  // eventos com ano fixo (2026) para o calendario
+  var CAL_EVENTS=[];
+  EVENTS.forEach(function(g){g.i.forEach(function(e){CAL_EVENTS.push({date:'2026-'+('0'+g.mm).slice(-2)+'-'+('0'+e[0]).slice(-2),txt:e[1]});});});
+
+  // ---- persistencia ----
   var KEY='pj_done_v1', saved={};try{saved=JSON.parse(localStorage.getItem(KEY)||'{}');}catch(e){}
   var TKEY='pj_touch', touch={};try{touch=JSON.parse(localStorage.getItem(TKEY)||'{}');}catch(e){}
-  var K2P={}; PROJ.forEach(function(p){p.t.forEach(function(t){K2P[t.k]=p.id;});});
-  function isDone(t){return (t.k in saved)?saved[t.k]:!!t.done;}
+  var DKEY='pj_dates', dates={};try{dates=JSON.parse(localStorage.getItem(DKEY)||'{}');}catch(e){}
+  var K2P={}, KTASK={};
+  PROJ.forEach(function(p){p.t.forEach(function(t){K2P[t.k]=p.id;KTASK[t.k]=t;});});
+  function isDone(t){var k=(t&&t.k)?t.k:t;return (k in saved)?saved[k]:!!(KTASK[k]&&KTASK[k].done);}
+  function ga(t){return (dates[t.k]&&dates[t.k].a)||t.a;}       // start efetivo
+  function gb(t){return (dates[t.k]&&dates[t.k].b)||t.b;}       // end efetivo
+  function touchP(pid){touch[pid]=new Date().toISOString();try{localStorage.setItem(TKEY,JSON.stringify(touch));}catch(e){}}
+  function setDone(k,v){saved[k]=v;try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}var pid=K2P[k];if(pid)touchP(pid);}
+  function setDates(k,a,b){dates[k]={a:a,b:b};try{localStorage.setItem(DKEY,JSON.stringify(dates));}catch(e){}var pid=K2P[k];if(pid)touchP(pid);if(window.saveSync)window.saveSync();}
+  function resetDates(){dates={};try{localStorage.setItem(DKEY,'{}');}catch(e){}if(window.saveSync)window.saveSync();render();}
   function lastMod(p){return touch[p.id]?new Date(touch[p.id]):d(p.since);}
-  function setDone(k,v){saved[k]=v;localStorage.setItem(KEY,JSON.stringify(saved));var pid=K2P[k];if(pid){touch[pid]=new Date().toISOString();localStorage.setItem(TKEY,JSON.stringify(touch));}}
-  function timeElapsed(p){var s=d(p.start),e=d(p.end);return clampPct((new Date()-s)/(e-s)*100);}
-  // ---- alerts engine ----
-  function alertsFor(p,dn){
-    var A=[],prog=Math.round(dn/p.t.length*100),te=timeElapsed(p);
-    var sd=daysSince(lastMod(p));
-    if(prog<100 && sd>=7) A.push(['warn','Sem alterações há '+sd+' dias — retome este projeto.']);
-    if(p.trip){var dd=daysTo(p.trip); if(dd>=0) A.push([dd<=45?'warn':'info','Faltam '+dd+' dias para a viagem ('+fmtD(p.trip)+').']);}
-    if(p.gasto && p.gasto>20000) A.push(['danger','O budget já passou de R$20k (estimado R$'+p.gasto.toLocaleString('pt-BR')+' de R$'+p.orc.toLocaleString('pt-BR')+').']);
-    if(p.id==='iqvia' && !isDone({k:'iq5'})){var ds=daysTo('2026-09-01');A.push(['danger','Seu 1º dia é 01/set na IQVIA'+(ds>=0?' (faltam '+ds+' dias)':' (já começou)')+' e o plano de 90 dias ainda não foi montado.']);}
-    if(prog<100 && (te-prog)>=20) A.push(['warn','Atrás do ritmo: '+te+'% do tempo decorrido vs '+prog+'% concluído.']);
-    return A;
+
+  // ---- limites de tempo (dinamicos: cobre todas as datas efetivas) ----
+  function bounds(){
+    var min=null,max=null;
+    PROJ.forEach(function(p){p.t.forEach(function(t){var A=d(ga(t)),B=d(gb(t));if(!min||A<min)min=A;if(!max||B>max)max=B;});});
+    CAL_EVENTS.forEach(function(e){var E=d(e.date);if(!min||E<min)min=E;if(!max||E>max)max=E;});
+    // arredonda para inicio/fim de mes, com folga
+    min=new Date(min.getFullYear(),min.getMonth(),1);
+    max=new Date(max.getFullYear(),max.getMonth()+1,0);
+    return {min:min,max:max};
   }
-  function badge(prog,A){
-    if(prog>=100) return '<span class="badge done">Concluído</span>';
-    var bad=A.some(function(a){return a[0]==='danger';});
-    var warn=A.some(function(a){return a[0]==='warn';});
-    if(bad) return '<span class="badge bad">Atrasado</span>';
-    if(warn) return '<span class="badge warn">Atenção</span>';
-    return '<span class="badge ok">No prazo</span>';
+  function pctOf(p){var dn=p.t.filter(isDone).length;return Math.round(dn/p.t.length*100);}
+  function timeElapsed(p){
+    var s=null,e=null;p.t.forEach(function(t){var A=d(ga(t)),B=d(gb(t));if(!s||A<s)s=A;if(!e||B>e)e=B;});
+    return clampPct((new Date()-s)/((e-s)||1)*100);
   }
-  // ---- render ----
-  function render(){
-    var totalT=0,totalD=0,html='';
+
+  // ================= GANTT =================
+  var DAYPX=null; // px por dia (calculado)
+  function buildGantt(){
+    var host=document.getElementById('pjGantt'); if(!host)return;
+    var bd=bounds(), min=bd.min, max=bd.max;
+    var totalDays=Math.max(1,Math.round((max-min)/86400000))+1;
+    // largura alvo: min 22px/semana? usamos ~7.2px/dia, minimo 900px
+    var wpx=Math.max(920, totalDays*7.4);
+    DAYPX=wpx/totalDays;
+    // header de meses + semanas
+    var months=[]; var cur=new Date(min.getFullYear(),min.getMonth(),1);
+    while(cur<=max){ var next=new Date(cur.getFullYear(),cur.getMonth()+1,1);
+      var from=cur<min?min:cur, to=(next-1)<max? new Date(next-1):max;
+      var dd=Math.round((to-from)/86400000)+1;
+      months.push({label:cur.toLocaleDateString('pt-BR',{month:'short'})+' '+cur.getFullYear(),days:dd});
+      cur=next;
+    }
+    var MNAME=200; // largura da coluna de nomes
+    var todayLeft=(new Date()-min)/86400000*DAYPX;
+
+    var h='<div class="gt-inner" style="width:'+(MNAME+wpx)+'px">';
+    // linha de meses
+    h+='<div class="gt-row gt-months"><div class="gt-name gt-corner">Tarefa</div><div class="gt-timeline" style="width:'+wpx+'px">';
+    var off=0;
+    months.forEach(function(m){var mw=m.days*DAYPX;h+='<div class="gt-mo" style="left:'+off+'px;width:'+mw+'px">'+m.label+'</div>';off+=mw;});
+    // marcador de hoje
+    if(todayLeft>=0&&todayLeft<=wpx) h+='<div class="gt-today" style="left:'+todayLeft+'px"></div>';
+    h+='</div></div>';
+    // grade semanal (linhas verticais em cada domingo)
+    var gridLines='';
+    var gday=new Date(min);
+    for(var di=0;di<totalDays;di++){ var dcur=addDays(min,di); if(dcur.getDay()===1){ var lx=di*DAYPX; gridLines+='<div class="gt-vline" style="left:'+lx+'px"></div>'; } }
+
     PROJ.forEach(function(p){
-      var col=COL[p.c],dn=p.t.filter(isDone).length;
-      totalT+=p.t.length;totalD+=dn;
-      var prog=Math.round(dn/p.t.length*100),te=timeElapsed(p);
-      var rd=Math.ceil((d(p.end)-new Date())/86400000);
-      var A=alertsFor(p,dn);
-      var rows=p.t.map(function(t){var done=isDone(t);var pw=pos(t.a,t.b);
-        return '<div class="task'+(done?' done':'')+'"><div class="lft"><input type="checkbox" data-k="'+t.k+'" '+(done?'checked':'')+'><span class="nm" title="'+t.n+'">'+t.n+'</span></div>'+
-          '<div class="track"><div class="grid"></div><div class="bar'+(done?' on':'')+'" style="left:'+pw[0]+'%;width:'+pw[1]+'%;background:'+col+';color:'+col+';'+(done?'opacity:.45':'')+'"></div></div></div>';}).join('');
-      var alertsHtml=A.length?'<div class="alerts">'+A.map(function(a){return '<div class="alert '+a[0]+'">⚠️ '+a[1]+'</div>';}).join('')+'</div>':'';
-      if(prog>=100){
-        html+='<details class="pmini-d"><summary class="pmini"><span class="caret">▸</span><span class="dot" style="background:'+col+'"></span><span class="pmn">'+p.n+'</span><span class="badge done">Concluído</span><span class="pmpct">100% · '+p.t.length+'/'+p.t.length+'</span></summary><div class="months"><span>ago</span><span>set</span><span>out</span><span>nov</span><span>dez</span></div>'+rows+'</details>';
-      } else {
-        html+='<div class="pcard" style="border-left-color:'+col+'">'+
-        '<div class="pcard-h"><span class="pn">'+p.n+'</span>'+badge(prog,A)+'</div>'+
-        '<div class="pmeta">👤 '+p.owner+' · 📅 '+fmtD(p.start)+'–'+fmtD(p.end)+' · ✅ '+dn+'/'+p.t.length+' tarefas · ⏳ '+(rd>=0?'restam '+rd+' dias':'prazo vencido')+'</div>'+
-        '<div class="mline"><span class="lab">Concluído</span><div class="mbar"><i style="width:'+prog+'%;background:'+col+'"></i></div><span class="mval">'+prog+'%</span></div>'+
-        '<div class="mline"><span class="lab">Burndown</span><div class="mbar"><i style="width:'+te+'%;background:rgba(255,255,255,.22)"></i><span class="mk" style="left:'+prog+'%"></span></div><span class="mval">'+te+'%</span></div>'+
-        alertsHtml+
-        '<details><summary>▸ Ver tarefas e Gantt</summary><div class="months"><span>ago</span><span>set</span><span>out</span><span>nov</span><span>dez</span></div>'+rows+'</details>'+
-        '</div>';
-      }
+      var col=COL[p.c]; var pct=pctOf(p);
+      // linha de projeto (grupo)
+      h+='<div class="gt-row gt-proj"><div class="gt-name" style="border-left:3px solid '+col+'"><span class="gt-pn" title="'+p.n+'">'+p.n+'</span><span class="gt-ppct" style="color:'+col+'">'+pct+'%</span></div>'+
+         '<div class="gt-timeline" style="width:'+wpx+'px">'+gridLines;
+      // barra-resumo do projeto (min→max das tarefas)
+      var ps=null,pe=null;p.t.forEach(function(t){var A=d(ga(t)),B=d(gb(t));if(!ps||A<ps)ps=A;if(!pe||B>pe)pe=B;});
+      var sl=(ps-min)/86400000*DAYPX, sw=Math.max(4,((pe-ps)/86400000+1)*DAYPX);
+      h+='<div class="gt-summary" style="left:'+sl+'px;width:'+sw+'px;background:'+col+'"></div>';
+      if(todayLeft>=0) h+='<div class="gt-today" style="left:'+todayLeft+'px"></div>';
+      h+='</div></div>';
+      // tarefas
+      p.t.forEach(function(t){
+        var A=d(ga(t)), B=d(gb(t)); var done=isDone(t);
+        var left=(A-min)/86400000*DAYPX;
+        var isM=!!t.milestone||dayDiff(ga(t),gb(t))===0;
+        var wid=Math.max(isM?0:6,((B-A)/86400000+1)*DAYPX);
+        h+='<div class="gt-row gt-task'+(done?' done':'')+'" data-k="'+t.k+'">'+
+             '<div class="gt-name gt-tname"><input type="checkbox" data-k="'+t.k+'"'+(done?' checked':'')+'><span class="tn" title="'+t.n+'">'+t.n+'</span></div>'+
+             '<div class="gt-timeline" style="width:'+wpx+'px">'+gridLines;
+        if(todayLeft>=0) h+='<div class="gt-today" style="left:'+todayLeft+'px"></div>';
+        if(isM){
+          h+='<div class="gt-ms" data-k="'+t.k+'" style="left:'+left+'px;color:'+col+'" title="'+t.n+' — '+fmtD(ga(t))+'">◆</div>';
+        } else {
+          h+='<div class="gt-bar'+(done?' on':'')+'" data-k="'+t.k+'" style="left:'+left+'px;width:'+wid+'px;background:'+col+'" title="'+t.n+'\n'+fmtD(ga(t))+' → '+fmtD(gb(t))+'">'+
+               '<span class="gt-h gt-h-l" data-k="'+t.k+'" data-edge="l"></span>'+
+               '<span class="gt-lbl">'+fmtD(ga(t))+'&ndash;'+fmtD(gb(t))+'</span>'+
+               '<span class="gt-h gt-h-r" data-k="'+t.k+'" data-edge="r"></span>'+
+             '</div>';
+        }
+        h+='</div></div>';
+      });
     });
-    document.getElementById('pjList').innerHTML=html;
+    h+='</div>';
+    host.innerHTML=h;
+    wireDrag(min);
+    // checkboxes
+    host.querySelectorAll('.gt-tname input[type=checkbox]').forEach(function(cb){
+      cb.addEventListener('change',function(){setDone(cb.dataset.k,cb.checked);if(window.saveSync)window.saveSync();render();});
+    });
+    // clique na barra abre editor de datas
+    host.querySelectorAll('.gt-bar,.gt-ms').forEach(function(el){
+      el.addEventListener('dblclick',function(e){e.stopPropagation();editDates(el.dataset.k);});
+    });
+  }
+
+  // ---- arrastar barras (mover) e handles (redimensionar) ----
+  function wireDrag(min){
+    var host=document.getElementById('pjGantt');
+    var drag=null;
+    function onDown(e){
+      var bar=e.target.closest('.gt-bar,.gt-ms'); if(!bar)return;
+      var edge=e.target.dataset&&e.target.dataset.edge;
+      var k=bar.dataset.k, t=KTASK[k]; if(!t)return;
+      e.preventDefault();
+      var px=(e.touches?e.touches[0].clientX:e.clientX);
+      drag={k:k,bar:bar,mode:edge?('edge-'+edge):'move',x0:px,a0:ga(t),b0:gb(t)};
+      document.body.style.userSelect='none';
+    }
+    function onMove(e){
+      if(!drag)return;
+      var px=(e.touches?e.touches[0].clientX:e.clientX);
+      var dxDays=Math.round((px-drag.x0)/DAYPX);
+      if(!dxDays && drag._applied) return;
+      var a=drag.a0, b=drag.b0;
+      if(drag.mode==='move'){ a=iso(addDays(d(drag.a0),dxDays)); b=iso(addDays(d(drag.b0),dxDays)); }
+      else if(drag.mode==='edge-l'){ var na=addDays(d(drag.a0),dxDays); if(na<=d(drag.b0)) a=iso(na); }
+      else if(drag.mode==='edge-r'){ var nb=addDays(d(drag.b0),dxDays); if(nb>=d(drag.a0)) b=iso(nb); }
+      // preview visual sem persistir
+      var left=(d(a)-min)/86400000*DAYPX;
+      var wid=Math.max(6,((d(b)-d(a))/86400000+1)*DAYPX);
+      if(drag.bar.classList.contains('gt-ms')){ drag.bar.style.left=left+'px'; }
+      else { drag.bar.style.left=left+'px'; drag.bar.style.width=wid+'px'; var lb=drag.bar.querySelector('.gt-lbl'); if(lb)lb.textContent=fmtD(a)+'–'+fmtD(b); }
+      drag._a=a; drag._b=b; drag._applied=true;
+    }
+    function onUp(){
+      if(!drag)return;
+      if(drag._applied && (drag._a!==drag.a0 || drag._b!==drag.b0)){
+        setDates(drag.k, drag._a||drag.a0, drag._b||drag.b0);
+        render();
+      }
+      drag=null; document.body.style.userSelect='';
+    }
+    host.addEventListener('mousedown',onDown);
+    window.addEventListener('mousemove',onMove);
+    window.addEventListener('mouseup',onUp);
+    host.addEventListener('touchstart',onDown,{passive:false});
+    window.addEventListener('touchmove',onMove,{passive:false});
+    window.addEventListener('touchend',onUp);
+  }
+
+  // ---- editor de datas (campos) ----
+  function editDates(k){
+    var t=KTASK[k]; if(!t)return;
+    var box=document.getElementById('pjEditor');
+    if(!box){ box=document.createElement('div'); box.id='pjEditor'; box.className='pj-editor'; document.body.appendChild(box);
+      box.addEventListener('click',function(e){if(e.target.id==='pjEditor')box.classList.remove('on');}); }
+    box.innerHTML='<div class="pj-ed-card"><div class="pj-ed-h">'+t.n+'</div>'+
+      '<label>Inicio <input type="date" id="ed-a" value="'+ga(t)+'"></label>'+
+      '<label>Fim <input type="date" id="ed-b" value="'+gb(t)+'"></label>'+
+      '<div class="pj-ed-btns"><button id="ed-save" class="gt-btn primary">salvar</button><button id="ed-cancel" class="gt-btn">cancelar</button></div>'+
+      '<div class="pj-ed-note">as datas sincronizam entre seus aparelhos</div></div>';
+    box.classList.add('on');
+    box.querySelector('#ed-cancel').onclick=function(){box.classList.remove('on');};
+    box.querySelector('#ed-save').onclick=function(){
+      var a=box.querySelector('#ed-a').value, b=box.querySelector('#ed-b').value;
+      if(a&&b){ if(d(b)<d(a)){var tmp=a;a=b;b=tmp;} setDates(k,a,b); render(); }
+      box.classList.remove('on');
+    };
+  }
+
+  // ================= HERO / KPIs =================
+  function renderHero(){
+    var totalT=0,totalD=0;
+    PROJ.forEach(function(p){totalT+=p.t.length;totalD+=p.t.filter(isDone).length;});
     var tot=Math.round(totalD/totalT*100);
     document.getElementById('pjPct').textContent=tot+'%';
     document.getElementById('pjRing').style.setProperty('--v',tot);
-    document.getElementById('pjSummary').textContent=totalD+' de '+totalT+' tarefas concluídas';
+    document.getElementById('pjSummary').textContent=totalD+' de '+totalT+' tarefas concluidas';
     document.getElementById('pjKpis').innerHTML=PROJ.map(function(p){
-      var dn=p.t.filter(isDone).length,pct=Math.round(dn/p.t.length*100);
+      var pct=pctOf(p);
       return '<div><div class="n" style="color:'+COL[p.c]+'">'+pct+'%</div><div class="t">'+p.n.replace(/^[^ ]+ /,'')+'</div></div>';
     }).join('');
-    document.querySelectorAll('#projetos .task input').forEach(function(cb){
-      cb.addEventListener('change',function(){setDone(cb.dataset.k,cb.checked);if(window.saveSync)window.saveSync();render();if(window.mxRender)window.mxRender();});
-    });
   }
-  document.getElementById('pjEvents').innerHTML=EVENTS.map(function(g){return '<div class="ev-m">'+g.m+'</div>'+g.i.map(function(e){return '<div class="ev"><span class="d">'+e[0]+'</span><span class="t">'+e[1]+'</span></div>';}).join('');}).join('');
+
+  // ================= CALENDARIO =================
+  var calY=new Date().getFullYear(), calM=new Date().getMonth();
+  function tasksByDate(){
+    var map={}; // 'YYYY-MM-DD' -> [{type,txt,col,done}]
+    function push(dt,o){ (map[dt]=map[dt]||[]).push(o); }
+    PROJ.forEach(function(p){ var col=COL[p.c]; p.t.forEach(function(t){
+      push(ga(t),{type:'start',txt:t.n,col:col,done:isDone(t),proj:p.n});
+      if(gb(t)!==ga(t)) push(gb(t),{type:'end',txt:t.n,col:col,done:isDone(t),proj:p.n});
+      if(t.milestone) push(gb(t),{type:'ms',txt:t.n,col:'#e6c667',done:isDone(t),proj:p.n});
+    });});
+    CAL_EVENTS.forEach(function(e){ push(e.date,{type:'ev',txt:e.txt,col:'#e6c667'}); });
+    return map;
+  }
+  function renderCal(){
+    var grid=document.getElementById('calGrid'), title=document.getElementById('calTitle'); if(!grid)return;
+    var first=new Date(calY,calM,1), start=first.getDay(), dim=new Date(calY,calM+1,0).getDate();
+    title.textContent=first.toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
+    var map=tasksByDate();
+    var wd=['dom','seg','ter','qua','qui','sex','sab'];
+    var h=wd.map(function(w){return '<div class="cal-wd">'+w+'</div>';}).join('');
+    for(var i=0;i<start;i++) h+='<div class="cal-cell empty"></div>';
+    var todayS=iso(new Date());
+    for(var day=1;day<=dim;day++){
+      var ds=calY+'-'+('0'+(calM+1)).slice(-2)+'-'+('0'+day).slice(-2);
+      var items=map[ds]||[];
+      var dots=items.slice(0,4).map(function(o){var c=o.type==='ms'||o.type==='ev'?'#e6c667':(o.type==='end'?'#f472b6':o.col);return '<i class="cal-dot" style="background:'+c+'"></i>';}).join('');
+      h+='<div class="cal-cell'+(ds===todayS?' today':'')+(items.length?' has':'')+'" data-date="'+ds+'"><span class="cal-dn">'+day+'</span><div class="cal-dots">'+dots+(items.length>4?'<span class="cal-more">+'+(items.length-4)+'</span>':'')+'</div></div>';
+    }
+    grid.innerHTML=h;
+    grid.querySelectorAll('.cal-cell.has').forEach(function(c){ c.onclick=function(){showDay(c.dataset.date,map[c.dataset.date]);}; });
+    // auto abre hoje se tiver algo
+    var det=document.getElementById('calDetail');
+    if(map[todayS]&&calY===new Date().getFullYear()&&calM===new Date().getMonth()) showDay(todayS,map[todayS]);
+    else if(det) det.innerHTML='';
+  }
+  function showDay(ds,items){
+    var det=document.getElementById('calDetail'); if(!det)return;
+    var p=ds.split('-');
+    var h='<div class="cal-dd-h">'+p[2]+'/'+p[1]+'/'+p[0]+'</div>';
+    if(!items||!items.length){ h+='<div class="cal-dd-empty">nada agendado</div>'; }
+    else h+=items.map(function(o){
+      var tag=o.type==='start'?'comeca':o.type==='end'?'termina':o.type==='ms'?'marco':'agenda';
+      var c=o.type==='ms'||o.type==='ev'?'#e6c667':(o.type==='end'?'#f472b6':o.col);
+      return '<div class="cal-dd-it"><i style="background:'+c+'"></i><span class="cal-dd-tag">'+tag+'</span> <span'+(o.done?' style="text-decoration:line-through;opacity:.6"':'')+'>'+o.txt+'</span>'+(o.proj?'<span class="cal-dd-p">'+o.proj+'</span>':'')+'</div>';
+    }).join('');
+    det.innerHTML=h;
+  }
+
+  // ================= OBSIDIAN (mantido) =================
   function obsVault(){return localStorage.getItem('obsidian_vault')||'afj';}
   function obsOpen(file){return 'obsidian://open?vault='+encodeURIComponent(obsVault())+'&file='+encodeURIComponent(file);}
   window.renderObsidian=function(){
     var el=document.getElementById('pjObsidian'); if(!el)return;
     var notes=[['🧭 Contexto Mestre','Contexto Mestre (Hub)'],['📊 Programa da Vida','Programa da Vida (Projetos)'],['💼 Vagas Kanban','Vagas Kanban'],['🧠 Caue (EU)','Caue Sashihara (EU)'],['🥋 Mapa de Luta','Jiu-Jitsu/Jiu-Jitsu — Mapa de Luta']];
     var links=notes.map(function(n){return '<a href="'+obsOpen(n[1])+'">'+n[0]+'</a>';}).join('');
-    el.innerHTML='<div class="obsi"><h3>🧠 Meu Obsidian</h3><div class="osub">Abre direto o seu vault <b>'+obsVault()+'</b> no app do Obsidian — são atalhos pro seu vault real, nada é recriado.</div><div class="olinks">'+links+'<a href="obsidian://open?vault='+encodeURIComponent(obsVault())+'">📂 Abrir vault</a></div><span class="ochg" onclick="var v=prompt(\'Nome do vault no Obsidian (canto superior esquerdo do app):\',(localStorage.getItem(\'obsidian_vault\')||\'afj\'));if(v){localStorage.setItem(\'obsidian_vault\',v.trim());window.renderObsidian();}">trocar nome do vault</span></div>';
+    el.innerHTML='<div class="obsi"><h3>🧠 Meu Obsidian</h3><div class="osub">Abre direto o seu vault <b>'+obsVault()+'</b> no app do Obsidian — sao atalhos pro seu vault real, nada e recriado.</div><div class="olinks">'+links+'<a href="obsidian://open?vault='+encodeURIComponent(obsVault())+'">📂 Abrir vault</a></div><span class="ochg" onclick="var v=prompt(\'Nome do vault no Obsidian:\',(localStorage.getItem(\'obsidian_vault\')||\'afj\'));if(v){localStorage.setItem(\'obsidian_vault\',v.trim());window.renderObsidian();}">trocar nome do vault</span></div>';
   };
-  window.PJ={render:render,isDone:isDone,setDone:setDone};
+
+  // ================= RENDER MESTRE =================
+  function render(){ renderHero(); buildGantt(); renderCal(); }
+
+  // controles
+  document.addEventListener('click',function(e){
+    if(e.target&&e.target.id==='calPrev'){ calM--; if(calM<0){calM=11;calY--;} renderCal(); }
+    if(e.target&&e.target.id==='calNext'){ calM++; if(calM>11){calM=0;calY++;} renderCal(); }
+    if(e.target&&e.target.id==='calToday'){ calY=new Date().getFullYear(); calM=new Date().getMonth(); renderCal(); }
+    if(e.target&&e.target.id==='gt-reset'){ if(confirm('Restaurar todas as datas originais do cronograma?')) resetDates(); }
+  });
+
+  window.PJ={render:render,isDone:isDone,setDone:function(k,v){setDone(k,v);if(window.saveSync)window.saveSync();render();}};
   render();window.renderObsidian();
 })();
 </script>
+
 </div>
 
 <!-- ══ BLOCO DE NOTAS ═════════════════════════════════════ -->
@@ -1586,50 +1879,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
   })();
   </script>
 
-  <div class="note">
-    <div class="nt">💌 Carta para o Futuro</div>
-    <div class="nm">reflexão pessoal · escrita por você, há um ano</div>
-    <p>Oi, Caue. Essa é uma carta para que você nunca se esqueça de seguir forte e corajoso. <b>Você só para de tentar quando morrer.</b></p>
-    <p>Faz quase um ano que seu <em>modus operandi</em> mais uma vez deu errado — sinal de que algumas coisas precisavam mudar. Espero que tenha tido coragem de mudar antes que a vida mudasse por você.</p>
-    <p>Continue sendo o melhor filho, marido e pai de pet, sempre <b>1% melhor</b>. Independentemente do cargo, esteja feliz com suas decisões. Fiel aos poucos e bons amigos; afaste-se do que o distancia da sua essência: <b>força, coragem, autenticidade, lealdade e harmonia</b>.</p>
-    <p>Aprenda a ler ambientes, intenções e relações de poder. Comemore suas conquistas — os três MBAs e a certificação PMI. Mantenha a vida de quase-atleta, três campeonatos de jiu-jítsu, alongue-se, medite e cuide primeiro de si.</p>
-    <p>Deixe para trás o medo de desagradar, a necessidade de aprovação e a dopamina barata. <b>Proteja sua atenção.</b> Enquanto houver vida, ainda há tempo.</p>
-    <p><em>Um abraço do Caue de um ano atrás. Audaces fortuna iuvat.</em></p>
-  </div>
-
-  <div class="note">
-    <div class="nt">🏛️ Empresa Ideal — meus critérios</div>
-    <div class="nm">o que eu procuro num próximo lugar</div>
-    <p>Ambiente que valorize <b>rigor analítico, clareza executiva e resultado mensurável</b> (ROI, eficiência, governança de dados) — não política e ruído.</p>
-    <p>Liderança que eu <b>consiga ler</b> e com quem eu possa ter <em>backbone</em> (discordar e comprometer). Cultura de confiança e ownership.</p>
-    <p>Propósito que respeite meus valores (força, coragem, autenticidade, lealdade, harmonia) e que <b>me deixe manter a vida de quase-atleta</b> — treino, jiu-jitsu, saúde primeiro.</p>
-    <p>Espaço para <b>construir e desenvolver gente</b>, não só apresentar slides. E que me pague o meu valor — piso de mercado respeitado.</p>
-    <div class="tags"><span class="link">#empresa-ideal</span><span class="link">#valores</span><span class="link">#carreira</span></div>
-  </div>
-
-  <div class="note">
-    <div class="nt">🧠 Terapia & Desenvolvimento</div>
-    <div class="nm">processo em andamento · Revelando Caminhos</div>
-    <p>Trabalho de autoconhecimento e <b>Brain-Based Coaching</b> (base neurocientífica — NeuroLeadership Institute / Fellipelli): modular hábitos e decisão sob pressão com evidência, não motivação vazia.</p>
-    <p>Temas centrais: <b>proteger a atenção</b>, largar o medo de desagradar e a dopamina barata, ler ambientes e relações de poder, e transformar a própria jornada num método (o <em>Revelando Caminhos</em>).</p>
-    <p>Ponte pessoal: a biomecânica e a tomada de decisão sob pressão do <b>jiu-jitsu</b> como laboratório de liderança e resiliência.</p>
-    <div class="tags"><span class="link">#terapia</span><span class="link">#neurociencia</span><span class="link">#jiu-jitsu</span></div>
-  </div>
-
-  <div class="note">
-    <div class="nt">💼 Vagas que caminharam</div>
-    <div class="nm">estado do funil · jul/2026</div>
-    <p><b>IQVIA / MCRA — Manager, Business Ops & Analytics (fase final).</b> Passou o Jason. Entrevistadores: <b>Hanny Hillal</b> (SVP Finance, lente controller) e <b>Michelle McDonough</b> (VP Operations/Regulatory). Time de ~20 (≈15 PMs); a analista <b>Neha</b> é júnior e não dá conta — é o gap que eu preencho. Coração da vaga: <b>reporting de projetos</b> (resources/budget/time = PMBOK), puxando dados do <b>PeopleSoft</b>, migrando para <b>SFDC + PeopleSoft</b>. Comp indicada ~R$17k (ponto de decisão).</p>
-    <p><b>DHL — Gerência de Processos (Automação), Cajamar.</b> ✅ Entrevista conseguida. Fit 76%. Pipeline de automação intralogística, Lean/VSM/Gemba, gestão de equipe. Estratégia salarial: <b>pedir R$24k como piso</b>.</p>
-    <div class="tags"><span class="link">#iqvia</span><span class="link">#dhl</span><span class="link">#entrevistas</span></div>
-  </div>
-
-  <div class="note">
-    <div class="nt">🏅 Identidade & conquistas</div>
-    <div class="nm">âncoras de quem eu sou</div>
-    <p>Executivo de estratégia/analytics (Boston Scientific, GE HealthCare, J&amp;J, HSBC). <b>3 MBAs</b> + <b>MBA em IA Business (FIAP)</b> + <b>certificação PMI</b>. Vida de quase-atleta e praticante de jiu-jitsu (meta: 3 campeonatos).</p>
-    <p>Bússola: <em>força, coragem, autenticidade, lealdade, harmonia</em> — e sempre <b>1% melhor</b>.</p>
-  </div>
+  <!-- notas nao-BJJ movidas p/ e-mail (enviado a cauesashihara@gmail.com). Secao Notas = so BJJ. -->
 </div>
 </div>
 
@@ -2606,7 +2856,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
  };
 
  // ---- 3D GRAPH ----
- var hlNode=null;
+ var hlNode=null, graph2D=false;
  var COLORS=['#39d7ff','#e6c667','#4ade80','#f472b6','#a78bfa','#f0d98a','#8fe9ff','#ff9d5c','#7ee6c9','#ffd166'];
  var forceVal=90, gravVal=0.10, rotOn=false, rotTimer=null;
  function highlightNode(id){ hlNode=id; if(Graph) Graph.nodeColor(Graph.nodeColor()); }
@@ -2626,10 +2876,104 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
    try{ if(Graph.d3ReheatSimulation) Graph.d3ReheatSimulation(); }catch(e){}
  }
  // recarrega os dados no grafo já existente (após criar nota nova / pull)
- function refreshGraph(){ if(Graph&&graphInited){ Graph.graphData(buildGraphData()); applyForces(); } }
+ function refreshGraph(){ if(graph2D){ if(G2&&G2.rebuild) G2.rebuild(); return; } if(Graph&&graphInited){ Graph.graphData(buildGraphData()); applyForces(); } }
  function graphSizeToParent(){ if(!Graph) return; var el=document.getElementById('b-graph'); var p=el&&el.parentElement; if(p){ Graph.width(p.clientWidth||600).height(p.clientHeight||500); } }
+ // ---- FALLBACK 2D (canvas) — sempre renderiza, mesmo sem a lib 3D ----
+ var G2=null;
+ function initGraph2D(){
+   var el=document.getElementById('b-graph'); if(!el) return;
+   el.innerHTML='';
+   var cv=document.createElement('canvas'); cv.style.width='100%'; cv.style.height='100%'; cv.style.display='block'; cv.style.cursor='grab';
+   el.appendChild(cv);
+   var ctx=cv.getContext('2d');
+   var data=buildGraphData();
+   var N=data.nodes, L=data.links;
+   var idx={}; N.forEach(function(n,i){idx[n.id]=i; n.x=(Math.random()-0.5)*400; n.y=(Math.random()-0.5)*400; n.vx=0; n.vy=0;});
+   var edges=L.map(function(l){return [idx[l.source!=null?(l.source.id||l.source):l.source], idx[l.target!=null?(l.target.id||l.target):l.target]];}).filter(function(e){return e[0]!=null&&e[1]!=null;});
+   var view={s:1, ox:0, oy:0}; // scale + offset
+   var W=1,H=1,DPR=Math.min(window.devicePixelRatio||1,2);
+   function resize(){ var p=el.parentElement||el; W=p.clientWidth||el.clientWidth||600; H=p.clientHeight||el.clientHeight||480; cv.width=W*DPR; cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0); }
+   resize();
+   // simulacao de forcas (Fruchterman-ish, barata)
+   var alpha=1.0;
+   function step(){
+     if(alpha>0.02){
+       // repulsao
+       for(var i=0;i<N.length;i++){ var a=N[i];
+         for(var j=i+1;j<N.length;j++){ var b=N[j];
+           var dx=a.x-b.x, dy=a.y-b.y, d2=dx*dx+dy*dy+0.01, dist=Math.sqrt(d2);
+           var rep=(brainForce()/ d2)*300; // usa slider de forca
+           var fx=dx/dist*rep, fy=dy/dist*rep;
+           a.vx+=fx; a.vy+=fy; b.vx-=fx; b.vy-=fy;
+         }
+       }
+       // molas nas arestas
+       edges.forEach(function(e){ var a=N[e[0]], b=N[e[1]]; if(!a||!b)return;
+         var dx=b.x-a.x, dy=b.y-a.y, dist=Math.sqrt(dx*dx+dy*dy)+0.01;
+         var k=(dist-60)*0.02; var fx=dx/dist*k, fy=dy/dist*k;
+         a.vx+=fx; a.vy+=fy; b.vx-=fx; b.vy-=fy;
+       });
+       // gravidade ao centro
+       var g=brainGrav()*0.08;
+       N.forEach(function(n){ n.vx-=n.x*g; n.vy-=n.y*g; n.x+=n.vx*0.5; n.y+=n.vy*0.5; n.vx*=0.85; n.vy*=0.85; });
+       alpha*=0.985;
+     }
+     if(rot2D){ view.rot=(view.rot||0)+0.004; }
+     draw();
+     G2._raf=requestAnimationFrame(step);
+   }
+   function toScreen(n){
+     var cx=W/2+view.ox, cy=H/2+view.oy;
+     var x=n.x, y=n.y;
+     if(view.rot){ var c=Math.cos(view.rot), s=Math.sin(view.rot); var rx=x*c-y*s, ry=x*s+y*c; x=rx; y=ry; }
+     return [cx+x*view.s, cy+y*view.s];
+   }
+   function draw(){
+     ctx.clearRect(0,0,W,H);
+     // arestas
+     ctx.lineWidth=0.7; ctx.strokeStyle='rgba(120,200,240,0.28)';
+     edges.forEach(function(e){ var a=N[e[0]], b=N[e[1]]; if(!a||!b)return; var pa=toScreen(a), pb=toScreen(b);
+       ctx.beginPath(); ctx.moveTo(pa[0],pa[1]); ctx.lineTo(pb[0],pb[1]); ctx.stroke(); });
+     // nos
+     N.forEach(function(n){ var p=toScreen(n); var r=(3+Math.sqrt(n.val||1)*1.6)*Math.max(0.6,view.s);
+       ctx.beginPath(); ctx.arc(p[0],p[1],r,0,6.283);
+       ctx.fillStyle=(n.id===hlNode)?'#ffffff':(n.col||'#39d7ff'); ctx.fill();
+       if(n.id===hlNode){ ctx.lineWidth=1.5; ctx.strokeStyle='#eaf6ff'; ctx.stroke(); }
+       if(view.s>0.9){ ctx.fillStyle='rgba(214,230,245,0.85)'; ctx.font='9px monospace'; ctx.fillText((n.name||'').slice(0,18), p[0]+r+2, p[1]+3); }
+     });
+   }
+   // interacao
+   var dragging=false, moved=false, lx=0, ly=0;
+   function pos(e){ var r=cv.getBoundingClientRect(); var t=e.touches?e.touches[0]:e; return [t.clientX-r.left, t.clientY-r.top]; }
+   function hit(px,py){ var best=null,bd=14; for(var i=0;i<N.length;i++){ var p=toScreen(N[i]); var d=Math.hypot(p[0]-px,p[1]-py); if(d<bd){bd=d;best=N[i];} } return best; }
+   cv.addEventListener('mousedown',function(e){ dragging=true; moved=false; var p=pos(e); lx=p[0]; ly=p[1]; cv.style.cursor='grabbing'; });
+   window.addEventListener('mousemove',function(e){ if(!dragging)return; var p=pos(e); view.ox+=p[0]-lx; view.oy+=p[1]-ly; if(Math.abs(p[0]-lx)+Math.abs(p[1]-ly)>3)moved=true; lx=p[0]; ly=p[1]; draw(); });
+   window.addEventListener('mouseup',function(){ dragging=false; cv.style.cursor='grab'; });
+   cv.addEventListener('click',function(e){ if(moved)return; var p=pos(e); var n=hit(p[0],p[1]); if(n){ openNote(n.id); } });
+   cv.addEventListener('wheel',function(e){ e.preventDefault(); var f=e.deltaY<0?1.12:0.89; view.s=Math.max(0.25,Math.min(4,view.s*f)); draw(); },{passive:false});
+   // touch
+   var pinch=null;
+   cv.addEventListener('touchstart',function(e){ if(e.touches.length===1){ dragging=true; moved=false; var p=pos(e); lx=p[0]; ly=p[1]; } else if(e.touches.length===2){ pinch=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY); } },{passive:false});
+   cv.addEventListener('touchmove',function(e){ e.preventDefault(); if(e.touches.length===2&&pinch){ var nd=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY); view.s=Math.max(0.25,Math.min(4,view.s*nd/pinch)); pinch=nd; draw(); } else if(dragging&&e.touches.length===1){ var p=pos(e); view.ox+=p[0]-lx; view.oy+=p[1]-ly; if(Math.abs(p[0]-lx)+Math.abs(p[1]-ly)>3)moved=true; lx=p[0]; ly=p[1]; draw(); } },{passive:false});
+   cv.addEventListener('touchend',function(e){ if(e.touches.length===0){ dragging=false; if(!moved&&e.changedTouches&&e.changedTouches[0]){ var r=cv.getBoundingClientRect(); var n=hit(e.changedTouches[0].clientX-r.left,e.changedTouches[0].clientY-r.top); if(n)openNote(n.id);} } pinch=null; },{passive:false});
+   window.addEventListener('resize',function(){ resize(); draw(); });
+   G2={ canvas:cv, view:view, zoom:function(f){ view.s=Math.max(0.25,Math.min(4,view.s/(f||1))); draw(); },
+        reheat:function(){ alpha=1.0; },
+        rebuild:function(){ cancelAnimationFrame(G2._raf); initGraph2D(); },
+        resize:function(){ resize(); draw(); } };
+   alpha=1.0; step();
+ }
+ var rot2D=false;
+ function brainForce(){ return (typeof forceVal!=='undefined'?forceVal:90); }
+ function brainGrav(){ return (typeof gravVal!=='undefined'?gravVal:0.10); }
+
  function initGraph(){
-   if(graphInited) return; if(typeof ForceGraph3D==='undefined'){ document.getElementById('b-graph').innerHTML='<div class="b-empty" style="padding:2rem">Grafo 3D indisponível (sem rede para carregar a lib). Use a Leitura e a árvore de notas.</div>'; return; }
+   if(graphInited) return;
+   if(typeof ForceGraph3D==='undefined'){
+     if(!window._fg3dRetry){ window._fg3dRetry=1; setTimeout(function(){ if(!graphInited) initGraph(); }, 1000); return; }
+     // lib nao carregou (CDN bloqueado) -> fallback 2D em canvas, sempre renderiza
+     graphInited=true; graph2D=true; initGraph2D(); return;
+   }
    graphInited=true;
    var el=document.getElementById('b-graph');
    Graph=ForceGraph3D()(el)
@@ -2653,7 +2997,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
 
  // ══ CONTROLES DO GRAFO ══
  window.brainTogglePanel=function(){ var p=document.getElementById('b-panel'), b=document.getElementById('b-cfg-btn'); if(p){ var on=p.classList.toggle('on'); if(b) b.classList.toggle('on',on); } };
- window.brainZoom=function(factor){ if(!Graph||!graphInited){ initGraph(); }
+ window.brainZoom=function(factor){ if(graph2D){ if(G2) G2.zoom(factor); return; } if(!Graph||!graphInited){ initGraph(); }
    try{ var cp=Graph.cameraPosition(); var d=Math.sqrt(cp.x*cp.x+cp.y*cp.y+cp.z*cp.z)||120; var nd=d*factor; var k=nd/(d||1);
      Graph.cameraPosition({x:cp.x*k,y:cp.y*k,z:cp.z*k}, undefined, 300); }catch(e){} };
  function syncForceLabel(){ var v=document.getElementById('b-force-v'); if(v) v.textContent='-'+forceVal; }
@@ -2664,7 +3008,7 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
    syncForceLabel(); syncGravLabel();
  })();
  window.brainToggleRot=function(){
-   rotOn=!rotOn;
+   rotOn=!rotOn; rot2D=rotOn;
    var tg=document.getElementById('b-rot-tg'); if(tg) tg.classList.toggle('on',rotOn);
    var fb=document.getElementById('b-fs-rot'); if(fb) fb.classList.toggle('on',rotOn);
    if(!Graph||!graphInited){ initGraph(); }
@@ -2734,6 +3078,123 @@ input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
 </script>
 </div>
 
+
+
+<!-- ══ IRPF ═════════════════════════════════════════════ -->
+<div class="page" id="irpf">
+<style>
+  #irpf .ir-banner{border-radius:14px;padding:1.8rem 1.6rem;background:linear-gradient(135deg,#123524 0%,#0d2318 55%,#08160f 100%);position:relative;overflow:hidden;margin-bottom:1.4rem;border:1px solid rgba(74,222,128,.25)}
+  #irpf .ir-banner:after{content:"🌾";position:absolute;right:1.4rem;top:50%;transform:translateY(-50%);font-size:4.2rem;opacity:.28}
+  #irpf .ir-banner h1{font-size:1.7rem;color:#eafff2;margin:0;font-weight:800}
+  #irpf .ir-banner p{color:#a9d8bf;font-size:.88rem;margin:.4rem 0 0;max-width:620px}
+  #irpf .ir-note{background:var(--card);border:1px solid var(--border);border-left:3px solid #e6c667;border-radius:12px;padding:.9rem 1.1rem;margin-bottom:1.2rem;font-size:.83rem;color:#d6ddec;line-height:1.55}
+  #irpf .ir-note b{color:#e6c86b}
+  #irpf .ir-path{font-family:var(--mono);font-size:.8rem;background:rgba(230,200,103,.1);border:1px solid rgba(230,200,103,.3);border-radius:8px;padding:.35rem .6rem;color:#f0d98a;display:inline-block;margin-top:.4rem;-webkit-user-select:all;user-select:all}
+  #irpf .ir-prog{display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem}
+  #irpf .ir-ring{--v:0;width:74px;height:74px;border-radius:50%;flex:0 0 auto;background:conic-gradient(#4ade80 calc(var(--v)*1%),rgba(255,255,255,.08) 0);display:flex;align-items:center;justify-content:center}
+  #irpf .ir-ring i{width:56px;height:56px;border-radius:50%;background:#0a130d;display:flex;align-items:center;justify-content:center;color:#eafff2;font-weight:800;font-style:normal;font-size:.95rem}
+  #irpf .ir-prog .lbl{color:var(--muted);font-size:.8rem}
+  #irpf .ir-prog .big{color:var(--cream);font-size:1rem;font-weight:700}
+  #irpf .ir-group{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:.9rem;overflow:hidden}
+  #irpf .ir-group>summary{list-style:none;cursor:pointer;padding:.8rem 1rem;display:flex;align-items:center;gap:.6rem;font-weight:700;color:var(--cream);font-size:.92rem}
+  #irpf .ir-group>summary::-webkit-details-marker{display:none}
+  #irpf .ir-group .caret{transition:transform .15s;color:var(--muted)}
+  #irpf .ir-group[open] .caret{transform:rotate(90deg)}
+  #irpf .ir-gpct{margin-left:auto;font-family:var(--mono);font-size:.72rem;color:#4ade80}
+  #irpf .ir-items{padding:.2rem .6rem .7rem}
+  #irpf .ir-it{display:flex;align-items:flex-start;gap:.6rem;padding:.4rem .5rem;border-top:1px solid rgba(255,255,255,.045);font-size:.86rem;color:#d6ddec;line-height:1.4;cursor:pointer}
+  #irpf .ir-it input{width:16px;height:16px;flex:0 0 auto;margin-top:.15rem;accent-color:#4ade80;cursor:pointer}
+  #irpf .ir-it.done span{color:#6f7d70;text-decoration:line-through}
+</style>
+<div class="page-inner">
+  <div class="ir-banner">
+    <h1>🌾 IRPF 2026</h1>
+    <p>Checklist do Imposto de Renda — ano-base 2026, entrega 2027. Marque conforme junta os documentos; tudo sincroniza entre seus aparelhos.</p>
+  </div>
+
+  <div class="ir-note">
+    📂 <b>Pasta local no PC:</b> junte os informes e comprovantes (PDF) em
+    <span class="ir-path">Área de Trabalho\IRPF26</span><br>
+    <span style="color:var(--muted);font-size:.78rem">Abrir a pasta direto por um botão só funciona se você abrir a ilha <b>localmente</b> no PC (arquivo no computador). Pela versão publicada no GitHub o navegador bloqueia acesso a pastas locais — por isso aqui fica o caminho para você achar no Explorer.</span>
+  </div>
+
+  <div class="ir-prog">
+    <div class="ir-ring" id="irRing"><i id="irPct">0%</i></div>
+    <div><div class="big" id="irSummary">—</div><div class="lbl">documentos e etapas do IR</div></div>
+  </div>
+
+  <div id="irList"></div>
+</div>
+<script>
+(function(){
+  var KEY='ir_docs_2026', saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}');}catch(e){}
+  var GROUPS=[
+    {g:'1 · Rendimentos',items:[
+      ['ir_r1','Informe de rendimentos IQVIA (salário CLT, ano-base 2026)'],
+      ['ir_r2','Informe de empregos anteriores em 2026 (se houver)'],
+      ['ir_r3','Informe de cada banco (contas, poupança, saldos em 31/12)'],
+      ['ir_r4','Informe da corretora / B3 (ações, FIIs, proventos, ganho de capital)'],
+      ['ir_r5','Informe de previdência privada (PGBL/VGBL)'],
+      ['ir_r6','Rendimentos no exterior (Avenue etc.), se aplicável']
+    ]},
+    {g:'2 · Saúde',items:[
+      ['ir_s1','Despesas médicas do Caue (consultas, exames, plano, dentista)'],
+      ['ir_s2','Despesas médicas da Camilla (se declarada junto/dependente)'],
+      ['ir_s3','Informe anual do plano de saúde']
+    ]},
+    {g:'3 · Educação',items:[
+      ['ir_e1','Comprovantes de educação — FIA'],
+      ['ir_e2','Comprovantes de educação — FIAP (MBA AI Business)']
+    ]},
+    {g:'4 · Bens e moradia',items:[
+      ['ir_b1','Aluguel pago/recebido + IPTU (2026)'],
+      ['ir_b2','Compra/venda de bens em 2026 (imóvel, veículo)'],
+      ['ir_b3','Posição de bens e direitos em 31/12/2026']
+    ]},
+    {g:'5 · Doações e DARFs',items:[
+      ['ir_d1','Comprovantes de doações (incentivadas)'],
+      ['ir_d2','DARFs pagos (carnê-leão, ganho de capital, renda variável)']
+    ]},
+    {g:'6 · Dependentes e cadastro',items:[
+      ['ir_p1','CPF dos dependentes (Camilla e demais)'],
+      ['ir_p2','Definir declaração conjunta x separada (simular)']
+    ]},
+    {g:'7 · Fechamento',items:[
+      ['ir_f1','Baixar o programa da Receita (versão 2027)'],
+      ['ir_f2','Importar declaração do ano anterior'],
+      ['ir_f3','Conferir todos os informes lançados'],
+      ['ir_f4','Transmitir e guardar recibo na pasta IRPF26']
+    ]}
+  ];
+  var TOTAL=0; GROUPS.forEach(function(g){TOTAL+=g.items.length;});
+  function isOn(k){return !!saved[k];}
+  function setOn(k,v){saved[k]=v;try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}if(window.saveSync)window.saveSync();}
+  window.irRender=function(){
+    try{saved=JSON.parse(localStorage.getItem(KEY)||'{}');}catch(e){}
+    var host=document.getElementById('irList'); if(!host)return;
+    var done=0,h='';
+    GROUPS.forEach(function(g){
+      var gd=g.items.filter(function(it){return isOn(it[0]);}).length;
+      done+=gd; var gp=Math.round(gd/g.items.length*100);
+      h+='<details class="ir-group"'+(gp<100?' open':'')+'><summary><span class="caret">▸</span>'+g.g+'<span class="ir-gpct">'+gp+'%</span></summary><div class="ir-items">';
+      g.items.forEach(function(it){var on=isOn(it[0]);
+        h+='<label class="ir-it'+(on?' done':'')+'"><input type="checkbox" data-k="'+it[0]+'"'+(on?' checked':'')+'><span>'+it[1]+'</span></label>';});
+      h+='</div></details>';
+    });
+    host.innerHTML=h;
+    var pct=Math.round(done/TOTAL*100);
+    document.getElementById('irPct').textContent=pct+'%';
+    document.getElementById('irRing').style.setProperty('--v',pct);
+    document.getElementById('irSummary').textContent=done+' de '+TOTAL+' itens prontos';
+    host.querySelectorAll('input[type=checkbox]').forEach(function(cb){
+      cb.addEventListener('change',function(){setOn(cb.dataset.k,cb.checked);window.irRender();});
+    });
+  };
+  window.irRender();
+})();
+</script>
+</div>
 
 
 <!-- MODAL VAGAS -->
@@ -3526,7 +3987,7 @@ appInit();
   function hide(){ov.style.display='none';lo.style.display='block';}
   var t=null;
   // Chaves sincronizadas: [nome no banco, chave no localStorage]
-  var KEYS=[['pj_done','pj_done_v1'],['bjj_diario','bjj_diario_v1'],['vaga_stage_overrides','vaga_stage_overrides'],['diary_entries','diary_entries'],['roda_entries','roda_entries'],['treino_sessions','treino_sessions'],['vaga_notes','vaga_notes'],['mex_itin','mex_itin'],['pj_touch','pj_touch'],['life_weeks','life_weeks'],['life_cfg','life_cfg'],['iqvia_weeks','iqvia_weeks'],['day_blocks','day_blocks'],['ir_docs_2026','ir_docs_2026'],['brain_user_notes','brain_user_notes']];
+  var KEYS=[['pj_done','pj_done_v1'],['bjj_diario','bjj_diario_v1'],['vaga_stage_overrides','vaga_stage_overrides'],['diary_entries','diary_entries'],['roda_entries','roda_entries'],['treino_sessions','treino_sessions'],['vaga_notes','vaga_notes'],['mex_itin','mex_itin'],['pj_touch','pj_touch'],['pj_dates','pj_dates'],['life_weeks','life_weeks'],['life_cfg','life_cfg'],['iqvia_weeks','iqvia_weeks'],['day_blocks','day_blocks'],['ir_docs_2026','ir_docs_2026'],['brain_user_notes','brain_user_notes']];
   window.saveSync=function(){window._dirtyUntil=Date.now()+5000;clearTimeout(t);t=setTimeout(async function(){
     var u=(await SB.auth.getUser()).data.user; if(!u)return;
     for(var i=0;i<KEYS.length;i++){var raw=localStorage.getItem(KEYS[i][1]); if(raw==null)continue;
