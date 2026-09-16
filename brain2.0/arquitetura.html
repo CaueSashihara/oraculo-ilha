@@ -1,0 +1,131 @@
+<!doctype html><html lang="pt-BR"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🛰️ Arquitetura — Oráculo</title>
+<style>
+ *{margin:0;box-sizing:border-box}
+ body{background:#0b111b;color:#e8ecf3;font-family:'Segoe UI',system-ui,'Trebuchet MS',sans-serif;padding:18px;min-height:100vh}
+ .wrap{max-width:1040px;margin:0 auto}
+ h1{font-size:1.3rem;color:#f8ecca;letter-spacing:.2px}
+ .sub{font-size:.82rem;color:#9fb0c4;margin:.3rem 0 1rem;line-height:1.55}
+ .panel{background:linear-gradient(160deg,#0e1626,#0b1119);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:10px;overflow-x:auto}
+ svg{width:100%;height:auto;min-width:720px;display:block}
+ .flow{fill:none;stroke-width:2.2}
+ .dash{stroke-dasharray:7 7;animation:march 1s linear infinite}
+ @keyframes march{to{stroke-dashoffset:-14}}
+ .nt{fill:#f2f4f8;font-size:13px;font-weight:700}
+ .nr{fill:#93a4b8;font-size:10px}
+ .el{fill:#8ea0b6;font-size:10px;font-family:ui-monospace,Menlo,monospace}
+ .zone{fill:#7f8ba0;font-size:10px;font-weight:700;letter-spacing:1px}
+ h2{font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:#e6c667;margin:1.4rem 0 .6rem;font-weight:700}
+ .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.7rem}
+ .card{background:#121a27;border:1px solid rgba(255,255,255,.09);border-radius:11px;padding:.75rem .9rem}
+ .card h3{font-size:.82rem;color:#f2f4f8;margin-bottom:.3rem;display:flex;align-items:center;gap:.4rem}
+ .card p{font-size:.75rem;color:#9fb0c4;line-height:1.55}
+ .card code{font-family:ui-monospace,Menlo,monospace;background:rgba(255,255,255,.06);padding:.05rem .3rem;border-radius:4px;color:#7fe0a3;font-size:.72rem}
+ .sec{border-left:3px solid #3ecf8e}
+ .leg{display:flex;flex-wrap:wrap;gap:.5rem 1.1rem;font-size:.76rem;color:#c7d2e0;align-items:center}
+ .leg span{display:inline-flex;align-items:center;gap:.4rem}
+ .ln{width:26px;height:0;border-top:3px solid}
+ .stack{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.5rem}
+ .st{display:flex;align-items:center;gap:.5rem;background:#121a27;border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:.5rem .6rem;font-size:.76rem;color:#d4dce8}
+ .st img{width:18px;height:18px}
+</style></head><body><div class="wrap">
+<h1>🛰️ Oráculo — Arquitetura de Sistema</h1>
+<div class="sub">Diagrama técnico do fluxo de dados e da separação público × privado. Os pontos em movimento são os dados fluindo entre os serviços; as cores indicam o <b>tipo de fluxo</b> (push manual, agente, dispatch, API, cron). <b>Atualizado (14/09/2026):</b> painel enxuto com as abas <b>História · Projetos · Notas · Brain</b>; a ilha sem jornal e sem avião; navegação de volta pelo botão <b>“← Voltar para a ilha”</b>.</div>
+
+<div class="panel">
+<svg viewBox="0 0 980 560" role="img" aria-label="Arquitetura do Oraculo">
+ <!-- zona publico/privado -->
+ <line x1="512" y1="352" x2="965" y2="352" stroke="#33465e" stroke-width="1.4" stroke-dasharray="4 6"/>
+ <text class="zone" x="957" y="343" text-anchor="end">PÚBLICO ▲</text>
+ <text class="zone" x="957" y="372" text-anchor="end">PRIVADO ▼</text>
+
+ <!-- flows -->
+ <path id="f1" class="flow dash" stroke="#e6c667" d="M190,71 C 360,58 380,205 540,205"/>
+ <path id="f2" class="flow dash" stroke="#7f8ba0" d="M110,102 L110,250"/>
+ <path id="f3" class="flow dash" stroke="#6b8fe0" d="M190,281 C 360,281 380,225 540,225"/>
+ <path id="f4" class="flow dash" stroke="#b06be0" d="M125,308 C 170,342 220,336 270,336"/>
+ <path id="f5" class="flow dash" stroke="#6b8fe0" d="M120,310 C 250,520 420,474 540,466"/>
+ <path id="f6" class="flow dash" stroke="#3ecf8e" d="M430,80 C 486,176 486,240 430,306"/>
+ <path id="f7" class="flow dash" stroke="#3ecf8e" d="M350,192 L350,300"/>
+ <path id="f8" class="flow dash" stroke="#2fd4d4" d="M430,331 C 500,331 512,238 540,232"/>
+ <path id="f9" class="flow dash" stroke="#7f8ba0" d="M700,211 L780,211"/>
+ <path id="f10" class="flow dash" stroke="#e6c667" d="M860,242 L860,430"/>
+ <path id="f11" class="flow dash" stroke="#3ecf8e" d="M780,461 L700,461"/>
+
+ <!-- traveling packets -->
+ <circle r="3.4" fill="#e6c667"><animateMotion dur="2.6s" repeatCount="indefinite"><mpath href="#f1"/></animateMotion></circle>
+ <circle r="3.4" fill="#6b8fe0"><animateMotion dur="2.4s" repeatCount="indefinite"><mpath href="#f3"/></animateMotion></circle>
+ <circle r="3.4" fill="#b06be0"><animateMotion dur="1.6s" repeatCount="indefinite"><mpath href="#f4"/></animateMotion></circle>
+ <circle r="3.4" fill="#6b8fe0"><animateMotion dur="2.8s" repeatCount="indefinite"><mpath href="#f5"/></animateMotion></circle>
+ <circle r="3.4" fill="#3ecf8e"><animateMotion dur="2.0s" repeatCount="indefinite"><mpath href="#f6"/></animateMotion></circle>
+ <circle r="3.4" fill="#3ecf8e"><animateMotion dur="1.5s" repeatCount="indefinite"><mpath href="#f7"/></animateMotion></circle>
+ <circle r="3.4" fill="#2fd4d4"><animateMotion dur="1.8s" repeatCount="indefinite"><mpath href="#f8"/></animateMotion></circle>
+ <circle r="3.4" fill="#cfd8e4"><animateMotion dur="1.2s" repeatCount="indefinite"><mpath href="#f9"/></animateMotion></circle>
+ <circle r="3.4" fill="#e6c667"><animateMotion dur="2.2s" repeatCount="indefinite"><mpath href="#f10"/></animateMotion></circle>
+ <circle r="3.4" fill="#3ecf8e"><animateMotion dur="1.6s" repeatCount="indefinite"><mpath href="#f11"/></animateMotion></circle>
+
+ <!-- edge labels -->
+ <text class="el" x="322" y="120" fill="#e6c667">push manual</text>
+ <text class="el" x="322" y="250" fill="#6b8fe0">agente commita</text>
+ <text class="el" x="150" y="360" fill="#b06be0">dispatch</text>
+ <text class="el" x="356" y="250" fill="#3ecf8e">seed do vault</text>
+ <text class="el" x="470" y="292" fill="#2fd4d4">commit 5h20</text>
+ <text class="el" x="868" y="342" fill="#e6c667">login</text>
+ <text class="el" x="712" y="452" fill="#3ecf8e" text-anchor="end">auth+RLS</text>
+
+ <!-- NODES -->
+ <g><rect x="30" y="40" width="160" height="62" rx="12" fill="#141a24" stroke="#e6c667" stroke-width="1.4"/><text x="48" y="80" font-size="22">👤</text><text class="nt" x="80" y="68">Você</text><text class="nr" x="80" y="85">push manual + comandos</text></g>
+ <g><rect x="30" y="250" width="160" height="62" rx="12" fill="#141a24" stroke="#d97757" stroke-width="1.6"/><image href="https://cdn.simpleicons.org/anthropic/D97757" x="46" y="270" width="24" height="24"/><text class="nt" x="82" y="278">Claude · Cowork</text><text class="nr" x="82" y="295">agente / dispatch</text></g>
+ <g><rect x="270" y="30" width="160" height="62" rx="12" fill="#141a24" stroke="rgba(240,106,106,.55)" stroke-width="1.4"/><image href="https://cdn.simpleicons.org/asana/F06A6A" x="286" y="50" width="24" height="24"/><text class="nt" x="322" y="58">Asana</text><text class="nr" x="322" y="75">API · projetos</text></g>
+ <g><rect x="270" y="130" width="160" height="62" rx="12" fill="#141a24" stroke="rgba(124,58,237,.6)" stroke-width="1.4"/><image href="https://cdn.simpleicons.org/obsidian/7C3AED" x="286" y="150" width="24" height="24"/><text class="nt" x="322" y="158">Obsidian Vault</text><text class="nr" x="322" y="175">afj/** · seed → Brain 3D</text></g>
+ <g><rect x="270" y="300" width="160" height="62" rx="12" fill="#141a24" stroke="rgba(32,136,255,.55)" stroke-width="1.4"/><image href="https://cdn.simpleicons.org/githubactions/2088FF" x="286" y="320" width="24" height="24"/><text class="nt" x="322" y="328">GitHub Actions</text><text class="nr" x="322" y="345">cron · 5h20 · Node 20</text></g>
+ <g><rect x="540" y="180" width="160" height="62" rx="12" fill="#141a24" stroke="rgba(230,230,230,.45)" stroke-width="1.4"/><image href="https://cdn.simpleicons.org/github/E6E6E6" x="556" y="200" width="24" height="24"/><text class="nt" x="592" y="208">GitHub (repo)</text><text class="nr" x="592" y="225">código + JSON</text></g>
+ <g><rect x="540" y="430" width="160" height="62" rx="12" fill="#101f19" stroke="#3ecf8e" stroke-width="1.7"/><image href="https://cdn.simpleicons.org/supabase/3ECF8E" x="556" y="450" width="24" height="24"/><text class="nt" x="592" y="458">Supabase</text><text class="nr" x="592" y="475">Postgres + Auth · 🔒</text></g>
+ <g><rect x="780" y="180" width="160" height="62" rx="12" fill="#0f2a2a" stroke="#2fd4d4" stroke-width="1.7"/><image href="https://cdn.simpleicons.org/github/E6E6E6" x="796" y="200" width="24" height="24"/><text class="nt" x="832" y="208">GitHub Pages</text><text class="nr" x="832" y="225">🗾 Ilha (site)</text></g>
+ <g><rect x="780" y="430" width="160" height="62" rx="12" fill="#221c0e" stroke="#e6c667" stroke-width="1.7"/><text x="796" y="470" font-size="20">💛</text><text class="nt" x="828" y="458">Lovable</text><text class="nr" x="828" y="475">💰 Finanças (app)</text></g>
+</svg>
+</div>
+
+<h2>Fluxos de atualização</h2>
+<div class="leg">
+ <span><i class="ln" style="border-color:#e6c667"></i>Push manual (você → GitHub)</span>
+ <span><i class="ln" style="border-color:#6b8fe0"></i>Agente Claude (edita/commita código + seed do banco)</span>
+ <span><i class="ln" style="border-color:#b06be0"></i>Claude dispatch (dispara o workflow)</span>
+ <span><i class="ln" style="border-color:#3ecf8e"></i>API ao vivo + seed do vault (Asana · Supabase · Obsidian → Brain)</span>
+ <span><i class="ln" style="border-color:#2fd4d4"></i>Cron agendado (5h20/dia)</span>
+</div>
+
+<h2>Estrutura da Ilha (abas do painel)</h2>
+<div class="grid">
+ <div class="card"><h3>🥷 História</h3><p>A jornada de carreira <code>FECAP → MCRA/IQVIA</code> (2011→2026): linha do tempo sinuosa e interativa, com marcos, formações e prêmios. Substituiu a antiga aba Carreira.</p></div>
+ <div class="card"><h3>📊 Projetos</h3><p>Gestor de projetos com Gantt e progresso ao vivo. A viagem ao México agora é um <code>link direto para o Asana</code> (abre em nova aba), não um card interno.</p></div>
+ <div class="card"><h3>📝 Notas</h3><p>Notas pessoais no estilo Obsidian — carreira, terapia e propósito. Mantida intacta.</p></div>
+ <div class="card"><h3>🧠 Brain</h3><p>Espelho do vault Obsidian (<code>afj/**</code>) embutido no HTML: árvore de pastas, leitor de markdown, wikilinks e backlinks clicáveis, busca e um <b>grafo 3D</b> (3d-force-graph) das notas conectadas. Funciona offline exceto pela lib de CDN.</p></div>
+ <div class="card"><h3>← Voltar para a ilha</h3><p>Dentro do painel, o antigo indicador de nuvem virou um botão que fecha o painel e volta para a ilha (via <code>postMessage</code> ao pai).</p></div>
+ <div class="card"><h3>🗾 Ilha</h3><p>A cena 3D (Three.js) sem o jornal de notícias e sem o avião. Os pontos da ilha e a lista de tarefas apontam para as abas atuais.</p></div>
+</div>
+
+<h2>Camada de segurança</h2>
+<div class="grid">
+ <div class="card sec"><h3>🔒 Auth + RLS (Supabase)</h3><p>Login por e-mail e Row Level Security em todas as tabelas: política <code>auth.uid() = user_id</code>. Sem sessão válida, ninguém lê seus dados — nem com a chave pública.</p></div>
+ <div class="card sec"><h3>🔑 Secret criptografado</h3><p>O <code>ASANA_TOKEN</code> vive nos GitHub Secrets (criptografado), injetado só na execução do robô. Nunca aparece no código.</p></div>
+ <div class="card sec"><h3>🌐 Público × Privado</h3><p>A ilha (pública) não tem nenhum dado financeiro. Os números ficam só no Supabase privado, atrás de login. Repo com histórico limpo.</p></div>
+ <div class="card sec"><h3>🔐 HTTPS ponta a ponta</h3><p>GitHub Pages, Lovable, Supabase e todas as APIs por HTTPS. Backups sensíveis isolados fora do que é publicado.</p></div>
+</div>
+
+<h2>Stack</h2>
+<div class="stack">
+ <div class="st"><img src="https://cdn.simpleicons.org/github/E6E6E6" alt=""/>GitHub Pages — hosting</div>
+ <div class="st"><img src="https://cdn.simpleicons.org/githubactions/2088FF" alt=""/>GitHub Actions — cron</div>
+ <div class="st"><img src="https://cdn.simpleicons.org/nodedotjs/5FA04E" alt=""/>Node 20 — sync.js</div>
+ <div class="st"><img src="https://cdn.simpleicons.org/asana/F06A6A" alt=""/>Asana — API projetos</div>
+ <div class="st"><img src="https://cdn.simpleicons.org/obsidian/7C3AED" alt=""/>Obsidian — vault → Brain 3D</div>
+ <div class="st"><img src="https://cdn.simpleicons.org/threedotjs/FFFFFF" alt=""/>3d-force-graph — grafo do Brain</div>
+ <div class="st"><img src="https://cdn.simpleicons.org/supabase/3ECF8E" alt=""/>Supabase — DB + Auth</div>
+ <div class="st"><img src="https://cdn.simpleicons.org/anthropic/D97757" alt=""/>Claude · Cowork — agente</div>
+ <div class="st"><img src="https://cdn.simpleicons.org/threedotjs/FFFFFF" alt=""/>Three.js — ilha 3D</div>
+</div>
+
+<p style="font-size:.7rem;color:#6f7a8a;margin-top:1.1rem;text-align:center">Oráculo · arquitetura viva — dados fluindo em tempo real entre Asana, GitHub, Supabase e a Ilha.</p>
+</div></body></html>
