@@ -128,7 +128,7 @@
  <div class="git"><div class="gk">🗂️ Botão Projetos</div><div class="gt">Abre o quadro de projetos com o progresso sincronizado do Asana.</div></div>
  <div class="git"><div class="gk">🛰️ Botão Arquitetura</div><div class="gt">Mostra como os sistemas conversam e como os dados se movem entre eles.</div></div>
  <div class="git"><div class="gk">🛡️ Guardião (à esquerda)</div><div class="gt">Reflete seus dias longe dos projetos: cuide da ilha e ele volta a dormir tranquilo.</div></div>
- <div class="git"><div class="gk">🌾 Finanças</div><div class="gt">Ficam num cofre à parte, protegidas por senha — nunca aparecem aqui na ilha.</div></div>
+ <div class="git"><div class="gk">📊 Gestão de Projetos</div><div class="gt">Abre a aba de Gestão de Projetos no painel — a experiência PMP, linha do tempo e entradas no padrão PMI. (As finanças pessoais ficam num cofre à parte, protegido por senha.)</div></div>
 </div></div>
 <div id="damage"></div>
 <div id="monster" class="sleep"><div class="bub"></div><div class="emo">😴</div></div>
@@ -293,13 +293,14 @@ var PLACES=[
  {n:'🗻 Estudos',a:new THREE.Vector3(27,26,-37),h:new THREE.Vector3(27,12,-30),tab:'historia',pc:''},
  {n:'🌸 Família',a:new THREE.Vector3(9,7,21),h:new THREE.Vector3(9,3,21),tab:'projetos',pc:''},
  {n:'⛵ Viagem',a:new THREE.Vector3(0,6,60),h:new THREE.Vector3(0,3,60),tab:'projetos',pc:''},
- {n:'🌾 Finanças',a:new THREE.Vector3(-48,4,38),h:new THREE.Vector3(-48,2,36),tab:'projetos',pc:'',dim:true}
+ {n:'📊 Gestão de Projetos',a:new THREE.Vector3(-48,4,38),h:new THREE.Vector3(-48,2,36),tab:'gestao',pc:''},
+ {n:'🧙 o Ancião',a:new THREE.Vector3(38,16,20),h:new THREE.Vector3(34,6,18),tab:'anciao',pc:'PMP'}
 ];
 var hit=[];
 PLACES.forEach(function(o){var e=document.createElement('div');e.className='lbl'+(o.dim?' dim':'');e.innerHTML=o.n+(o.pc?' <span class="pc">'+o.pc+'</span>':'')+' <span class="go">↗</span>';e.onclick=function(){openOra(o.tab);};document.body.appendChild(e);o.el=e;
  var hb=new THREE.Mesh(new THREE.SphereGeometry(6,10,10),new THREE.MeshBasicMaterial({visible:false}));hb.position.copy(o.h);hb.userData.place=o;scene.add(hb);hit.push(hb);
  var ring=new THREE.Mesh(new THREE.TorusGeometry(5,.25,8,32),new THREE.MeshBasicMaterial({color:0xffe08a,transparent:true,opacity:0}));ring.rotation.x=-Math.PI/2;ring.position.set(o.h.x,1.3,o.h.z);scene.add(ring);o.ring=ring;});
-document.getElementById('legend').innerHTML='<b>Ilha da Mente</b><br>🏯 Carreira '+pctIQ()+'% · 🥋 Jiu-Jitsu · 🗼 Pessoal<br>🗻 Estudos · 🌸 Família · ⛵ Viagem '+pctMX()+'%<br><span style="opacity:.6">🌾 Finanças (escondida)</span>'+(vivido!=null?'<br>🕒 vida vivida: '+vivido+'%':'');
+document.getElementById('legend').innerHTML='<b>Ilha da Mente</b><br>🏯 Carreira '+pctIQ()+'% · 🥋 Jiu-Jitsu · 🗼 Pessoal<br>🗻 Estudos · 🌸 Família · ⛵ Viagem '+pctMX()+'%<br>📊 Gestão de Projetos'+(vivido!=null?'<br>🕒 vida vivida: '+vivido+'%':'');
 // ===== ÁRVORE DE PROJETOS =====
 function savePj(){try{localStorage.setItem('pj_done_v1',JSON.stringify(pj));}catch(e){}}
 var TREE=[
@@ -327,7 +328,7 @@ function renderTree(){var a=avgAll();
  box.querySelectorAll('.topen').forEach(function(el){el.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();window.openTree&&document.getElementById('tovl').classList.remove('on');window.openOra(el.getAttribute('data-tab'));});});
 }
 function refreshBadges(){PLACES.forEach(function(o){var np=null;if(o.tab==='vagas')np=pctIQ()+'%';if(o.tab==='mexico')np=pctMX()+'%';if(np!=null){o.pc=np;var s=o.el.querySelector('.pc');if(s)s.textContent=np;}});
- document.getElementById('legend').innerHTML='<b>Ilha da Mente</b><br>🏯 Carreira '+pctIQ()+'% · 🥋 Jiu-Jitsu · 🗼 Pessoal<br>🗻 Estudos · 🌸 Família · ⛵ Viagem '+pctMX()+'%<br><span style="opacity:.6">🌾 Finanças (escondida)</span>'+(vivido!=null?'<br>🕒 vida vivida: '+vivido+'%':'');}
+ document.getElementById('legend').innerHTML='<b>Ilha da Mente</b><br>🏯 Carreira '+pctIQ()+'% · 🥋 Jiu-Jitsu · 🗼 Pessoal<br>🗻 Estudos · 🌸 Família · ⛵ Viagem '+pctMX()+'%<br>📊 Gestão de Projetos'+(vivido!=null?'<br>🕒 vida vivida: '+vivido+'%':'');}
 window.openTree=function(){renderTree();document.getElementById('tovl').classList.add('on');};
 window.closeTree=function(){document.getElementById('tovl').classList.remove('on');};
 document.getElementById('tovl').addEventListener('click',function(e){if(e.target.id==='tovl')window.closeTree();});
