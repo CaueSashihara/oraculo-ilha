@@ -1,7 +1,15 @@
 {
-  "updated": "2026-09-24",
+  "updated": "2026-09-25",
   "fonte": "Asana",
   "projetos": [
+    {
+      "n": "1006",
+      "pct": 100,
+      "done": 67,
+      "total": 67,
+      "farol": "concluido",
+      "prox": ""
+    },
     {
       "n": "Monte Belo",
       "pct": 100,
@@ -19,36 +27,12 @@
       "prox": ""
     },
     {
-      "n": "1006",
-      "pct": 78,
-      "done": 52,
-      "total": 67,
-      "farol": "verde",
-      "prox": "Instalação"
-    },
-    {
-      "n": "To Do",
-      "pct": 38,
-      "done": 5,
-      "total": 13,
-      "farol": "amarelo",
-      "prox": "Fotos para Nuvem"
-    },
-    {
-      "n": "Terrário de milhões",
-      "pct": 29,
-      "done": 2,
-      "total": 7,
-      "farol": "amarelo",
-      "prox": "Compra de materiais"
-    },
-    {
-      "n": "Planejamento de eventos NGL",
-      "pct": 0,
-      "done": 0,
-      "total": 18,
+      "n": "🇲🇽 Viagem México · Día de Muertos 2026",
+      "pct": 2,
+      "done": 1,
+      "total": 63,
       "farol": "neutro",
-      "prox": "Why NGL online event"
+      "prox": "Reservar Sabina Sabe (jantar 26/out)"
     },
     {
       "n": "Union Mooca",
@@ -57,22 +41,6 @@
       "total": 8,
       "farol": "neutro",
       "prox": "Projeto"
-    },
-    {
-      "n": "To do",
-      "pct": 0,
-      "done": 0,
-      "total": 5,
-      "farol": "neutro",
-      "prox": "Curso? Ia?"
-    },
-    {
-      "n": "🇲🇽 Viagem México · Día de Muertos 2026",
-      "pct": 0,
-      "done": 0,
-      "total": 61,
-      "farol": "neutro",
-      "prox": "Reservar Sabina Sabe (jantar 26/out)"
     },
     {
       "n": "📊 Controle de Projetos · PMBOK (modelo)",
