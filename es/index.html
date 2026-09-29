@@ -4537,7 +4537,7 @@ appInit();
   function hide(){ov.style.display='none';lo.style.display='block';}
   var t=null;
   // Chaves sincronizadas: [nome no banco, chave no localStorage]
-  var KEYS=[['pj_done','pj_done_v1'],['bjj_diario','bjj_diario_v1'],['vaga_stage_overrides','vaga_stage_overrides'],['diary_entries','diary_entries'],['roda_entries','roda_entries'],['treino_sessions','treino_sessions'],['vaga_notes','vaga_notes'],['mex_itin','mex_itin'],['pj_touch','pj_touch'],['pj_dates','pj_dates'],['life_weeks','life_weeks'],['life_cfg','life_cfg'],['iqvia_weeks','iqvia_weeks'],['day_blocks','day_blocks'],['ir_docs_2026','ir_docs_2026'],['brain_user_notes','brain_user_notes'],['anciao_state','anciao_state_v1']];
+  var KEYS=[['pj_done','pj_done_v1'],['bjj_diario','bjj_diario_v1'],['vaga_stage_overrides','vaga_stage_overrides'],['diary_entries','diary_entries'],['roda_entries','roda_entries'],['treino_sessions','treino_sessions'],['vaga_notes','vaga_notes'],['pj_touch','pj_touch'],['pj_dates','pj_dates'],['life_weeks','life_weeks'],['life_cfg','life_cfg'],['iqvia_weeks','iqvia_weeks'],['day_blocks','day_blocks'],['ir_docs_2026','ir_docs_2026'],['brain_user_notes','brain_user_notes'],['anciao_state','anciao_state_v1']];
   window.saveSync=function(){window._dirtyUntil=Date.now()+5000;clearTimeout(t);t=setTimeout(async function(){
     var u=(await SB.auth.getUser()).data.user; if(!u)return;
     for(var i=0;i<KEYS.length;i++){var raw=localStorage.getItem(KEYS[i][1]); if(raw==null)continue;
@@ -4556,7 +4556,7 @@ appInit();
     if(!window._autosave){ window._autosave=setInterval(function(){ if(window.saveSync)window.saveSync(); }, 300000); }
     // Pull automático (a cada 20s) — traz mudanças feitas em outro aparelho
     if(!window._pull){ window._pull=setInterval(pullSync, 20000); }
-    if(window.PJ)window.PJ.render(); if(window.mxRender)window.mxRender(); if(window.bjjRender)window.bjjRender(); if(window.mexItinRender)window.mexItinRender(); if(window.irRender)window.irRender();
+    if(window.PJ)window.PJ.render(); if(window.bjjRender)window.bjjRender(); if(window.irRender)window.irRender();
     if(typeof initRoda==='function'){try{initRoda();initTreinos();initDiario();renderVagas();}catch(e){}}
     if(window.brainReloadUserNotes){try{window.brainReloadUserNotes();}catch(e){}} if(window.ancRender){try{window.ancRender();}catch(e){}}
     if(window.PJ&&!window.PJ._sync){var _s=window.PJ.setDone;window.PJ.setDone=function(k,val){_s(k,val);window.saveSync();};window.PJ._sync=true;}
@@ -4575,7 +4575,7 @@ appInit();
       if(r.data&&r.data.v!=null){ var nv=JSON.stringify(r.data.v); if(localStorage.getItem(KEYS[i][1])!==nv){ localStorage.setItem(KEYS[i][1],nv); changed=true; } }
     }catch(e){}}
     if(changed){
-      if(window.PJ)window.PJ.render(); if(window.mxRender)window.mxRender(); if(window.bjjRender)window.bjjRender(); if(window.mexItinRender)window.mexItinRender(); if(window.irRender)window.irRender();
+      if(window.PJ)window.PJ.render(); if(window.bjjRender)window.bjjRender(); if(window.irRender)window.irRender();
       if(typeof renderVagas==='function'){try{renderVagas();}catch(e){}}
       if(window.brainReloadUserNotes){try{window.brainReloadUserNotes();}catch(e){}} if(window.ancRender){try{window.ancRender();}catch(e){}}
     }

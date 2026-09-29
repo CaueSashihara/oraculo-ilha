@@ -187,7 +187,6 @@ if(!window.THREE){document.getElementById('load').textContent='Falha ao carregar
 function ls(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
 var pj=ls('pj_done_v1')||{};function dn(k,d){return (k in pj)?pj[k]:!!d;}
 function pctIQ(){var a=[['iq1',1],['iq2',0],['iq3',0],['iq4',0],['iq5',0]],c=0;a.forEach(function(x){if(dn(x[0],x[1]))c++;});return Math.round(c/a.length*100);}
-function pctMX(){var a=[['mx1',1],['mx2',1],['mx3',0],['mx4',0],['mx5',0],['mx6',0],['mx7',0],['mx8',0]],c=0;a.forEach(function(x){if(dn(x[0],x[1]))c++;});return Math.round(c/a.length*100);}
 var lc=ls('life_cfg');var vivido=lc&&lc.birth?Math.round((Date.now()-new Date(lc.birth))/(7*86400000)/((lc.years||90)*52)*100):null;
 
 var scene=new THREE.Scene();
@@ -292,7 +291,6 @@ var PLACES=[
  {n:'🗼 Pessoal',a:new THREE.Vector3(-15,20,28),h:new THREE.Vector3(-15,7,28),tab:'brain',pc:''},
  {n:'🗻 Estudos',a:new THREE.Vector3(27,26,-37),h:new THREE.Vector3(27,12,-30),tab:'historia',pc:''},
  {n:'🌸 Família',a:new THREE.Vector3(9,7,21),h:new THREE.Vector3(9,3,21),tab:'projetos',pc:''},
- {n:'⛵ Viagem',a:new THREE.Vector3(0,6,60),h:new THREE.Vector3(0,3,60),tab:'projetos',pc:''},
  {n:'📊 Gestão de Projetos',a:new THREE.Vector3(-48,4,38),h:new THREE.Vector3(-48,2,36),tab:'gestao',pc:''},
  {n:'🧙 o Ancião',a:new THREE.Vector3(38,16,20),h:new THREE.Vector3(34,6,18),tab:'anciao',pc:'PMP'}
 ];
@@ -300,12 +298,11 @@ var hit=[];
 PLACES.forEach(function(o){var e=document.createElement('div');e.className='lbl'+(o.dim?' dim':'');e.innerHTML=o.n+(o.pc?' <span class="pc">'+o.pc+'</span>':'')+' <span class="go">↗</span>';e.onclick=function(){openOra(o.tab);};document.body.appendChild(e);o.el=e;
  var hb=new THREE.Mesh(new THREE.SphereGeometry(6,10,10),new THREE.MeshBasicMaterial({visible:false}));hb.position.copy(o.h);hb.userData.place=o;scene.add(hb);hit.push(hb);
  var ring=new THREE.Mesh(new THREE.TorusGeometry(5,.25,8,32),new THREE.MeshBasicMaterial({color:0xffe08a,transparent:true,opacity:0}));ring.rotation.x=-Math.PI/2;ring.position.set(o.h.x,1.3,o.h.z);scene.add(ring);o.ring=ring;});
-document.getElementById('legend').innerHTML='<b>Ilha da Mente</b><br>🏯 Carreira '+pctIQ()+'% · 🥋 Jiu-Jitsu · 🗼 Pessoal<br>🗻 Estudos · 🌸 Família · ⛵ Viagem '+pctMX()+'%<br>📊 Gestão de Projetos'+(vivido!=null?'<br>🕒 vida vivida: '+vivido+'%':'');
+document.getElementById('legend').innerHTML='<b>Ilha da Mente</b><br>🏯 Carreira '+pctIQ()+'% · 🥋 Jiu-Jitsu · 🗼 Pessoal<br>🗻 Estudos · 🌸 Família<br>📊 Gestão de Projetos'+(vivido!=null?'<br>🕒 vida vivida: '+vivido+'%':'');
 // ===== ÁRVORE DE PROJETOS =====
 function savePj(){try{localStorage.setItem('pj_done_v1',JSON.stringify(pj));}catch(e){}}
 var TREE=[
  {id:'iqvia',n:'🩺 IQVIA — 90 dias',tab:'projetos',t:[['iq1','Assinar carta-proposta',1],['iq2','Exame admissional',0],['iq3','Documentos de admissão',0],['iq4','Início 01/set',0],['iq5','Plano de 90 dias',0]]},
- {id:'mex',n:'⛵ Viagem México',tab:'projetos',t:[['mx1','Definir datas',1],['mx2','Roteiro / cidades',1],['mx3','Orçamento',0],['mx4','Voos',0],['mx5','Hospedagem',0],['mx6','Passeios / reservas',0],['mx7','Documentos',0],['mx8','Câmbio + eSIM',0]]},
  {id:'jiu',n:'🥋 Jiu-Jitsu — Graduação',tab:'notas',t:[['jj1','Repertório de quedas',1],['jj2','E-mail de graduação',0],['jj3','Treino consistente',0],['jj4','Fisio / sem lesão',0],['jj5','1º campeonato -76kg',0]]},
  {id:'fin',n:'🌾 Finanças Pessoais',tab:'projetos',t:[['fn1','Controle de gastos ativo',1],['fn2','Orçamento mensal',0],['fn3','Estabilizar salário IQVIA',0],['fn4','Reserva recuperada',0]]},
  {id:'powerbi',n:'📊 Power BI — Impacta',tab:'projetos',t:[['pb1','Módulos do curso concluídos',1],['pb2','Projeto prático / artefato',0],['pb3','Encerramento (quinta 03/09)',0],['pb4','Certificado emitido',0]]},
@@ -327,8 +324,8 @@ function renderTree(){var a=avgAll();
  box.querySelectorAll('input[type=checkbox]').forEach(function(cb){cb.addEventListener('change',function(){pj[cb.getAttribute('data-k')]=cb.checked;savePj();renderTree();refreshBadges();feedMonster();});});
  box.querySelectorAll('.topen').forEach(function(el){el.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();window.openTree&&document.getElementById('tovl').classList.remove('on');window.openOra(el.getAttribute('data-tab'));});});
 }
-function refreshBadges(){PLACES.forEach(function(o){var np=null;if(o.tab==='vagas')np=pctIQ()+'%';if(o.tab==='mexico')np=pctMX()+'%';if(np!=null){o.pc=np;var s=o.el.querySelector('.pc');if(s)s.textContent=np;}});
- document.getElementById('legend').innerHTML='<b>Ilha da Mente</b><br>🏯 Carreira '+pctIQ()+'% · 🥋 Jiu-Jitsu · 🗼 Pessoal<br>🗻 Estudos · 🌸 Família · ⛵ Viagem '+pctMX()+'%<br>📊 Gestão de Projetos'+(vivido!=null?'<br>🕒 vida vivida: '+vivido+'%':'');}
+function refreshBadges(){PLACES.forEach(function(o){var np=null;if(o.tab==='vagas')np=pctIQ()+'%';if(np!=null){o.pc=np;var s=o.el.querySelector('.pc');if(s)s.textContent=np;}});
+ document.getElementById('legend').innerHTML='<b>Ilha da Mente</b><br>🏯 Carreira '+pctIQ()+'% · 🥋 Jiu-Jitsu · 🗼 Pessoal<br>🗻 Estudos · 🌸 Família<br>📊 Gestão de Projetos'+(vivido!=null?'<br>🕒 vida vivida: '+vivido+'%':'');}
 window.openTree=function(){renderTree();document.getElementById('tovl').classList.add('on');};
 window.closeTree=function(){document.getElementById('tovl').classList.remove('on');};
 document.getElementById('tovl').addEventListener('click',function(e){if(e.target.id==='tovl')window.closeTree();});
@@ -369,7 +366,7 @@ updateMonster();
  var el=document.createElement('div');el.className='lbl';el.innerHTML='\uD83E\uDD16 Agente <span class="go">status \u2197</span>';el.onclick=function(){window.openAgente();};document.body.appendChild(el);
  var anc=new THREE.Vector3(apos.x,6,apos.z),pv=new THREE.Vector3();
  (function anim(){requestAnimationFrame(anim);var t=Date.now()*0.001;g.position.y=1.3+Math.abs(Math.sin(t*2))*0.18;g.rotation.y=Math.sin(t*0.6)*0.5;bulb.material.emissiveIntensity=.35+Math.abs(Math.sin(t*3))*.65;aring.scale.setScalar(1+Math.sin(t*2)*.06);pv.copy(anc).project(camera);var vis=pv.z<1;el.style.opacity=vis?1:0;el.style.left=((pv.x*.5+.5)*innerWidth)+'px';el.style.top=((-pv.y*.5+.5)*innerHeight)+'px';})();
- var FB={updated:'2026-08-31',projetos:[{n:'\u26F5 Viagem M\u00E9xico - D\u00EDa de Muertos',pct:0,done:0,total:48,farol:'amarelo',prox:'Reservar Quintonil e o bal\u00E3o (prazos set/out)'},{n:'\uD83D\uDCCA Controle de Projetos - PMBOK',pct:0,done:0,total:31,farol:'azul',prox:'Duplicar o modelo e preencher o Termo de Abertura'}]};
+ var FB={updated:'2026-08-31',projetos:[{n:'\uD83D\uDCCA Controle de Projetos - PMBOK',pct:0,done:0,total:31,farol:'azul',prox:'Duplicar o modelo e preencher o Termo de Abertura'}]};
  function fi(f){return ({verde:['\uD83D\uDFE2','no ritmo'],amarelo:['\uD83D\uDFE1','em andamento'],vermelho:['\uD83D\uDD34','critico'],azul:['\uD83D\uDD35','em espera'],concluido:['\u2705','concluido'],neutro:['\u26AA','nao iniciado']})[f]||['\u26AA',''];}
  function render(d){var box=document.getElementById('tbox');var h='<button id="tclose" onclick="window.closeTree()">\u2715</button><h2>\uD83E\uDD16 Agente de Projetos</h2><div style="font-size:.72rem;color:#a29d8c;margin-bottom:10px">status sincronizado do Asana - atualizado '+(d.updated||'-')+'</div>';if(!d.projetos||!d.projetos.length){h+='<div style="font-size:.8rem;color:#c9c2b0">Sem dados do agente ainda.</div>';}(d.projetos||[]).forEach(function(p){var f=fi(p.farol),pc=(p.pct!=null?p.pct:0);h+='<div style="border-top:1px solid rgba(255,255,255,.07);padding:11px 2px"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:1rem">'+f[0]+'</span><span style="flex:1;font-weight:700;font-size:.86rem">'+p.n+'</span><span class="tbar"><i style="width:'+pc+'%"></i></span><span class="pp">'+pc+'%</span></div>'+(p.prox?'<div style="font-size:.72rem;color:#9fb2c6;margin:4px 0 0 26px">\u25B6 proximo: '+p.prox+'</div>':'')+(p.done!=null?'<div style="font-size:.66rem;color:#8f9a85;margin:2px 0 0 26px">'+p.done+'/'+p.total+' tarefas - '+f[1]+'</div>':'')+'</div>';});box.innerHTML=h;}
  window.openAgente=function(){document.getElementById('tovl').classList.add('on');render(FB);fetch('agente.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){render(d);}).catch(function(){});};
